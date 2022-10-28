@@ -7,18 +7,18 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 // A contract which is/is not art based on the votes of its token owners.
 
 contract IsArtContractDemocratic is ERC721, ERC721Enumerable {
-    uint256 private constant NUM_TOKENS = 16;
-    uint8 private constant THRESHOLD = 8;
-
-    uint8 private isCount = 0;
-    bool[NUM_TOKENS] private ises;
-
     event Toggled(
         uint256 tokenId,
         bool isState,
         uint8 isCount,
         bool isContractArt
     );
+
+    uint256 private constant NUM_TOKENS = 16;
+    uint8 private constant THRESHOLD = 8;
+
+    uint8 private isCount = 0;
+    bool[NUM_TOKENS] private ises;
 
     constructor() ERC721("Is Art (Contract Democratic)", "ISACD") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
@@ -43,8 +43,8 @@ contract IsArtContractDemocratic is ERC721, ERC721Enumerable {
         );
     }
 
-    function tokenIs (uint256 tokenId) external view returns (bool) {
-        require(tokenId > 0 && tokenId <= NUM_TOKENS,"no token with tokenId" );
+    function tokenIsArt (uint256 tokenId) external view returns (bool) {
+        require(tokenId > 0 && tokenId <= NUM_TOKENS, "no token with tokenId" );
         return ises[tokenId - 1];
     }
 
@@ -52,7 +52,6 @@ contract IsArtContractDemocratic is ERC721, ERC721Enumerable {
         return isCount >= THRESHOLD;
     }
 
-    
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
         override(ERC721, ERC721Enumerable)

@@ -7,9 +7,9 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 // A contract where each token is/is not art based on the vote of its owner.
 
 contract IsArtToken is ERC721, ERC721Enumerable {
-    uint256 private constant NUM_TOKENS = 16;
+    uint256 public constant NUM_TOKENS = 16;
 
-    event Status(bytes6 is_art, uint256 tokenId);
+    event Status(uint256 tokenId, bytes6 is_art);
 
     bytes6[NUM_TOKENS] private is_art;
 
@@ -24,7 +24,7 @@ contract IsArtToken is ERC721, ERC721Enumerable {
     function toggle (uint256 tokenId) public {
         require(
             ownerOf(tokenId) == msg.sender,
-            "only token holder can toggle state"
+            "Only token holder can toggle state"
         );
         uint256 index = tokenId - 1;
         if (is_art[index] == "is") {
@@ -32,11 +32,11 @@ contract IsArtToken is ERC721, ERC721Enumerable {
         } else {
             is_art[index] = "is";
         }
-        emit Status(is_art[index], tokenId);
+        emit Status(tokenId, is_art[index]);
     }
 
     function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
-        require(tokenId > 0 && tokenId <= NUM_TOKENS, "no token with tokenId" );
+        _requireMinted(tokenId);
         return is_art[tokenId - 1];
     }
 

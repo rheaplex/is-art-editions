@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+html {
+  overflow: hidden;
+}
+
+#background {
+    float: left;
+    width: 100vw;
+    height: 100vh;
+    top:        0;
+    left:       0;
+    position: absolute;
+}
+
+#representation {
+  width: 75vmin;
+  height: 75vmin;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  /*border: 1px solid lightgray;*/
+}
+
+@keyframes updating {
+    from { color: white; }
+    to { color: lightgray; }
+}
+
+#updating {
+    /* Center the text vertically  */
+    position:absolute;
+    left:0; right:0;
+    top:50%;
+    transform: translateY(-50%);
+    /* And horizontally */
+    text-align: center;
+
+    color: white;
+    animation: updating 1s infinite alternate;
+    font-size: 72px;
+    text-shadow: 0 0 1em black;
+
+    z-index: 2000;
+}
+
+#is-art {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font-size: 72pt;
+    line-height: 100%;
+
+    /* Position the text vertically in a visually pleasing way */
+    padding-bottom: 48pt;
+}
+
+#is-art-status {
+    color: #550000;
+}

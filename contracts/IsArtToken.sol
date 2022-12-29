@@ -3,10 +3,12 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 // A contract where each token is/is not art based on the vote of its owner.
 
-contract IsArtToken is ERC721, ERC721Enumerable {
+contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
     event Status(uint256 tokenId, bytes6 is_art);
@@ -40,12 +42,23 @@ contract IsArtToken is ERC721, ERC721Enumerable {
         return is_art[tokenId - 1];
     }
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+        function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
+    }
+
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
         internal
+        whenNotPaused
         override(ERC721, ERC721Enumerable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
+
+    // The following functions are overrides required by Solidity.
 
     function supportsInterface(bytes4 interfaceId)
         public

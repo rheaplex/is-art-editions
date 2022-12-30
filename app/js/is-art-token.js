@@ -17,8 +17,8 @@
 
 import { ethers } from "./ethers.js";
 import {
-  disableElement, enableElement, hideElement, initNetwork, isValidTokenId,
-  showElement, stripNulls
+  disableElement, enableElement, hideModal, initNetwork, isValidTokenId,
+  showModal, toText
 } from "./is-art.js";
 
 let NUM_EDITIONS = 32;
@@ -35,41 +35,40 @@ const toggleBlockchainState = async () => {
   const signer = provider.getSigner();
   // Make a read/write copy of our read-only contract object
   const contractWritable = contract.connect(signer);
-  let tx = await contractWritable.toggle(tokenId);
-  while(waitForTx && provider.waitForTransaction(tx.hash, 1, 1)) {
-    // Do nothing
-  }
+  contractWritable.toggle(tokenId)
+    .then(tx => provider.waitForTransaction(tx.hash),
+          // Metamask will log this, so we don't need to.
+          reason => null)
+    .then(async () => hideModal("updating"));
 };
 
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
   await provider.send("eth_requestAccounts", []);
-  showElement("gui");
+  showModal("gui");
 };
 
 const onClickToggle = async () => {
-  hideElement("gui");
+  hideModal("gui");
   waitForTx = true;
-  showElement("updating");
-  await toggleBlockchainState();
-  hideElement("updating");
+  showModal("updating");
+  toggleBlockchainState();
 };
 
 const onClickCancel = () => {
-  hideElement("gui");
+  hideModal("gui");
 };
 
-const setDisplayState = (to) => {
-  document.getElementById("is-art-status").textContent = stripNulls(to);
+const setDisplayState = (state) => {
+  document.getElementById("is-art-status").textContent = toText(state);
 };
 
 const main = async (event) => {
-  console.log("hello")
   [ provider, contract ] = await initNetwork("IsArtToken");
 
   const id = window.location.hash.substr(1);
   if (isValidTokenId(id, NUM_EDITIONS, NUM_ARTIST_PROOFS)) {
-    tokenId = id;
+    tokenId = ethers.BigNumber.from(id);
   } else {
     // Reload the page with a working token id
     window.location.hash = DEFAULT_TOKEN_ID;
@@ -77,10 +76,13 @@ const main = async (event) => {
 
   setDisplayState(await contract.tokenIsArt(tokenId));
 
-  await contract.on("Status", (id, is_art) => {
-    if (id == tokenId) {
-      setDisplayState(is_art);
-    }
+  const status = contract.filters.Status(
+    tokenId,
+    null
+  );
+
+  contract.on(status, (id, is_art) => {
+    setDisplayState(is_art);
   });
 
   document.getElementById("representation").onclick = onClickShowGui;

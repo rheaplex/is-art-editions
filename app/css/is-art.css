@@ -35,23 +35,6 @@ html {
     to { color: lightgray; }
 }
 
-#updating {
-    /* Center the text vertically  */
-    position:absolute;
-    left:0; right:0;
-    top:50%;
-    transform: translateY(-50%);
-    /* And horizontally */
-    text-align: center;
-
-    color: white;
-    animation: updating 1s infinite alternate;
-    font-size: 72px;
-    text-shadow: 0 0 1em black;
-
-    z-index: 2000;
-}
-
 #is-art {
     font-family: 'Open Sans', sans-serif;
     text-align: center;

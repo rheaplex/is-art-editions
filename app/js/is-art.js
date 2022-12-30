@@ -1,5 +1,5 @@
 /*  IsArt - Base code for Ethereum contracts that are or are not art.
-    Copyright (C) 2015, 2016, 2017, 2019 Rhea Myers <rhea@myers.studio>
+    Copyright (C) 2015, 2016, 2017, 2019, 2022 Rhea Myers <rhea@myers.studio>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
 
 import { ethers } from "./ethers.js";
 
-export const hideElement = (id) => {
-  document.getElementById(id).classList.add("is-hidden");
+export const hideModal = (id) => {
+  document.getElementById(id).classList.remove("is-active");
 };
 
-export const showElement = (id) => {
-  document.getElementById(id).classList.remove("is-hidden");
+export const showModal = (id) => {
+  document.getElementById(id).classList.add("is-active");
 };
 
 export const enableElement = (id) => {
-  document.getElementById(id).diabled = false;
+  document.getElementById(id).disabled = false;
 };
 
 export const disableElement = (id) => {
-  document.getElementById(id).diabled = true;
+  document.getElementById(id).disabled = true;
 };
 
-export const stripNulls = (text) => {
-  return text.replace(/\0+$/, "");
+export const toText = (text) => {
+  return ethers.utils.toUtf8String(text);//.replace(/\0+$/, "");
 };
 
 export const isValidTokenId = (id, numEditions, numArtistProofs) => {
@@ -53,11 +53,17 @@ export const initNetwork = async (contractName) => {
   // Just reload the window if the network changes
   provider.on('chainChanged', (chainId) => { window.location.reload(); });
   const chainName = await provider.getNetwork().name;
-  const contractPath = `./js/IsArtToken.sol/${contractName}.${chainName}.json`;
+  //const contractPath = `./js/IsArtToken.sol/${contractName}.${chainName}.json`;
+  const contractPath = `./js/${contractName}.json`;
   const response = await fetch(contractPath);
   const json = await response.json();
-  const contract = new ethers.Contract(
+  /* const contract = new ethers.Contract(
     json.address,
+    json.abi,
+    provider
+  );*/
+  const contract    = new ethers.Contract(
+    json.networks[(await provider.getNetwork()).chainId].address,
     json.abi,
     provider
   );

@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 tokenId, bytes6 is_art);
+    event Status(uint256 indexed tokenId, bytes6 is_art);
 
     bytes6[NUM_TOKENS] private is_art;
 

@@ -63,7 +63,7 @@ module.exports = {
    */
 
   networks: {
-    developm: {
+    develop: {
       provider: function() {
         return new HDWalletProvider(testMnemonic, "http://127.0.0.1:9545/");
       },

@@ -37,15 +37,13 @@ export const toText = (text) => {
   return ethers.utils.toUtf8String(text);//.replace(/\0+$/, "");
 };
 
-export const isValidTokenId = (id, numEditions, numArtistProofs) => {
-  if (id >= 1 && id <= numEditions) {
-    return true;
+export const ensureTokenId = (numEditions, defaultTokenId) => {
+  const id = window.location.hash.substr(1);
+  if (id < 1 || id > numEditions) {
+    // Reload the page with a working token id
+    window.location.replace(window.location.pathname + `#${defaultTokenId}`);
   }
-  const ap_edition = id.match(/A.P. (.+)/);
-  if (ap_edition && ap_edition[1] >= 1 && ap_edition[1] <= numArtistProofs) {
-    return true;
-  }
-  return false;
+  return ethers.BigNumber.from(id);
 };
 
 export const initNetwork = async (contractName) => {
@@ -62,7 +60,7 @@ export const initNetwork = async (contractName) => {
     json.abi,
     provider
   );*/
-  const contract    = new ethers.Contract(
+  const contract = new ethers.Contract(
     json.networks[(await provider.getNetwork()).chainId].address,
     json.abi,
     provider

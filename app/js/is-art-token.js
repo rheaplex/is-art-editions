@@ -17,12 +17,11 @@
 
 import { ethers } from "./ethers.js";
 import {
-  disableElement, enableElement, hideModal, initNetwork, isValidTokenId,
+  disableElement, enableElement, ensureTokenId, hideModal, initNetwork,
   showModal, toText
 } from "./is-art.js";
 
-let NUM_EDITIONS = 32;
-let NUM_ARTIST_PROOFS = 2;
+let NUM_EDITIONS = 16;
 let DEFAULT_TOKEN_ID = 1;
 
 let provider;
@@ -66,13 +65,7 @@ const setDisplayState = (state) => {
 const main = async (event) => {
   [ provider, contract ] = await initNetwork("IsArtToken");
 
-  const id = window.location.hash.substr(1);
-  if (isValidTokenId(id, NUM_EDITIONS, NUM_ARTIST_PROOFS)) {
-    tokenId = ethers.BigNumber.from(id);
-  } else {
-    // Reload the page with a working token id
-    window.location.hash = DEFAULT_TOKEN_ID;
-  }
+  tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
   setDisplayState(await contract.tokenIsArt(tokenId));
 
@@ -91,3 +84,4 @@ const main = async (event) => {
 };
 
 window.addEventListener("DOMContentLoaded", main);
+window.addEventListener('hashchange', () => window.location.reload(), false);

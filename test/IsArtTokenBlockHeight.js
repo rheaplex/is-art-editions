@@ -73,4 +73,30 @@ contract("IsArtTokenBlockHeight", (accounts) => {
     }
   });
 
+
+  it("only owner can transfer ERC721 tokens", async () => {
+    const isArtToken = await IsArtTokenBlockHeight.deployed();
+    try {
+      await isArtToken.transferFrom(accounts[1],
+                                accounts[2],
+                                2,
+                                {from: accounts[2]});
+      assert(false, "token should throw if non-owner tries to transfer token");
+    } catch (error) {}
+  });
+
+  it("token URLs can be updated", async () => {
+    const isArtToken = await IsArtTokenBlockHeight.deployed();
+    await isArtToken.setBaseUri("aaa://newurl/");
+    assert.equal(await isArtToken.tokenURI(3), "aaa://newurl/3");
+  });
+
+  it("only owner can set token URLs", async () => {
+    const isArtToken = await IsArtTokenBlockHeight.deployed();
+    try {
+      await isArtToken.setBaseUri("aaa://newerurl/", { from: accounts[2] });
+      assert(false, "token should throw if non-owner tries to set base URL");
+    } catch (error) {}
+  });
+  
 });

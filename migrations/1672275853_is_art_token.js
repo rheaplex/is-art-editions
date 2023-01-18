@@ -1,5 +1,3 @@
-/* global artifacts, module */
-
 const IsArtToken = artifacts.require("IsArtToken");
 
 module.exports = function(_deployer) {

@@ -1,0 +1,10 @@
+output: mythx.txt
+format: table
+
+analyze:
+    scenario: solidity
+    mode: standard
+    create-group: true
+    group-name: is-art-editions
+    remappings:
+        - "@openzeppelin/=./node_modules/@openzeppelin/"

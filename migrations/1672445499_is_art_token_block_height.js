@@ -1,5 +1,3 @@
-/* global artifacts, module */
-
 const IsArtTokenBlockHeight = artifacts.require("IsArtTokenBlockHeight");
 
 module.exports = function(_deployer) {

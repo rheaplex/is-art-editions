@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-pragma solidity ^0.8.17;
+// Author:                  Rhea Myers <rhea@myers.studio>
+// Copyright:               2023 Myers Studio, Ltd.
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -42,7 +44,7 @@ contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
         return is_art[tokenId - 1];
     }
 
-        function pause() public onlyOwner {
+    function pause() public onlyOwner {
         _pause();
     }
 

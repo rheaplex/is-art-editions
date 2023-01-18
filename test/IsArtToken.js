@@ -1,4 +1,4 @@
-/* global artifacts contract expect it web3 */
+/* global expect web3 */
 
 const NUM_TOKENS = web3.utils.toBN(16);
 const IS_BYTES6 = "0x697300000000";

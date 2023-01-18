@@ -14,6 +14,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtTokenBlockHeight is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
+    string private baseUri;
+
     constructor() ERC721("Is Art (Token, Block Height)", "ISATBH") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
             _mint(msg.sender, i);
@@ -48,6 +50,14 @@ contract IsArtTokenBlockHeight is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     function unpause() public onlyOwner {
         _unpause();
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseUri;
+    }
+
+    function setBaseUri(string calldata newUri) external onlyOwner {
+        baseUri = newUri;
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)

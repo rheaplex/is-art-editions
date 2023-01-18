@@ -15,6 +15,8 @@ contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     event Status(uint256 indexed tokenId, bytes6 is_art);
 
+    string private baseUri;
+    
     bytes6[NUM_TOKENS] private is_art;
 
     constructor() ERC721("Is Art (Token)", "ISAT") {
@@ -50,6 +52,14 @@ contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     function unpause() public onlyOwner {
         _unpause();
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseUri;
+    }
+
+    function setBaseUri(string calldata newUri) external onlyOwner {
+        baseUri = newUri;
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)

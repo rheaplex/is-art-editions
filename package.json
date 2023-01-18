@@ -1,23 +1,27 @@
 {
     "devDependencies": {
         "@openzeppelin/contracts": "^4.7.3",
-        "eslint": "^8.32.0"
+        "eslint": "^8.32.0",
+        "truffle-plugin-stdjsonin": "github:mhrsalehi/truffle-plugin-stdjsonin"
     },
     "scripts": {
-      "test": "truffle test",
-      "eslint": "npx eslint app/js/*.js migrations/* test/*",
-      "solium": "solium -d contracts",
-      "ethlint": "solhint contracts/*.sol",
-      "mythx": "mythx analyze --solc-path /usr/local/bin/solc contracts/*.sol",
-      "ethnode": "ganache --miner.blockTime 2 --port 9545 --chain.chainId 1337 --chain.networkId 1337 --mnemonic 'test test test test test test test test test test test junk'",
-      "develop": "truffle console --network develop",
-      "serve": "http-server ./app/ --port 7777 --cors",
-      "build-local": "truffle migrate --network develop && cp ./build/contracts/IsArtToken.json ./build/contracts/IsArtTokenBlockHeight.json ./app/js/",
-      "dashboard-mainnet": "truffle dashboard",
-      "deploy-mainnet": "truffle deploy --network dashboard",
-      "flatten": "truffle-flattener contracts/IsArtToken.sol > flattened/IsArtToken-flattened.sol && truffle-flattener contracts/IsArtTokenBlockHeight.sol > flattened/IsArtTokenBlockHeight-flattened.sol"
+        "test": "truffle test",
+        "eslint": "npx eslint app/js/*.js migrations/* test/*",
+        "solium": "solium -d contracts",
+        "ethlint": "solhint contracts/*.sol",
+        "mythx": "mythx analyze --solc-path /usr/local/bin/solc contracts/*.sol",
+        "ethnode": "ganache --miner.blockTime 2 --port 9545 --chain.chainId 1337 --chain.networkId 1337 --mnemonic 'test test test test test test test test test test test junk'",
+        "develop": "truffle console --network develop",
+        "serve": "http-server ./app/ --port 7777 --cors",
+        "build-local": "truffle migrate --network develop && cp ./build/contracts/IsArtToken.json ./build/contracts/IsArtTokenBlockHeight.json ./app/js/",
+        "dashboard-mainnet": "truffle dashboard",
+        "deploy-mainnet": "truffle deploy --network dashboard",
+        "flatten": "truffle run stdjsonin IsArtToken IsArtTokenBlockHeight && mv ./IsArt*-input.json ./flattened"
     },
-    "keywords": ["art", "blockchain"],
+    "keywords": [
+        "art",
+        "blockchain"
+    ],
     "author": "Rhea Myers",
     "description": "Anxieties of ownership and co-ordination as art in the market.",
     "license": "GPL-v3-or-later",

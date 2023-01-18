@@ -1,11 +1,21 @@
-is-art-editions
+Is Art Editions
 ===============
 
-Rhea Myers <rhea@myers.studio>
+By Rhea Myers
+
+Anxieties of ownership and co-ordination as art in the market.
+
+
+Licensing
+=========
+
+Code: GPLv3 or later at your option.
+
+Images (live and generated): CC0 if copyrightable.
+
 
 Development
 ===========
-
 
 Installation
 ------------

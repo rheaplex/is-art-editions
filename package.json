@@ -17,8 +17,9 @@
       "deploy-mainnet": "truffle deploy --network dashboard",
       "flatten": "truffle-flattener contracts/IsArtToken.sol > flattened/IsArtToken-flattened.sol && truffle-flattener contracts/IsArtTokenBlockHeight.sol > flattened/IsArtTokenBlockHeight-flattened.sol"
     },
-    "keywords": [],
+    "keywords": ["art", "blockchain"],
     "author": "Rhea Myers",
+    "description": "Anxieties of ownership and co-ordination as art in the market.",
     "license": "GPL-v3-or-later",
     "dependencies": {
         "@truffle/hdwallet-provider": "^2.1.4"

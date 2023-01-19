@@ -14,7 +14,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtTokenBlockHeight is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    string private baseUri;
+    // Initial metadata URI.
+    string private baseUri = "ipfs://QmPgiYkuanSodHtDEdwE2WiryR4VguaCiuXau3BSdcfV3E/";
 
     constructor() ERC721("Is Art (Token, Block Height)", "ISATBH") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {

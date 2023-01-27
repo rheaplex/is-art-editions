@@ -9,18 +9,18 @@ const TOKENS = [
     "A token that can be nominated as art (or not) by its owner.",
     "IsArtToken",
     "is-art-token.html",
-    "ipfs://QmTPo9WrJpPYsXjSnCcxyjC9Ln8714vg7Njq48UnJhhJwF/is.png"
+    "ipfs://QmRGJzrhas5NW7Zc1u5s3vGrXf1wRh2Wt4JS7sUuxvyiEH/is.png"
   ],
   [
     "Is Art (Token, Block Height)",
     "A token that is art (or not) depending on the current Ethereum block height",
     "IsArtTokenBlockHeight",
     "is-art-token-block-height.html",
-    "ipfs://QmTPo9WrJpPYsXjSnCcxyjC9Ln8714vg7Njq48UnJhhJwF/is.png"
+    "ipfs://QmRGJzrhas5NW7Zc1u5s3vGrXf1wRh2Wt4JS7sUuxvyiEH/is.png"
   ],
 ];
 
-const SHOW_URL_BASE = "https://show.rhea.art/is-art-editions/app/";
+const SHOW_URL_BASE = "https://show.rhea.art/is-art-editions/";
 
 if (!fs.existsSync("./metadata/")){
   fs.mkdirSync("./metadata");

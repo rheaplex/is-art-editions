@@ -13,7 +13,31 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // using the 'Art Is' controlled grammar by the token owner.
 
 contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
+    ////////////////////////////////////////////////////////////////
+    // Events
+    ////////////////////////////////////////////////////////////////
 
+    event DefinitionChanged(
+        address indexed theorist,
+        uint256 indexed tokenid,
+        uint8 extent,
+        uint8 connection,
+        uint8 relation,
+        uint8 subject
+    );
+
+    ////////////////////////////////////////////////////////////////
+    // Structs
+    ////////////////////////////////////////////////////////////////
+    
+    struct Definition {
+        address theorist;
+        uint8 extent;
+        uint8 connection;
+        uint8 relation;
+        uint8 subject;
+    }
+    
     ////////////////////////////////////////////////////////////////
     // Constants
     ////////////////////////////////////////////////////////////////
@@ -46,21 +70,35 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     string[DEF_MAX + 1] private connections = [
         "not",
         "universally",
-        "ontologically", "epistemologically", "logically",
+        "ontologically",
+        "epistemologically",
+        "logically",
         "psychologically",
-        "childishly", "sophisticatedly", "conservatively",
-        "liberally", "ironically",
-        "creepily", "radically", "queerly", "problematically",
+        "childishly",
+        "sophisticatedly", "conservatively",
+        "liberally",
+        "ironically",
+        "creepily",
+        "radically", "queerly", "problematically",
         "neoliberally"
     ];
 
     string[DEF_MAX + 1] private relations = [
         "engaging with",
-        "reliant on", "derivative of", "determined by", "defined by",
+        "reliant on",
+        "derivative of",
+        "determined by",
+        "defined by",
         "embracing of",
-        "reacting to", "commenting on", "embracing", "resolving",
+        "reacting to",
+        "commenting on",
+        "embracing",
+        "resolving",
         "transcending",
-        "valenced by", "critiquing", "attacking", "destroying",
+        "valenced by",
+        "critiquing",
+        "attacking",
+        "destroying",
         "obviating"
     ];
 
@@ -70,31 +108,6 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         "emotion", "critique", "aesthetics", "god", "satan",
         "beauty", "horror", "desire", "critique", "universality"
     ];
-
-    ////////////////////////////////////////////////////////////////
-    // Events
-    ////////////////////////////////////////////////////////////////
-
-    event DefinitionChanged(
-        address indexed theorist,
-        uint256 indexed tokenid,
-        uint8 extent,
-        uint8 connection,
-        uint8 relation,
-        uint8 subject
-    );
-
-    ////////////////////////////////////////////////////////////////
-    // Structs
-    ////////////////////////////////////////////////////////////////
-    
-    struct Definition {
-        address theorist;
-        uint8 extent;
-        uint8 connection;
-        uint8 relation;
-        uint8 subject;
-    }
     
     ////////////////////////////////////////////////////////////////
     // Member variables

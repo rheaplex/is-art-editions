@@ -7,12 +7,6 @@ const testMnemonic = 'test test test test test test test test test test test jun
 
 module.exports = {
   networks: {
-    develop: {
-      provider: function() {
-        return new HDWalletProvider(testMnemonic, "http://127.0.0.1:9545/");
-      },
-      network_id: '1337',
-    },
     dashboard: {
     },
   },
@@ -34,5 +28,5 @@ module.exports = {
          evmVersion: "berlin"
        }
     }
-  } 
+  }
 };

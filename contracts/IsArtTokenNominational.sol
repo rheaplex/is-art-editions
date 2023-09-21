@@ -30,7 +30,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Structs
     ////////////////////////////////////////////////////////////////
-    
+
     struct Nomination {
         address tokenContract;
         uint256 tokenId;
@@ -39,7 +39,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Constants
     ////////////////////////////////////////////////////////////////
-    
+
     uint256 public constant NUM_TOKENS = 16;
 
     ////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
         require(_exists(tokenId), "no such token");
         return nominations[tokenId];
     }
-    
+
     function nominate (
         uint256 tokenId,
         address contractAddressToNominate,
@@ -129,7 +129,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Public admin-only functions
     ////////////////////////////////////////////////////////////////
-    
+
     function pause() public onlyOwner {
         _pause();
     }
@@ -149,7 +149,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Overrides
     ////////////////////////////////////////////////////////////////
-    
+
     function _beforeTokenTransfer(
         address from,
         address to,

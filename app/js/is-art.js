@@ -49,8 +49,8 @@ export const ensureTokenId = (numEditions, defaultTokenId) => {
 export const initNetwork = async (contractName) => {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   // Just reload the window if the network changes
-  provider.on('chainChanged', (chainId) => { window.location.reload(); });
-  const chainName = await provider.getNetwork().name;
+  provider.on("chainChanged", () => { window.location.reload(); });
+  //const chainName = await provider.getNetwork().name;
   //const contractPath = `./js/IsArtToken.sol/${contractName}.${chainName}.json`;
   const contractPath = `./js/${contractName}.json`;
   const response = await fetch(contractPath);

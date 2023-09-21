@@ -15,9 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { ethers } from "./ethers.js";
 import {
-  disableElement, enableElement, ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, hideModal, initNetwork,
   showModal, toText
 } from "./is-art.js";
 
@@ -28,8 +27,6 @@ let provider;
 let contract;
 let tokenId;
 
-let waitForTx;
-
 const toggleBlockchainState = async () => {
   const signer = provider.getSigner();
   // Make a read/write copy of our read-only contract object
@@ -37,7 +34,7 @@ const toggleBlockchainState = async () => {
   contractWritable.toggle(tokenId)
     .then(tx => provider.waitForTransaction(tx.hash),
           // Metamask will log this, so we don't need to.
-          reason => null)
+          () => null)
     .then(async () => hideModal("updating"));
 };
 
@@ -49,7 +46,6 @@ const onClickShowGui = async () => {
 
 const onClickToggle = async () => {
   hideModal("gui");
-  waitForTx = true;
   showModal("updating");
   toggleBlockchainState();
 };
@@ -62,7 +58,7 @@ const setDisplayState = (state) => {
   document.getElementById("is-art-status").textContent = toText(state);
 };
 
-const main = async (event) => {
+const main = async (/*event*/) => {
   [ provider, contract ] = await initNetwork("IsArtToken");
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
@@ -84,4 +80,4 @@ const main = async (event) => {
 };
 
 window.addEventListener("DOMContentLoaded", main);
-window.addEventListener('hashchange', () => window.location.reload(), false);
+window.addEventListener("hashchange", () => window.location.reload(), false);

@@ -29,7 +29,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Structs
     ////////////////////////////////////////////////////////////////
-    
+
     struct Definition {
         address theorist;
         uint8 extent;
@@ -37,13 +37,13 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         uint8 relation;
         uint8 subject;
     }
-    
+
     ////////////////////////////////////////////////////////////////
     // Constants
     ////////////////////////////////////////////////////////////////
-    
+
     uint256 public constant NUM_TOKENS = 16;
-    
+
     // Allow empty definition values, catch invalid definitions in code
     uint constant DEF_MIN = 0x00;
     uint constant DEF_MAX = 0x0F;
@@ -108,20 +108,20 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         "emotion", "critique", "aesthetics", "god", "satan",
         "beauty", "horror", "desire", "critique", "universality"
     ];
-    
+
     ////////////////////////////////////////////////////////////////
     // Member variables
     ////////////////////////////////////////////////////////////////
-    
+
     // Initial metadata URI.
     string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-    
+
     Definition[NUM_TOKENS] private definitions;
 
     ////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////
-    
+
     constructor() ERC721("Is Art (Token Is X)", "ISATIX") {
         for (uint256 i = 0; i < NUM_TOKENS; i++) {
             uint256 tokenId = i + 1;
@@ -204,8 +204,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         pure
         returns (bool result)
     {
-        result =
-            isDefValueInRange(extent) &&
+        result = isDefValueInRange(extent) &&
             isDefValueInRange(connection) &&
             isDefValueInRange(relation) &&
             isDefValueInRange(subject);
@@ -216,14 +215,14 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         pure
         returns (bool result)
     {
-        result = ((defValue >= DEF_MIN) &&
-                  (defValue <= DEF_MAX));
+        result = (defValue >= DEF_MIN) &&
+            (defValue <= DEF_MAX);
     }
 
     ////////////////////////////////////////////////////////////////
     // Public admin-only functions
     ////////////////////////////////////////////////////////////////
-    
+
     function pause() public onlyOwner {
         _pause();
     }
@@ -243,7 +242,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Overrides
     ////////////////////////////////////////////////////////////////
-    
+
     function _beforeTokenTransfer(
         address from,
         address to,

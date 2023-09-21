@@ -30,7 +30,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Member variables
     ////////////////////////////////////////////////////////////////
-    
+
     // Initial metadata URI.
     string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
 
@@ -54,7 +54,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     function threshold() external pure returns (uint8) {
         return THRESHOLD;
     }
-    
+
     function toggle(uint256 tokenId) external {
         require(ownerOf(tokenId) == msg.sender, "must own token to toggle");
         bool previousState = ises[tokenId - 1];
@@ -69,7 +69,10 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     }
 
     function tokenIdIsArt (uint256 tokenId) external view returns (bool) {
-        require(tokenId > 0 && tokenId <= NUM_TOKENS, "no token with tokenId" );
+        require(
+            tokenId > 0 && tokenId <= NUM_TOKENS,
+            "no token with tokenId"
+        );
         return ises[tokenId - 1];
     }
 
@@ -80,7 +83,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Public admin-only functions
     ////////////////////////////////////////////////////////////////
-    
+
     function pause() public onlyOwner {
         _pause();
     }

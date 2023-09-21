@@ -15,10 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { ethers } from "./ethers.js";
 import {
-  disableElement, enableElement, hideModal, initNetwork, ensureTokenId, 
-  showModal, toText
+  initNetwork, ensureTokenId, toText
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -28,7 +26,7 @@ const setDisplayState = (state) => {
   document.getElementById("is-art-status").textContent = toText(state);
 };
 
-const main = async (event) => {
+const main = async (/*event*/) => {
   let [ provider, contract ] = await initNetwork("IsArtTokenBlockHeight");
 
   let tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
@@ -36,11 +34,11 @@ const main = async (event) => {
   // We get the current block as the first block to the block event handler.
   //setDisplayState(await contract.tokenIsArt(tokenId));
 
-  provider.on('block', async (blockNumber) => {
+  provider.on("block", async (/*blockNumber*/) => {
     // Note that we don't use the block number here. Should we?
     setDisplayState(await contract.tokenIsArt(tokenId));
   });
 };
 
 window.addEventListener("DOMContentLoaded", main);
-window.addEventListener('hashchange', () => window.location.reload(), false);
+window.addEventListener("hashchange", () => window.location.reload(), false);

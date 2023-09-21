@@ -16,14 +16,14 @@ contract("IsArtTokenBlockHeight", (accounts) => {
     expect(num_tokens.eq(NUM_TOKENS)).to.be.true;
     expect(await isArtToken.name()).to.equal("Is Art (Token, Block Height)");
     expect(await isArtToken.symbol()).to.equal("ISATBH");
-    
+
     expect(num_tokens.eq(await isArtToken.balanceOf(owner))).to.be.true;
   });
 
   it("Should properly calculate state", async function () {
     const isArtToken = await IsArtTokenBlockHeight.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-    
+
     for (let id = 1; id <= num_tokens; id++) {
       for (let blockHeight = 0; blockHeight < (id * 4); blockHeight++) {
         const expected = ((Math.floor(blockHeight / id) % 2) == 1)
@@ -38,7 +38,7 @@ contract("IsArtTokenBlockHeight", (accounts) => {
   it("Should allow owner to transfer", async function () {
     const isArtToken = await IsArtTokenBlockHeight.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-    
+
     for (let i = 1; i <= num_tokens; i++) {
       await isArtToken.transferFrom(owner, other, i);
       expect(await isArtToken.ownerOf(i))
@@ -73,7 +73,6 @@ contract("IsArtTokenBlockHeight", (accounts) => {
     }
   });
 
-
   it("only owner can transfer ERC721 tokens", async () => {
     const isArtToken = await IsArtTokenBlockHeight.deployed();
     try {
@@ -82,7 +81,9 @@ contract("IsArtTokenBlockHeight", (accounts) => {
                                 2,
                                 {from: accounts[2]});
       assert(false, "token should throw if non-owner tries to transfer token");
-    } catch (error) {}
+    } catch (error) {
+      // empty
+    }
   });
 
   it("token URLs can be updated", async () => {
@@ -96,7 +97,9 @@ contract("IsArtTokenBlockHeight", (accounts) => {
     try {
       await isArtToken.setBaseUri("aaa://newerurl/", { from: accounts[2] });
       assert(false, "token should throw if non-owner tries to set base URL");
-    } catch (error) {}
+    } catch (error) {
+      //empty
+    }
   });
-  
+
 });

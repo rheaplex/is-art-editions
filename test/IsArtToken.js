@@ -129,7 +129,9 @@ contract("IsArtToken", (accounts) => {
                                 2,
                                 {from: accounts[2]});
       assert(false, "token should throw if non-owner tries to transfer token");
-    } catch (error) {}
+    } catch (error) {
+      // empty
+    }
   });
 
   it("token URLs can be updated", async () => {
@@ -143,7 +145,9 @@ contract("IsArtToken", (accounts) => {
     try {
       await isArtToken.setBaseUri("aaa://newerurl/", { from: accounts[2] });
       assert(false, "token should throw if non-owner tries to set base URL");
-    } catch (error) {}
+    } catch (error) {
+      // empty
+    }
   });
 
 });

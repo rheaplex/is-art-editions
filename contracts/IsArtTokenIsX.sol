@@ -75,11 +75,14 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         "logically",
         "psychologically",
         "childishly",
-        "sophisticatedly", "conservatively",
+        "sophisticatedly",
+        "conservatively",
         "liberally",
         "ironically",
         "creepily",
-        "radically", "queerly", "problematically",
+        "radically",
+        "queerly",
+        "problematically",
         "neoliberally"
     ];
 
@@ -104,9 +107,21 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     string[DEF_MAX + 1] private subjects = [
         "specificity",
-        "techne", "society", "politics", "materiality", "identity",
-        "emotion", "critique", "aesthetics", "god", "satan",
-        "beauty", "horror", "desire", "critique", "universality"
+        "techne",
+        "society",
+        "politics",
+        "materiality",
+        "identity",
+        "emotion",
+        "critique",
+        "aesthetics",
+        "god",
+        "satan",
+        "beauty",
+        "horror",
+        "desire",
+        "critique",
+        "universality"
     ];
 
     ////////////////////////////////////////////////////////////////
@@ -137,7 +152,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Public API
     ////////////////////////////////////////////////////////////////
 
-    function getDefinition(uint256 tokenId)
+    function getDefinitionText(uint256 tokenId)
         external
         view
         returns (string memory)
@@ -156,6 +171,15 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         );
     }
 
+    function getDefinitionData(uint256 tokenId)
+        external
+        view
+        returns (Definition memory)
+    {
+        require(tokenId > 0 && tokenId <= NUM_TOKENS, "no such token");
+        return definitions[tokenId - 1];
+    }
+
     function setDefinition(
         uint256 tokenId,
         uint8 extent,
@@ -172,7 +196,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         uint256 index = tokenId - 1;
         require(
             isDefValid(extent, connection, relation, subject),
-            "Invalid definition property."
+            "Invalid definition property"
         );
         address theorist = msg.sender;
         definitions[index].theorist = theorist;

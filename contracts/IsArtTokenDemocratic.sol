@@ -56,10 +56,17 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     }
 
     function toggle(uint256 tokenId) external {
-        require(ownerOf(tokenId) == msg.sender, "must own token to toggle");
-        bool previousState = ises[tokenId - 1];
-        bool newState = ! previousState;
+        require(
+            ownerOf(tokenId) == msg.sender,
+            "Only token holder can toggle state"
+        );
+        bool newState = ! ises[tokenId - 1];
         ises[tokenId - 1] = newState;
+        if (newState) {
+            isCount += 1;
+        } else {
+            isCount -= 1;
+        }
         emit Toggled(
             tokenId,
             newState,
@@ -71,7 +78,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     function tokenIdIsArt (uint256 tokenId) external view returns (bool) {
         require(
             tokenId > 0 && tokenId <= NUM_TOKENS,
-            "no token with tokenId"
+            "No token with that tokenId exists"
         );
         return ises[tokenId - 1];
     }

@@ -16,9 +16,9 @@ contract("IsArtToken", (accounts) => {
     expect(num_tokens.eq(NUM_TOKENS)).to.be.true;
     expect(await isArtToken.name()).to.equal("Is Art (Token)");
     expect(await isArtToken.symbol()).to.equal("ISAT");
-    
+
     expect(num_tokens.eq(await isArtToken.balanceOf(owner))).to.be.true;
-    
+
     for (let i = 1; i <= num_tokens; i++) {
       expect(web3.utils.hexToUtf8(await isArtToken.tokenIsArt(i)))
         .to.equal("is not");
@@ -28,7 +28,7 @@ contract("IsArtToken", (accounts) => {
   it("Should allow owner to toggle state", async function () {
     const isArtToken = await IsArtToken.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-    
+
     for (let i = 1; i <= num_tokens; i++) {
       await isArtToken.toggle(i);
       expect(web3.utils.hexToUtf8(await isArtToken.tokenIsArt(i)))
@@ -45,7 +45,7 @@ contract("IsArtToken", (accounts) => {
   it("Should emit toggle status events", async function () {
     const isArtToken = await IsArtToken.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-    
+
     for (let i = 1; i <= num_tokens; i++) {
       const result = await isArtToken.toggle(i);
       expect(result.logs.length).to.equal(1);
@@ -86,7 +86,7 @@ contract("IsArtToken", (accounts) => {
   it("Should allow owner to transfer", async function () {
     const isArtToken = await IsArtToken.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-    
+
     for (let i = 1; i <= num_tokens; i++) {
       await isArtToken.transferFrom(owner, other, i);
       expect(await isArtToken.ownerOf(i))

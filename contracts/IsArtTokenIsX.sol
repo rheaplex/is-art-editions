@@ -191,7 +191,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     {
         require(
             ownerOf(tokenId) == msg.sender,
-            "Only token holder can toggle state"
+            "Only token holder can set definition"
         );
         uint256 index = tokenId - 1;
         require(

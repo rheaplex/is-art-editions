@@ -10,17 +10,23 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 // A contract where each token is/is not art based on the vote of its owner.
 
-contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
+contract IsArtTokenLottery is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 indexed tokenId, bytes6 is_art);
+    event Status(
+        uint256 indexed tokenId,
+        bytes6 is_art,
+        bytes6 was_art,
+        address by,
+        bytes32 a, uint b, uint c
+    );
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://Qme6YvpxzjRrMNu952jzd7aQRJFAD9LrN3ELtLHdihWHL6/";
+    string private baseUri = "ipfs://qqqqqqqqqqqqqqqqq/";
 
     bytes6[NUM_TOKENS] private is_art;
 
-    constructor() ERC721("Is Art (Token)", "ISAT") {
+    constructor() ERC721("Is Art (Token, Lottery)", "ISATL") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
             // Set internal state before interacting with other conacts
             is_art[i - 1] = "is not";
@@ -34,12 +40,22 @@ contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
             "Only token holder can toggle state"
         );
         uint256 index = tokenId - 1;
-        if (is_art[index] == "is") {
+        bytes6 previous = is_art[index];
+        // This is weak but works for our purposes.
+        uint256 rnd = uint256(keccak256(abi.encodePacked(
+                                            block.timestamp,
+                                            block.difficulty))) % 2;
+        if (rnd == 1) {
             is_art[index] = "is not";
         } else {
             is_art[index] = "is";
         }
-        emit Status(tokenId, is_art[index]);
+        emit Status(tokenId, is_art[index], previous, msg.sender,
+                   keccak256(abi.encodePacked(
+                                            block.timestamp,
+                                            block.difficulty)),
+                   block.timestamp,
+                    block.difficulty);
     }
 
     function tokenIsArt (uint256 tokenId) external view returns (bytes6) {

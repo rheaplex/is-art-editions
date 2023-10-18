@@ -4,6 +4,7 @@ const testErc721 = require('../lib/testErc721.js');
 
 const NUM_TOKENS = web3.utils.toBN(16);
 const THRESHOLD = 8;
+const PERCENTAGE = 6.25;
 const IsArtTokenDemocratic = artifacts.require("IsArtTokenDemocratic");
 
 contract("IsArtTokenDemocratic", (accounts) => {
@@ -53,6 +54,8 @@ contract("IsArtTokenDemocratic", (accounts) => {
     expect(result.logs[0].args.tokenId.toNumber()).to.equal(tokenId);
     expect(result.logs[0].args.isState).to.equal(true);
     expect(result.logs[0].args.isCount.toNumber()).to.equal(1);
+    expect(result.logs[0].args.isPercentage.toNumber())
+      .to.equal(Math.floor(1 * PERCENTAGE));
     expect(result.logs[0].args.isContractArt).to.equal(false);
     result = await isArtTokenDemocratic.toggle(tokenId);
     expect(result.logs.length).to.equal(1);
@@ -83,12 +86,17 @@ contract("IsArtTokenDemocratic", (accounts) => {
       await isArtTokenDemocratic.toggle(tokenId);
       expect(await isArtTokenDemocratic.tokenIsArt())
         .to.equal(i >= THRESHOLD);
+      expect((await isArtTokenDemocratic.tokenIsArtPercentage()).toNumber())
+        .to.equal(Math.floor(i * PERCENTAGE));
     }
     for (let i = 10; i >= 1; i--) {
       const tokenId = i + 5;
       await isArtTokenDemocratic.toggle(tokenId);
       expect(await isArtTokenDemocratic.tokenIsArt())
         .to.equal(i > THRESHOLD);
+      // Note the - 1 as we go back down.
+      expect((await isArtTokenDemocratic.tokenIsArtPercentage()).toNumber())
+        .to.equal(Math.floor((i - 1) * PERCENTAGE));
     }
   });
 

@@ -17,6 +17,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
         uint256 tokenId,
         bool isState,
         uint8 isCount,
+        uint8 isPercentage,
         bool isContractArt
     );
 
@@ -26,6 +27,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     uint256 private constant NUM_TOKENS = 16;
     uint8 private constant THRESHOLD = 8;
+    uint256 private constant PERCENTAGE = 10000 / NUM_TOKENS;
 
     ////////////////////////////////////////////////////////////////
     // Member variables
@@ -71,6 +73,7 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
             tokenId,
             newState,
             isCount,
+            tokenIsArtPercentage(),
             tokenIsArt()
         );
     }
@@ -81,6 +84,10 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
             "No token with that tokenId exists"
         );
         return ises[tokenId - 1];
+    }
+
+    function tokenIsArtPercentage () public view returns (uint8) {
+        return uint8((uint256(isCount) * PERCENTAGE) / 100);
     }
 
     function tokenIsArt () public view returns (bool) {

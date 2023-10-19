@@ -1,5 +1,7 @@
 /* global expect web3 */
 
+const testErc721 = require('../lib/testErc721.js');
+
 const NUM_TOKENS = web3.utils.toBN(16);
 const IS_BYTES6 = "0x697300000000";
 const IS_NOT_BYTES6 = "0x6973206e6f74";
@@ -10,14 +12,16 @@ contract("IsArtToken", (accounts) => {
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {
+    await testErc721.setup(
+      accounts,
+      IsArtToken,
+      "Is Art (Token)",
+      "ISAT",
+      NUM_TOKENS
+    );
+
     const isArtToken = await IsArtToken.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();
-
-    expect(num_tokens.eq(NUM_TOKENS)).to.be.true;
-    expect(await isArtToken.name()).to.equal("Is Art (Token)");
-    expect(await isArtToken.symbol()).to.equal("ISAT");
-
-    expect(num_tokens.eq(await isArtToken.balanceOf(owner))).to.be.true;
 
     for (let i = 1; i <= num_tokens; i++) {
       expect(web3.utils.hexToUtf8(await isArtToken.tokenIsArt(i)))
@@ -80,73 +84,6 @@ contract("IsArtToken", (accounts) => {
         expect(error.data.reason)
           .to.equal("Only token holder can toggle state");
       }
-    }
-  });
-
-  it("Should allow owner to transfer", async function () {
-    const isArtToken = await IsArtToken.deployed();
-    const num_tokens = await isArtToken.NUM_TOKENS();
-
-    for (let i = 1; i <= num_tokens; i++) {
-      await isArtToken.transferFrom(owner, other, i);
-      expect(await isArtToken.ownerOf(i))
-        .to.equal(other);
-    }
-
-    for (let i = 1; i <= num_tokens; i++) {
-      await isArtToken
-        .transferFrom(other, owner, i, { from: other });
-      expect(await isArtToken.ownerOf(i))
-        .to.equal(owner);
-    }
-  });
-
-  it("Should not allow non-owner to transfer", async function () {
-    const isArtToken = await IsArtToken.deployed();
-    const num_tokens = await isArtToken.NUM_TOKENS();
-
-    for (let i = 1; i <= num_tokens; i++) {
-      try {
-        await isArtToken.transferFrom(
-          owner,
-          other,
-          i,
-          { from: other }
-        );
-        expect.fail("Should fail! Caller is not token owner nor approved.");
-      } catch (error) {
-        expect(error.data.reason)
-          .to.equal("ERC721: caller is not token owner or approved");
-      }
-    }
-  });
-
-  it("only owner can transfer ERC721 tokens", async () => {
-    const isArtToken = await IsArtToken.deployed();
-    try {
-      await isArtToken.transferFrom(accounts[1],
-                                accounts[2],
-                                2,
-                                {from: accounts[2]});
-      assert(false, "token should throw if non-owner tries to transfer token");
-    } catch (error) {
-      // empty
-    }
-  });
-
-  it("token URLs can be updated", async () => {
-    const isArtToken = await IsArtToken.deployed();
-    await isArtToken.setBaseUri("aaa://newurl/");
-    assert.equal(await isArtToken.tokenURI(3), "aaa://newurl/3");
-  });
-
-  it("only owner can set token URLs", async () => {
-    const isArtToken = await IsArtToken.deployed();
-    try {
-      await isArtToken.setBaseUri("aaa://newerurl/", { from: accounts[2] });
-      assert(false, "token should throw if non-owner tries to set base URL");
-    } catch (error) {
-      // empty
     }
   });
 

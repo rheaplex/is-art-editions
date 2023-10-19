@@ -28,22 +28,22 @@ contract IsArtTokenBurn is ERC721, ERC721Enumerable, Pausable, Ownable {
         }
     }
 
-    function toggle (uint256 tokenId) public {
+    function burn (uint256 tokenId) public {
         require(
             ownerOf(tokenId) == msg.sender,
-"Only token holder can toggle state"
+            "Only token holder can burn it"
         );
         uint256 index = tokenId - 1;
-        if (is_art[index] == "is") {
-            is_art[index] = "is not";
-        } else {
-            is_art[index] = "is";
-        }
+        is_art[index] = "is";
         emit Status(tokenId, is_art[index]);
+        _burn(tokenId);
     }
 
     function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
-        _requireMinted(tokenId);
+        require(
+            tokenId > 0 && tokenId <= NUM_TOKENS,
+            "No such token"
+        );
         return is_art[tokenId - 1];
     }
 

@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// A token which is/is not art based on the vote of any of its token owners.
+// A token for which every nft is/is not art based on a single vote.
 
 contract IsArtTokenGriefing is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
@@ -21,10 +21,12 @@ contract IsArtTokenGriefing is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Member variables
     ////////////////////////////////////////////////////////////////
 
+    uint256 public constant NUM_TOKENS = 16;
+
     // Initial metadata URI.
     string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
 
-    bytes6 public is_art;
+    bytes6 private is_art;
 
     ////////////////////////////////////////////////////////////////
     // Constructor
@@ -32,16 +34,19 @@ contract IsArtTokenGriefing is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     constructor() ERC721("Is Art (Token, Griefing)", "ISATG") {
         is_art = "is";
+        for (uint256 i = 1; i <= NUM_TOKENS; i++) {
+            _mint(msg.sender, i);
+        }
     }
 
     ////////////////////////////////////////////////////////////////
     // Public API
     ////////////////////////////////////////////////////////////////
 
-    function toggle() public {
+    function toggle(uint256 tokenId) public {
         require(
-            balanceOf(msg.sender) > 0,
-            "only token holders can toggle state"
+            ownerOf(tokenId) == msg.sender,
+            "Only token holder can toggle state"
         );
         if (is_art == "is") {
             is_art = "is not";
@@ -49,6 +54,11 @@ contract IsArtTokenGriefing is ERC721, ERC721Enumerable, Pausable, Ownable {
             is_art = "is";
         }
         emit Status(is_art);
+    }
+
+    function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
+        _requireMinted(tokenId);
+        return is_art;
     }
 
     ////////////////////////////////////////////////////////////////

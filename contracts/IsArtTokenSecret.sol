@@ -10,25 +10,23 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 // A contract where each token is/is not art based on the vote of its owner.
 
-contract IsArtToken is ERC721, ERC721Enumerable, Pausable, Ownable {
+contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 indexed tokenId, bytes6 is_art);
+    event Status(uint256 indexed tokenId, bytes32 is_art);
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://Qme6YvpxzjRrMNu952jzd7aQRJFAD9LrN3ELtLHdihWHL6/";
+    string private baseUri = "ipfs://Qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
 
     bytes6[NUM_TOKENS] private is_art;
 
-    constructor() ERC721("Is Art (Token)", "ISAT") {
+    constructor() ERC721("Is Art (Token, Secret)", "ISATS") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            // Set internal state before interacting with other conacts
-            is_art[i - 1] = "is not";
             _mint(msg.sender, i);
         }
     }
 
-    function toggle (uint256 tokenId) public {
+    function toggle (uint256 tokenId, bytes32 isHash) public {
         require(
             ownerOf(tokenId) == msg.sender,
             "Only token holder can toggle state"

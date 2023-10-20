@@ -14,12 +14,14 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
     // Events
     ////////////////////////////////////////////////////////////////
+
     event Nominated(
         uint256 tokenId,
         address nominatedTokenContract,
         uint256 nominatedTokenId,
         address by
     );
+
     event DeNominated(
         uint256 tokenId,
         address nominatedTokenContract,
@@ -48,6 +50,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     // Initial metadata URI.
     string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+
     // A mapping of our NFT ids to nomination records
     mapping(uint256 => Nomination) private nominations;
 
@@ -55,7 +58,11 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Constructor
     ////////////////////////////////////////////////////////////////
 
-    constructor() ERC721("Is Art (Token, Nominational)", "ISATN") {}
+    constructor() ERC721("Is Art (Token, Nominational)", "ISATN") {
+        for (uint256 i = 1; i <= NUM_TOKENS; i++) {
+            _mint(msg.sender, i);
+        }
+    }
 
     ////////////////////////////////////////////////////////////////
     // Public API
@@ -67,7 +74,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
         returns (Nomination memory)
     {
         require(_exists(tokenId), "no such token");
-        return nominations[tokenId];
+        return nominations[tokenId - 1];
     }
 
     function nominate (
@@ -79,18 +86,20 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     {
         require(
             ownerOf(tokenId) == msg.sender,
-            "you don't own that tokenId"
+            "You don't own that tokenId"
         );
         ERC721 erc721 = ERC721(contractAddressToNominate);
+        // This will revert if not a contract, which is good.
         require(
             erc721.supportsInterface(type(IERC721).interfaceId),
-            "not an ERC721 token contract"
+            "Not an ERC721 token contract"
         );
+        // This usually checks for existence as well.
         require(
-            erc721.ownerOf(tokenId) == msg.sender,
-            "you don't own that external token"
+            erc721.ownerOf(tokenIdToNominate) == msg.sender,
+            "You don't own that external token"
         );
-        nominations[tokenId] = Nomination(
+        nominations[tokenId - 1] = Nomination(
             contractAddressToNominate,
             tokenIdToNominate
         );
@@ -111,13 +120,13 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     {
         require(
             ownerOf(tokenId) == msg.sender,
-            "you don't own that tokenId"
+            "You don't own that tokenId"
         );
         require(
-            nominations[tokenId].tokenContract != address(0),
-            "that external token isn't nominated"
+            nominations[tokenId - 1].tokenContract != address(0),
+            "That external token isn't nominated"
         );
-        delete nominations[tokenId];
+        delete nominations[tokenId - 1];
         emit DeNominated(
             tokenId,
             nominatedContractAddress,

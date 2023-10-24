@@ -13,21 +13,23 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 indexed tokenId, bytes6 is_art);
+    event Status(
+        uint256 indexed tokenId,
+        bytes32[2] is_art
+    );
 
     // Initial metadata URI.
     string private baseUri = "ipfs://Qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
 
-    bytes6[NUM_TOKENS] private is_art;
+    bytes32[2][NUM_TOKENS] private is_art;
 
     constructor() ERC721("Is Art (Token, Secret)", "ISATS") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            is_art[i - 1] = '??????';
             _mint(msg.sender, i);
         }
     }
 
-    function toggle (uint256 tokenId, bytes6 is_value) public {
+    function toggle (uint256 tokenId, bytes32[2] calldata is_value) public {
         require(
             ownerOf(tokenId) == msg.sender,
             "Only token holder can toggle state"
@@ -37,7 +39,11 @@ contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
         emit Status(tokenId, is_art[index]);
     }
 
-    function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
+    function tokenIsArt (uint256 tokenId)
+        external
+        view
+        returns (bytes32[2] memory)
+    {
         _requireMinted(tokenId);
         return is_art[tokenId - 1];
     }

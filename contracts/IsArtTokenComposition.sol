@@ -7,44 +7,133 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 // A contract where each token is/is not art based on the vote of its owner.
 
-contract IsArtTokenComposition is ERC721, ERC721Enumerable, Pausable, Ownable {
-    uint256 public constant NUM_TOKENS = 16;
+contract IsArtTokenComposition
+is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
+{
+    uint256 public constant NUM_PARENT_TOKENS = 16;
+    uint256 public constant NUM_CHILD_SLOTS = 5;
+    uint256 public constant NUM_CHILD_TOKENS = NUM_PARENT_TOKENS * NUM_CHILD_SLOTS;
+    uint256 public constant NUM_TOKENS = NUM_PARENT_TOKENS + NUM_CHILD_TOKENS;
+
+    uint8 public constant PARENT_KIND = 112;
+    uint8 public constant CHILD_KIND = 107;
 
     event Status(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
     string private baseUri = "ipfs://qqqqqqqqqqqqqqqqqqqqqqqqqqqq";
 
-    bytes6[NUM_TOKENS] private is_art;
+    uint256[NUM_CHILD_TOKENS] private parent;
+    uint256[NUM_CHILD_SLOTS][NUM_PARENT_TOKENS] private children;
 
-    constructor() ERC721("Is Art (Token, Composition)", "ISATC") {
-        for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            // Set internal state before interacting with other conacts
-            is_art[i - 1] = "is not";
-            _mint(msg.sender, i);
-        }
-    }
+    constructor() ERC721("Is Art (Token, Composition)", "ISATC") {}
 
-    function toggle (uint256 tokenId) public {
+    function mintTokens(uint256[] calldata tokenIds) public onlyOwner {
         require(
-            ownerOf(tokenId) == msg.sender,
-            "Only token holder can toggle state"
+            tokenIds.length + totalSupply() <= NUM_TOKENS,
+            "This would mint too many tokens"
         );
-        uint256 index = tokenId - 1;
-        if (is_art[index] == "is") {
-            is_art[index] = "is not";
-        } else {
-            is_art[index] = "is";
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            _mint(msg.sender, tokenIds[i]);
         }
-        emit Status(tokenId, is_art[index]);
     }
 
-    function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
-        _requireMinted(tokenId);
-        return is_art[tokenId - 1];
+    function serialOf(uint256 tokenId) public pure returns (uint64) {
+        return uint64(tokenId >> 88);
+    }
+
+    function kindOf(uint256 tokenId) public pure returns (uint8) {
+        return uint8(tokenId >> 80);
+    }
+
+    function textOf(uint tokenId) public pure returns (string memory value) {
+        bytes10 source = bytes10(uint80(tokenId & 0xFFFFFFFFFFFFFFFFFFFF));
+        uint256 from = 0;
+        for (; from < 10; from++) {
+            if (source[from] != 0) {
+                break;
+            }
+        }
+        uint256 length = 10 - from;
+        value = new string(length);
+        for (uint256 i = 0; i < length; i++) {
+            bytes(value)[i] = source[from];
+            from++;
+        }
+    }
+
+    function tokenIsArt(uint256 tokenId)
+        public
+        view
+        returns (string memory is_art)
+    {
+        // REQUIRE EXISTS!!!!!
+        is_art = textOf(tokenId);
+        if (kindOf(tokenId) == PARENT_KIND) {
+            uint256 serial = uint256(serialOf(tokenId));
+            uint256 index = serial - 1;
+            for (uint256 i = 0; i < NUM_CHILD_SLOTS; i++) {
+                uint256 child = children[index][i];
+                if(child != 0) {
+                    is_art = string.concat(is_art, textOf(child));
+                }
+            }
+        }
+    }
+
+    function parentOf(uint256 tokenId) public view returns (uint256) {
+        require(kindOf(tokenId) == CHILD_KIND, "Not a child token");
+        return parent[serialOf(tokenId) - 1];
+    }
+
+    function childrenOf(uint256 tokenId)
+        public
+        view
+        returns (uint256[5] memory)
+    {
+        require(kindOf(tokenId) == PARENT_KIND, "Not a parent token");
+        return children[serialOf(tokenId) - 1];
+    }
+
+    function detachChild(uint256 parentId, uint256 childIndex) public {
+        require(
+            ownerOf(parentId) == msg.sender,
+            "Only parent owner can do that"
+        );
+        require(childIndex < NUM_CHILD_SLOTS, "Invalid childIndex");
+        uint256 parentIndex = serialOf(parentId) - 1;
+        uint256 childId = children[parentIndex][childIndex];
+        require(childId != 0, "No child token in slot");
+        require(
+            ownerOf(childId) == msg.sender,
+            "Only child owner can do that"
+        );
+        parent[serialOf(childId) - NUM_PARENT_TOKENS] = 0;
+        children[parentIndex][childIndex] = 0;
+    }
+
+    function attachChild(
+        uint256 parentId,
+        uint256 childId,
+        uint256 childIndex
+    ) public {
+        require(
+            ownerOf(parentId) == msg.sender,
+            "Only parent owner can do that"
+        );
+        require(
+            ownerOf(childId) == msg.sender,
+            "Only child owner can do that"
+        );
+        require(childIndex < NUM_CHILD_SLOTS, "Invalid childIndex");
+        require (parent[childIndex] != 0, "Child is already attached.");
+        uint256 parentIndex = serialOf(parentId) - 1;
+        parent[serialOf(childId) - NUM_PARENT_TOKENS] = parentId;
+        children[parentIndex][childIndex] = childId;
     }
 
     function pause() public onlyOwner {
@@ -63,6 +152,41 @@ contract IsArtTokenComposition is ERC721, ERC721Enumerable, Pausable, Ownable {
         baseUri = newUri;
     }
 
+    function _afterTokenTransfer(
+        address /*from*/,
+        address to,
+        uint256 firstTokenId,
+        uint256 /*batchSize*/
+    )
+        internal
+        virtual
+        override
+        nonReentrant
+    {
+        // Note that if the transfer succeeded, the transfer was valid.
+        // We therefore transfer any attached child tokens as well.
+        if (kindOf(firstTokenId) == PARENT_KIND) {
+            uint256 parentIndex = serialOf(firstTokenId) - 1;
+            for (uint256 i = 0; i < NUM_CHILD_SLOTS; i++) {
+                uint256 childId = children[parentIndex][i];
+                if (childId != 0) {
+                    // Allow transfers when parent is authed.
+                    //address previousOwner =
+                    _transfer(msg.sender, to, childId);
+                    /*if (previousOwner != from) {
+                      revert ERC721IncorrectOwner(
+                      from,
+                      tokenId,
+                      previousOwner
+                      );
+                      }*/
+                }
+            }
+        }
+    }
+
+    // The following functions are overrides required by Solidity.
+
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
         internal
         whenNotPaused
@@ -70,8 +194,6 @@ contract IsArtTokenComposition is ERC721, ERC721Enumerable, Pausable, Ownable {
     {
         super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
-
-    // The following functions are overrides required by Solidity.
 
     function supportsInterface(bytes4 interfaceId)
         public

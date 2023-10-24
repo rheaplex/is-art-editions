@@ -3,6 +3,8 @@
 // Copyright:               2023 Myers Studio, Ltd.
 pragma solidity 0.8.17;
 
+/* solium-disable security/no-block-members */
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
@@ -28,7 +30,7 @@ contract IsArtTokenLottery is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     constructor() ERC721("Is Art (Token, Lottery)", "ISATL") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            // Set internal state before interacting with other conacts
+            // Set internal state before interacting with other contracts.
             is_art[i - 1] = "is not";
             _mint(msg.sender, i);
         }
@@ -42,20 +44,25 @@ contract IsArtTokenLottery is ERC721, ERC721Enumerable, Pausable, Ownable {
         uint256 index = tokenId - 1;
         bytes6 previous = is_art[index];
         // This is weak but works for our purposes.
-        uint256 rnd = uint256(keccak256(abi.encodePacked(
-                                            block.timestamp,
-                                            block.difficulty))) % 2;
+        uint256 rnd = uint256(
+            keccak256(
+                abi.encodePacked(block.timestamp, block.difficulty)
+            )) % 2;
         if (rnd == 1) {
             is_art[index] = "is not";
         } else {
             is_art[index] = "is";
         }
-        emit Status(tokenId, is_art[index], previous, msg.sender,
-                   keccak256(abi.encodePacked(
-                                            block.timestamp,
-                                            block.difficulty)),
-                   block.timestamp,
-                    block.difficulty);
+        emit Status(
+            tokenId,
+            is_art[index],
+            previous,
+            msg.sender,
+            keccak256(
+                abi.encodePacked(block.timestamp, block.difficulty)
+            ),
+            block.timestamp,
+            block.difficulty);
     }
 
     function tokenIsArt (uint256 tokenId) external view returns (bytes6) {

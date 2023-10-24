@@ -1,6 +1,5 @@
 {
     "devDependencies": {
-        "@openzeppelin/contracts": "^4.7.3",
         "eslint": "^8.32.0",
         "truffle-plugin-stdjsonin": "github:mhrsalehi/truffle-plugin-stdjsonin"
     },
@@ -26,6 +25,7 @@
     "description": "Anxieties of ownership and co-ordination as art in the market.",
     "license": "GPL-v3-or-later",
     "dependencies": {
+        "@openzeppelin/contracts": "4.9.3",
         "@truffle/hdwallet-provider": "^2.1.15"
     }
 }

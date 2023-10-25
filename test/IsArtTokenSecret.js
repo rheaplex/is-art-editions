@@ -4,7 +4,7 @@ const crypto = require('crypto');
 
 const testErc721 = require('../lib/testErc721.js');
 
-const NUM_TOKENS = web3.utils.toBN(16);
+const NUM_TOKENS = 16;
 const IsArtTokenSecret = artifacts.require("IsArtTokenSecret");
 
 // Yes, I know. This isn't serious crypto, and we need shorter ciphertexts.

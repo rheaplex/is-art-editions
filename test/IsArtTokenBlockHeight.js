@@ -1,6 +1,8 @@
 /* global expect web3 */
 
-const NUM_TOKENS = web3.utils.toBN(16);
+const testErc721 = require('../lib/testErc721.js');
+
+const NUM_TOKENS = 16;
 const IS_BYTES6 = "0x697300000000";
 const IS_NOT_BYTES6 = "0x6973206e6f74";
 const IsArtTokenBlockHeight = artifacts.require("IsArtTokenBlockHeight");
@@ -10,14 +12,13 @@ contract("IsArtTokenBlockHeight", (accounts) => {
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {
-    const isArtToken = await IsArtTokenBlockHeight.deployed();
-    const num_tokens = await isArtToken.NUM_TOKENS();
-
-    expect(num_tokens.eq(NUM_TOKENS)).to.be.true;
-    expect(await isArtToken.name()).to.equal("Is Art (Token, Block Height)");
-    expect(await isArtToken.symbol()).to.equal("ISATBH");
-
-    expect(num_tokens.eq(await isArtToken.balanceOf(owner))).to.be.true;
+    await testErc721.setup(
+      accounts,
+      IsArtTokenBlockHeight,
+      "Is Art (Token, Block Height)",
+      "ISATBH",
+      NUM_TOKENS
+    );
   });
 
   it("Should properly calculate state", async function () {

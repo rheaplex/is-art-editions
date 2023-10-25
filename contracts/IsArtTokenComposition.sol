@@ -22,6 +22,8 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
     uint8 public constant PARENT_KIND = 112;
     uint8 public constant CHILD_KIND = 107;
 
+    uint256 private constant CHILD_OFFSET = NUM_PARENT_TOKENS + 1;
+
     event Status(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
@@ -32,22 +34,33 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
 
     constructor() ERC721("Is Art (Token, Composition)", "ISATC") {}
 
-    function mintTokens(uint256[] calldata tokenIds) public onlyOwner {
+    function mintTokens(
+        uint256[] calldata tokenIds,
+        uint256[] calldata parentIds,
+        uint256[] calldata childIndexes
+    ) public onlyOwner {
         require(
             tokenIds.length + totalSupply() <= NUM_TOKENS,
             "This would mint too many tokens"
         );
         for (uint256 i = 0; i < tokenIds.length; i++) {
-            _mint(msg.sender, tokenIds[i]);
+            uint256 tokenId = tokenIds[i];
+            _mint(msg.sender, tokenId);
+            uint256 parentId = parentIds[i];
+            if (parentId != 0) {
+                parent[serialOf(tokenId) - CHILD_OFFSET] = parentId;
+                uint256 parentIndex = serialOf(parentId) - 1;
+                children[parentIndex][childIndexes[i]] = tokenId;
+            }
         }
     }
 
-    function serialOf(uint256 tokenId) public pure returns (uint64) {
-        return uint64(tokenId >> 88);
+    function kindOf(uint256 tokenId) public pure returns (uint8) {
+        return uint8(tokenId >> 148);
     }
 
-    function kindOf(uint256 tokenId) public pure returns (uint8) {
-        return uint8(tokenId >> 80);
+    function serialOf(uint256 tokenId) public pure returns (uint64) {
+        return uint64(tokenId >> 80);
     }
 
     function textOf(uint tokenId) public pure returns (string memory value) {
@@ -87,7 +100,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
 
     function parentOf(uint256 tokenId) public view returns (uint256) {
         require(kindOf(tokenId) == CHILD_KIND, "Not a child token");
-        return parent[serialOf(tokenId) - 1];
+        return parent[serialOf(tokenId) - CHILD_OFFSET];
     }
 
     function childrenOf(uint256 tokenId)
@@ -112,7 +125,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
             ownerOf(childId) == msg.sender,
             "Only child owner can do that"
         );
-        parent[serialOf(childId) - NUM_PARENT_TOKENS] = 0;
+        parent[serialOf(childId) - CHILD_OFFSET] = 0;
         children[parentIndex][childIndex] = 0;
     }
 
@@ -132,7 +145,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
         require(childIndex < NUM_CHILD_SLOTS, "Invalid childIndex");
         require (parent[childIndex] != 0, "Child is already attached.");
         uint256 parentIndex = serialOf(parentId) - 1;
-        parent[serialOf(childId) - NUM_PARENT_TOKENS] = parentId;
+        parent[serialOf(childId) - CHILD_OFFSET] = parentId;
         children[parentIndex][childIndex] = childId;
     }
 

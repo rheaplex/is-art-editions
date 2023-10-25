@@ -7,6 +7,8 @@ const IS_BYTES6 = "0x697300000000";
 const IS_NOT_BYTES6 = "0x6973206e6f74";
 const IsArtToken = artifacts.require("IsArtToken");
 
+const TOKENIDS = require('../lib/composition.js').generateTokenIds();
+
 contract("IsArtToken", (accounts) => {
   const owner = accounts[0];
   const other = accounts[1];

@@ -2,7 +2,7 @@
 
 const testErc721 = require('../lib/testErc721.js');
 
-const NUM_TOKENS = web3.utils.toBN(16);
+const NUM_TOKENS = 16;
 const IsArtTokenIsX = artifacts.require("IsArtTokenIsX");
 
 contract("IsArtTokenIsX", (accounts) => {

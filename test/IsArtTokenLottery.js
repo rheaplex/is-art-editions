@@ -2,7 +2,7 @@
 
 const testErc721 = require('../lib/testErc721.js');
 
-const NUM_TOKENS = web3.utils.toBN(16);
+const NUM_TOKENS = 16;
 const THRESHOLD = 8;
 const PERCENTAGE = 6.25;
 const IsArtTokenLottery = artifacts.require("IsArtTokenLottery");

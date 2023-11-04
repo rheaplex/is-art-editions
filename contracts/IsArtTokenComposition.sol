@@ -15,7 +15,7 @@ contract IsArtTokenComposition
 is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
 {
     uint256 public constant NUM_PARENT_TOKENS = 16;
-    uint256 public constant NUM_CHILD_SLOTS = 5;
+    uint256 public constant NUM_CHILD_SLOTS = 6;
     uint256 public constant NUM_CHILD_TOKENS = NUM_PARENT_TOKENS * NUM_CHILD_SLOTS;
     uint256 public constant NUM_TOKENS = NUM_PARENT_TOKENS + NUM_CHILD_TOKENS;
 
@@ -56,7 +56,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
     }
 
     function kindOf(uint256 tokenId) public pure returns (uint8) {
-        return uint8(tokenId >> 148);
+        return uint8(tokenId >> (64 + 80));
     }
 
     function serialOf(uint256 tokenId) public pure returns (uint64) {
@@ -84,7 +84,11 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
         view
         returns (string memory is_art)
     {
-        // REQUIRE EXISTS!!!!!
+        // ownerOf() throws if the token doesn't exist, this just documents it.
+        require(
+            ownerOf(tokenId) != address(0),
+            "No such token."
+        );
         is_art = textOf(tokenId);
         if (kindOf(tokenId) == PARENT_KIND) {
             uint256 serial = uint256(serialOf(tokenId));
@@ -92,7 +96,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
             for (uint256 i = 0; i < NUM_CHILD_SLOTS; i++) {
                 uint256 child = children[index][i];
                 if(child != 0) {
-                    is_art = string.concat(is_art, textOf(child));
+                    is_art = string.concat(is_art, ' ', textOf(child));
                 }
             }
         }
@@ -106,7 +110,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
     function childrenOf(uint256 tokenId)
         public
         view
-        returns (uint256[5] memory)
+        returns (uint256[NUM_CHILD_SLOTS] memory)
     {
         require(kindOf(tokenId) == PARENT_KIND, "Not a parent token");
         return children[serialOf(tokenId) - 1];

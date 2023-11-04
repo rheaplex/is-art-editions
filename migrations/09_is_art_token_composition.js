@@ -13,9 +13,9 @@ module.exports = async function(_deployer) {
         .toNumber();
   const num_slots = (await isArtTokenComposition.NUM_CHILD_SLOTS())
         .toNumber();
-  const parentIds = new Array(num_parents).fill('0x0')
+  const parentIds = new Array(num_parents).fill(web3.utils.toBN(0))
       .concat(tokenIds.slice(0, num_parents)
-              .map(id => new Array(num_parents).fill(id))
+              .map(id => new Array(num_slots).fill(id))
               .flat());
   const childIndexes = new Array(num_parents).fill(0)
       .concat(new Array(num_parents)

@@ -1,5 +1,5 @@
 const NUM_PARENT_TOKENS = 16;
-const NUM_CHILD_SLOTS = 5;
+const NUM_CHILD_SLOTS = 6;
 const NUM_CHILD_TOKENS = NUM_PARENT_TOKENS * NUM_CHILD_SLOTS;
 const NUM_TOKENS = NUM_PARENT_TOKENS + NUM_CHILD_TOKENS;
 
@@ -16,8 +16,8 @@ const TEXT_LENGTH = 10;
 //const PADDING_LENGTH = 32 - (KIND_LENGTH + SERIAL_LENGTH + TEXT_LENGTH);
 //const LEFT_PADDING = '0'.repeat(PADDING_LENGTH * 2);
 
-const PARENT_TEXT = 'this token';
-const CHILD_TEXTS = ['is', 'not', 'art', 'by', 'rhea'];
+const PARENT_TEXT = 'this';
+const CHILD_TEXTS = ['token', 'is', 'not', 'art', 'by', 'rhea'];
 
 const toHex = str => str
       .split('')
@@ -28,7 +28,7 @@ const toField = (str, len) => toHex(str).padStart(len * 2, '0');
 
 const tokenId = (kind, serial, text) => {
   return '0x'.concat(
-    toField(kind, KIND_LENGTH),
+    kind,
     serial.toString(16).padStart(SERIAL_LENGTH * 2, '0'),
     toField(text, TEXT_LENGTH)
   );

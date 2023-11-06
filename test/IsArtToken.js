@@ -29,6 +29,18 @@ contract("IsArtToken", (accounts) => {
     }
   });
 
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtToken
+    ));
+
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtToken
+  ));
+
   it("Should allow owner to toggle state", async function () {
     const isArtToken = await IsArtToken.deployed();
     const num_tokens = await isArtToken.NUM_TOKENS();

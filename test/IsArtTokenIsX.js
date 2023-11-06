@@ -32,13 +32,17 @@ contract("IsArtTokenIsX", (accounts) => {
       ]);
   });
 
-  it("Should handle transfers correctly", async function () {
-    await testErc721.transfers(accounts, IsArtTokenIsX);
-  });
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtTokenIsX
+    ));
 
-  it("Should handle URLs correctly", async () => {
-    await testErc721.urls(accounts, IsArtTokenIsX);
-  });
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtTokenIsX
+  ));
 
   it("Should allow owner to set definition", async function () {
     const isArtTokenIsX = await IsArtTokenIsX.deployed();

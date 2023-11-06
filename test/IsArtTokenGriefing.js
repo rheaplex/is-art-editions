@@ -29,6 +29,18 @@ contract("IsArtTokenGriefing", (accounts) => {
     }
   });
 
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtTokenGriefing
+    ));
+
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtTokenGriefing
+  ));
+
   it("Should allow owner to toggle state", async function () {
     const isArtTokenGriefing = await IsArtTokenGriefing.deployed();
     const num_tokens = await isArtTokenGriefing.NUM_TOKENS();
@@ -43,7 +55,6 @@ contract("IsArtTokenGriefing", (accounts) => {
           .to.equal("is not");
       }
     }
-
   });
 
   it("Should emit toggle status events", async function () {

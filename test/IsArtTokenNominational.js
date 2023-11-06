@@ -10,23 +10,32 @@ const IsArtTokenNominational = artifacts.require("IsArtTokenNominational");
 
 const DummyERC721 = artifacts.require("DummyERC721");
 
-contract("IsArtTokenNominational", (accounts) => {
+contract("IsArtTokenNominational", async (accounts) => {
   const owner = accounts[0];
   const other = accounts[1];
 
-  let erc721;
+  let erc721  = await DummyERC721.new();
 
-  it("Should initialize contract state correctly", async function () {
-    await testErc721.setup(
+  it("Should initialize contract state correctly", async () =>
+    testErc721.setup(
       accounts,
       IsArtTokenNominational,
       "Is Art (Token, Nominational)",
       "ISATN",
       NUM_TOKENS
-    );
+    ));
 
-    erc721 = await DummyERC721.new();
-  });
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtTokenNominational
+    ));
+
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtTokenNominational
+  ));
 
   it("Should allow nft owner to nominate token they own", async function () {
     const isArtTokenNominational = await IsArtTokenNominational.deployed();

@@ -28,13 +28,17 @@ contract("IsArtTokenDemocratic", (accounts) => {
     expect(await isArtTokenDemocratic.tokenIsArt()) .to.equal(false);
   });
 
-  it("Should handle transfers correctly", async function () {
-    await testErc721.transfers(accounts, IsArtTokenDemocratic);
-  });
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtTokenDemocratic
+    ));
 
-  it("Should handle URLs correctly", async () => {
-    await testErc721.urls(accounts, IsArtTokenDemocratic);
-  });
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtTokenDemocratic
+  ));
 
   it("Should allow owner to toggle state", async function () {
     const isArtTokenDemocratic = await IsArtTokenDemocratic.deployed();

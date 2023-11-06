@@ -178,7 +178,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
         internal
         virtual
         override
-        nonReentrant
+    /*nonReentrant*/ // Sadly we do need to be reentrant.
     {
         // Note that if the transfer succeeded, the transfer was valid.
         // We therefore transfer any attached child tokens as well.

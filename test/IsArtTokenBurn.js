@@ -29,6 +29,14 @@ contract("IsArtTokenBurn", (accounts) => {
     }
   });
 
+  it("Should handle transfers correctly", async function () {
+    await testErc721.transfers(accounts, IsArtTokenBurn);
+  });
+
+  it("Should handle URLs correctly", async () => {
+    await testErc721.urls(accounts, IsArtTokenBurn);
+  });
+
   it("Should allow owner to burn", async function () {
     const isArtTokenBurn = await IsArtTokenBurn.deployed();
     await isArtTokenBurn.burn(1);

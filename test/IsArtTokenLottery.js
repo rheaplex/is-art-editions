@@ -44,13 +44,17 @@ contract("IsArtTokenLottery", (accounts) => {
       .to.equal("is not");
   });
 
-  it("Should handle transfers correctly", async function () {
-    await testErc721.transfers(accounts, IsArtTokenLottery);
-  });
-
-  it("Should handle URLs correctly", async () => {
-    await testErc721.urls(accounts, IsArtTokenLottery);
-  });
+  it("Should handle ERC721 transfers correctly", async () =>
+    testErc721.transfers(
+      accounts,
+      IsArtTokenLottery
+    ));
+  
+  it("Should handle ERC721 urls correctly", async () =>
+    testErc721.urls(
+      accounts,
+      IsArtTokenLottery
+  ));
 
   it("Should allow owner to toggle state", async function () {
     const isArtTokenLottery = await IsArtTokenLottery.deployed();

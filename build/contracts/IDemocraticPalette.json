@@ -1,0 +1,331 @@
+{
+  "contractName": "IDemocraticPalette",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "palette",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "red",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8",
+              "name": "green",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8",
+              "name": "blue",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "votes",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IDemocraticPalette.Colour",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"palette\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"red\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"green\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"blue\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"votes\",\"type\":\"uint256\"}],\"internalType\":\"struct IDemocraticPalette.Colour\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/IDemocraticPalette.sol\":\"IDemocraticPalette\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/IDemocraticPalette.sol\":{\"keccak256\":\"0xfd2dd08e070c42300f1686478437d33c1a7be95c55f5d2368927ae52dcb222d8\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://ed9580bd24480fe56bb392e17d66479cc0708fc3952f7ea263f6ecc828b5b154\",\"dweb:/ipfs/QmYkY8grzcj2TNWocjanFYrXZvqeDfdoNHBGjaovUV1g3T\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: GPL-3.0-or-later\n\npragma solidity ^0.8.17;\n\ninterface IDemocraticPalette {\n\n    struct Colour {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n        uint votes;\n    }\n\n    // Store the most voted-for colours as the palette\n     function palette (uint256 index) external returns (Colour memory);\n\n}\n",
+  "sourcePath": "/home/rhea/projects/is-art-editions/contracts/IDemocraticPalette.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/IDemocraticPalette.sol",
+    "exportedSymbols": {
+      "IDemocraticPalette": [
+        3301
+      ]
+    },
+    "id": 3302,
+    "license": "GPL-3.0-or-later",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 3283,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".17"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "46:24:15"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IDemocraticPalette",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 3301,
+        "linearizedBaseContracts": [
+          3301
+        ],
+        "name": "IDemocraticPalette",
+        "nameLocation": "82:18:15",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "IDemocraticPalette.Colour",
+            "id": 3292,
+            "members": [
+              {
+                "constant": false,
+                "id": 3285,
+                "mutability": "mutable",
+                "name": "red",
+                "nameLocation": "138:3:15",
+                "nodeType": "VariableDeclaration",
+                "scope": 3292,
+                "src": "132:9:15",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint8",
+                  "typeString": "uint8"
+                },
+                "typeName": {
+                  "id": 3284,
+                  "name": "uint8",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "132:5:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3287,
+                "mutability": "mutable",
+                "name": "green",
+                "nameLocation": "157:5:15",
+                "nodeType": "VariableDeclaration",
+                "scope": 3292,
+                "src": "151:11:15",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint8",
+                  "typeString": "uint8"
+                },
+                "typeName": {
+                  "id": 3286,
+                  "name": "uint8",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "151:5:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3289,
+                "mutability": "mutable",
+                "name": "blue",
+                "nameLocation": "178:4:15",
+                "nodeType": "VariableDeclaration",
+                "scope": 3292,
+                "src": "172:10:15",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint8",
+                  "typeString": "uint8"
+                },
+                "typeName": {
+                  "id": 3288,
+                  "name": "uint8",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "172:5:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 3291,
+                "mutability": "mutable",
+                "name": "votes",
+                "nameLocation": "197:5:15",
+                "nodeType": "VariableDeclaration",
+                "scope": 3292,
+                "src": "192:10:15",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 3290,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "192:4:15",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Colour",
+            "nameLocation": "115:6:15",
+            "nodeType": "StructDefinition",
+            "scope": 3301,
+            "src": "108:101:15",
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "9cb71ef8",
+            "id": 3300,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "palette",
+            "nameLocation": "280:7:15",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3295,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3294,
+                  "mutability": "mutable",
+                  "name": "index",
+                  "nameLocation": "297:5:15",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3300,
+                  "src": "289:13:15",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 3293,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "289:7:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "288:15:15"
+            },
+            "returnParameters": {
+              "id": 3299,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3298,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3300,
+                  "src": "322:13:15",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Colour_$3292_memory_ptr",
+                    "typeString": "struct IDemocraticPalette.Colour"
+                  },
+                  "typeName": {
+                    "id": 3297,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 3296,
+                      "name": "Colour",
+                      "nameLocations": [
+                        "322:6:15"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3292,
+                      "src": "322:6:15"
+                    },
+                    "referencedDeclaration": 3292,
+                    "src": "322:6:15",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Colour_$3292_storage_ptr",
+                      "typeString": "struct IDemocraticPalette.Colour"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "321:15:15"
+            },
+            "scope": 3301,
+            "src": "271:66:15",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3302,
+        "src": "72:268:15",
+        "usedErrors": []
+      }
+    ],
+    "src": "46:295:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2023-11-09T01:16:02.118Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

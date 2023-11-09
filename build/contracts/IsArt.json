@@ -1,0 +1,167 @@
+{
+  "contractName": "IsArt",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "is_art",
+      "outputs": [
+        {
+          "internalType": "bytes6",
+          "name": "",
+          "type": "bytes6"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "toggle",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"is_art\",\"outputs\":[{\"internalType\":\"bytes6\",\"name\":\"\",\"type\":\"bytes6\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"toggle\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/IIsArt.sol\":\"IsArt\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/IIsArt.sol\":{\"keccak256\":\"0xeb737a460f4bd219f565b7db7039cdaaed08cc5d1a1e256e103840d85d695e19\",\"urls\":[\"bzz-raw://2c5bb3dff333a6fc6832afaff585dd27eeb8831dc8497cc7406cd50ff350882e\",\"dweb:/ipfs/QmcG84hKw8iVKWzKg4oYDk8ytd1XZN7DbQmtjbx92TePyx\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "interface IsArt {\n\n    function is_art () external returns (bytes6);\n\n    function toggle () external;\n\n}\n",
+  "sourcePath": "/home/rhea/projects/is-art-editions/contracts/IIsArt.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/IIsArt.sol",
+    "exportedSymbols": {
+      "IsArt": [
+        3430
+      ]
+    },
+    "id": 3431,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IsArt",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 3430,
+        "linearizedBaseContracts": [
+          3430
+        ],
+        "name": "IsArt",
+        "nameLocation": "10:5:17",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "16f5066a",
+            "id": 3426,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "is_art",
+            "nameLocation": "32:6:17",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3422,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "39:2:17"
+            },
+            "returnParameters": {
+              "id": 3425,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 3424,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 3426,
+                  "src": "60:6:17",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes6",
+                    "typeString": "bytes6"
+                  },
+                  "typeName": {
+                    "id": 3423,
+                    "name": "bytes6",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "60:6:17",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes6",
+                      "typeString": "bytes6"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "59:8:17"
+            },
+            "scope": 3430,
+            "src": "23:45:17",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "40a3d246",
+            "id": 3429,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "toggle",
+            "nameLocation": "83:6:17",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 3427,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "90:2:17"
+            },
+            "returnParameters": {
+              "id": 3428,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "101:0:17"
+            },
+            "scope": 3430,
+            "src": "74:28:17",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 3431,
+        "src": "0:105:17",
+        "usedErrors": []
+      }
+    ],
+    "src": "0:106:17"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2023-11-08T23:22:54.867Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

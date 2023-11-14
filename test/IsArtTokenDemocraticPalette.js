@@ -1,240 +1,118 @@
-/* global artifacts expect web3 */
+/* global artifacts before contract expect it web3 */
 
 const testErc721 = require('../lib/testErc721.js');
-const IsArtTokenComposition = artifacts.require("IsArtTokenComposition");
-const composition = require('../lib/composition.js');
 
-const tokenText = id => web3.utils.hexToAscii(
-  `0x${id.substring(20)}`
-).replace(/^\0+/, '');
+const DemocraticPalette = artifacts.require("DemocraticPalette");
+const IsArtTokenDemocraticPalette = artifacts.require(
+  "IsArtTokenDemocraticPalette"
+);
 
-contract("IsArtTokenComposition", (accounts) => {
+const NUM_TOKENS = 16;
+const IS_BYTES6 = "0x697300000000";
+const IS_NOT_BYTES6 = "0x6973206e6f74";
+const COLOURS = [
+  [255, 0, 0],
+  [0, 255, 0],
+  [0, 0, 255],
+  [255, 255, 0],
+  [255, 0, 255],
+  [0, 255, 255],
+  [255, 255, 255],
+];
+
+const cssColour = colour => `${colour.red.toString(16).padStart(2, '0').toUpperCase()}${colour.green.toString(16).padStart(2, '0').toUpperCase()}${colour.blue.toString(16).padStart(2, '0').toUpperCase()}`;
+
+const renderStatus = async (democraticPalette, tokenId, is) => {
+  return `<div style="color: #${cssColour(await democraticPalette.palette(0))};"><span style="color: #${cssColour(await democraticPalette.palette(1))};">this contract</span> <span style="color: #${cssColour(await democraticPalette.palette(2))};">${is}</span> <span style="color: #${cssColour(await democraticPalette.palette(3))};"/>art</span>`
+};
+
+contract("IsArtTokenDemocraticPalette", (accounts) => {
   const owner = accounts[0];
   const other = accounts[1];
+
+  before(async function () {
+    const democraticPalette = await DemocraticPalette.deployed();
+    // Populate the colours
+    for (let i = 0; i < COLOURS.length; i++) {
+      const colour = COLOURS[i];
+      await democraticPalette.voteFor(...colour);
+    }
+  });
 
   it("Should initialize contract state correctly", async () =>
     testErc721.setup(
       accounts,
-      IsArtTokenComposition,
-      "Is Art (Token, Composition)",
-      "ISATC",
-      composition.NUM_TOKENS));
-
-  it("Should mint tokens with correct names & structure", async function () {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const num_tokens = (await isArtTokenComposition.NUM_TOKENS()).toNumber();
-
-    for (let i = 0; i < num_tokens; i++) {
-      const id = composition.TOKEN_IDS[i];
-      // Whole token ID.
-      // Strip 0x.
-      expect((await isArtTokenComposition.tokenByIndex(i)).toString(16))
-        .to.equal(id.substring(2));
-      // Token kind.
-      expect((await isArtTokenComposition.kindOf(id)).toNumber())
-        .to.equal(i < composition.NUM_PARENT_TOKENS
-                  ? composition.PARENT_KIND
-                  : composition.CHILD_KIND);
-      // Serial number.
-      // Token serials start at 1.
-      expect((await isArtTokenComposition.serialOf(id)).toNumber())
-        .to.equal(i + 1);
-      // Token text.
-      // Remove 0x, kind, and serial
-      expect(await isArtTokenComposition.textOf(id))
-        .to.equal(tokenText(id));
-      if (i < composition.NUM_PARENT_TOKENS) {
-        // Parent tokens.
-        // Parent/child relationships are checked for child tokens, not here.
-        const kids = await isArtTokenComposition
-              .childrenOf(composition.TOKEN_IDS[i]);
-        // Make sure we have all the initial kids set.
-        kids.map(a => a.toString(16) != '0');
-
-      } else {
-        // Child tokens.
-        // Strip 0x.
-        // Check parent.
-        expect((await isArtTokenComposition.parentOf(id)).toString(16))
-          .to.equal(composition.PARENT_IDS[i].substring(2));
-        // Check that this is the correct child of parent.
-        const kids = await isArtTokenComposition
-              .childrenOf(composition.PARENT_IDS[i]);
-        expect(kids[composition.CHILD_INDEXES[i]].toString(16))
-          .to.equal(id.substring(2));
-      }
-    }
-  });
-
-  it("Should render correct token text", async function () {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const num_tokens = (await isArtTokenComposition.NUM_TOKENS()).toNumber();
-
-    for (let i = 0; i < num_tokens; i++) {
-      const id = composition.TOKEN_IDS[i];
-      if (i < composition.NUM_PARENT_TOKENS) {
-        // Parent tokens.
-        const kids = await isArtTokenComposition
-                      .childrenOf(composition.TOKEN_IDS[i]);
-        // Make sure our text renders properly.
-        expect(await isArtTokenComposition.tokenIsArt(id))
-          .to.equal(
-            tokenText(id)
-              + ' '
-              + kids.map(a => tokenText(a.toString(16))).join(" ")
-          );
-      } else {
-        // Child tokens.
-        // Check that is == text
-        expect(await isArtTokenComposition.textOf(id))
-          .to.equal(await isArtTokenComposition.tokenIsArt(id));
-      }
-    }
-  });
+      IsArtTokenDemocraticPalette,
+      "Is Art (Token, Democratic Palette)",
+      "ISATDP",
+      NUM_TOKENS
+    ));
 
   it("Should handle ERC721 transfers correctly", async () =>
     testErc721.transfers(
       accounts,
-      IsArtTokenComposition
+      IsArtTokenDemocraticPalette
     ));
 
   it("Should handle ERC721 urls correctly", async () =>
     testErc721.urls(
       accounts,
-      IsArtTokenComposition
-  ));
+      IsArtTokenDemocraticPalette
+    ));
 
-  it("Should allow owner to remove and attach sub-tokens", async () => {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const parent = await isArtTokenComposition.tokenByIndex(4);
-    const children = await isArtTokenComposition.childrenOf(parent);
-
-    for (let i = 0; i < composition.NUM_CHILD_SLOTS; i++) {
-      try {
-        await isArtTokenComposition.detachChild(parent, i);
-        expect((await isArtTokenComposition.parentOf(children[i])).toNumber())
-          .to.equal(0);
-        expect((await isArtTokenComposition.childrenOf(parent))[i].toNumber())
-          .to.equal(0);
-      } catch (e) {
-        assert.fail(`Couldn't remove child token ${i}: ${e}.`);
-      }
-    }
-
-    const parentBN = web3.utils.toBN(parent);
-    for (let i = 0; i < composition.NUM_CHILD_SLOTS; i++) {
-      const j = composition.NUM_CHILD_SLOTS - (i + 1);
-      try {
-        await isArtTokenComposition.attachChild(parent, children[j], i);
-        expect((await isArtTokenComposition.parentOf(children[j]))
-               .eq(parentBN))
-          .to.equal(true);
-        expect((await isArtTokenComposition.childrenOf(parent))[i]
-               .eq(web3.utils.toBN(children[j])))
-          .to.equal(true);
-      } catch (e) {
-        assert.fail(`Couldn't attach child token ${i}: ${e}.`);
-      }
-    }
+  it("Should render status correctly", async () => {
+    const isArtTokenDemocraticPalette
+          = await IsArtTokenDemocraticPalette.deployed();
+    const democraticPalette = await DemocraticPalette.deployed();
+    
+    const rendered = await renderStatus(democraticPalette, 1, 'is not');
+    const status = await isArtTokenDemocraticPalette.tokenIsArt.call(1);
+    
+    expect(status).to.equal(rendered);
   });
 
-  it("Should not allow non-owner to remove or attach sub-tokens", async () => {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const parent = await isArtTokenComposition.tokenByIndex(5);
-    const children = await isArtTokenComposition.childrenOf(parent);
+  it("Should allow token holder to toggle", async () => {
+    const isArtTokenDemocraticPalette
+          = await IsArtTokenDemocraticPalette.deployed();
+    const democraticPalette = await DemocraticPalette.deployed();
 
-    try {
-      await isArtTokenComposition.detachChild(parent, 0, { from: other });
-      assert.fail(`Non-owner (both) removed child token.`);
-    } catch (e) {}
+    await isArtTokenDemocraticPalette.toggle(2);
+    let rendered = await renderStatus(democraticPalette, 2, 'is');
+    let status = await isArtTokenDemocraticPalette.tokenIsArt.call(2);
+    expect(status).to.equal(rendered);
 
-    await isArtTokenComposition.detachChild(parent, 1);
-
-    try {
-      await isArtTokenComposition.attachChild(
-        parent,
-        children[1],
-        { from: other }
-      );
-      assert.fail('Non-owner (both) attached child token.');
-    } catch (e) {}
-
-    await isArtTokenComposition.transferFrom(owner, other, children[1]);
-
-    try {
-      await isArtTokenComposition.attachChild(
-        parent,
-        children[1],
-        1,
-        { from: other }
-      );
-      assert.fail('Non-owner (parent) attached child token.');
-    } catch (e) {}
-
-    try {
-      await isArtTokenComposition.attachChild(
-        parent,
-        children[1],
-        1
-      );
-      assert.fail('Non-owner (child) attached child token.');
-    } catch (e) {}
+    await isArtTokenDemocraticPalette.toggle(2);
+    rendered = await renderStatus(democraticPalette, 2, 'is not');
+    status = await isArtTokenDemocraticPalette.tokenIsArt.call(2);
+    expect(status).to.equal(rendered);
   });
 
-  it("Should not allow owner to overwrite sub-tokens", async () => {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const parent = await isArtTokenComposition.tokenByIndex(6);
-    const children = await isArtTokenComposition.childrenOf(parent);
+  it("Should emit toggle status events", async function () {
+    const isArtTokenDemocraticPalette
+          = await IsArtTokenDemocraticPalette.deployed();
 
-    await isArtTokenComposition.detachChild(parent, 0);
+    let result = await isArtTokenDemocraticPalette.toggle(3);
+    expect(result.logs.length).to.equal(1);
+    expect(result.logs[0].event).to.equal("Status");
+    expect(result.logs[0].args.tokenId.toNumber()).to.equal(3);
+    expect(result.logs[0].args.is_art).to.equal(IS_BYTES6);
 
-    try {
-      await isArtTokenComposition.attachChild(
-        parent,
-        children[0],
-        1
-      );
-      assert.fail('Overwrote child token.');
-    } catch (e) {}
-
-    await isArtTokenComposition.transferFrom(owner, other, children[1]);
+    result = await isArtTokenDemocraticPalette.toggle(3);
+    expect(result.logs.length).to.equal(1);
+    expect(result.logs[0].event).to.equal("Status");
+    expect(result.logs[0].args.tokenId.toNumber()).to.equal(3);
+    expect(result.logs[0].args.is_art).to.equal(IS_NOT_BYTES6);
   });
 
-  it("Should transfer sub-tokens with parent token", async () => {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const parent = await isArtTokenComposition.tokenByIndex(7);
-
-    await isArtTokenComposition.transferFrom(owner, other, parent);
-    const children = await isArtTokenComposition.childrenOf(parent);
-
-    for (let i = 0; i < composition.NUM_CHILD_SLOTS; i++) {
-      const child = children[i];
-      // Check parent.
-      expect((await isArtTokenComposition.parentOf(child)).eq(parent))
-        .to.equal(true);
-      // Check owner.
-      expect(await isArtTokenComposition.ownerOf(child))
-        .to.equal(other);
-    }
-  });
-
-  it("Should not transfer sub-tokens if transfer fails", async () => {
-    const isArtTokenComposition = await IsArtTokenComposition.deployed();
-    const parent = await isArtTokenComposition.tokenByIndex(8);
+  it("Should not allow non-owner to toggle state", async function () {
+    const isArtTokenDemocraticPalette = await IsArtTokenDemocraticPalette.deployed();
 
     try {
-      await isArtTokenComposition.transferFrom(other, owner, parent);
-    } catch (e) {};
-    const children = await isArtTokenComposition.childrenOf(parent);
-
-    for (let i = 0; i < composition.NUM_CHILD_SLOTS; i++) {
-      const child = children[i];
-      // Check parent.
-      expect((await isArtTokenComposition.parentOf(child)).eq(parent))
-        .to.equal(true);
-      // Check owner.
-      expect(await isArtTokenComposition.ownerOf(child))
-        .to.equal(owner);
+      await isArtTokenDemocraticPalette.toggle(3, { from: other });
+      expect.fail("Non-token-holder toggled state!");
+    } catch (error) {
+      expect(error.data.reason)
+        .to.equal("Only token holder can toggle state");
     }
   });
 

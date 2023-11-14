@@ -27,7 +27,10 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
 
     bytes6[NUM_TOKENS] private is_art;
 
-    constructor(address palette) ERC721("Is Art (Token)", "ISAT") {
+    constructor(address palette) ERC721(
+        "Is Art (Token, Democratic Palette)",
+        "ISATDP"
+    ) {
         paletteContract = palette;
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
             // Set internal state before interacting with other conacts
@@ -61,13 +64,13 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
         return string(abi.encodePacked(
             bytes20("<div style=\"color: #"),
             cssColour(palette.palette(0)),            
-            bytes23("\"><span style=\"color: #"),
+            bytes24(";\"><span style=\"color: #"),
             cssColour(palette.palette(1)),
             bytes24(";\">this contract</span> "),
             bytes21("<span style=\"color: #"),
             cssColour(palette.palette(2)),
             bytes3(";\">"),
-            is_art[index],
+            is_art[index] == bytes6("is") ? "is" : "is not",
             bytes29("</span> <span style=\"color: #"),
             cssColour(palette.palette(3)),
             bytes14(";\"/>art</span>")
@@ -82,8 +85,8 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
     ) {
         return bytes6(abi.encodePacked(
             uint8ToHex(col.red),
-            uint8ToHex(col.red),
-            uint8ToHex(col.red)
+            uint8ToHex(col.green),
+            uint8ToHex(col.blue)
         ));
     }
 

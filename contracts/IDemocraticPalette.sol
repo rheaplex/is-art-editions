@@ -12,6 +12,6 @@ interface IDemocraticPalette {
     }
 
     // Store the most voted-for colours as the palette
-     function palette (uint256 index) external returns (Colour memory);
+    function palette (uint256 index) external returns (Colour memory);
 
 }

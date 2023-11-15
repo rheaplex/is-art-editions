@@ -43,7 +43,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"palette\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"red\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"green\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"blue\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"votes\",\"type\":\"uint256\"}],\"internalType\":\"struct IDemocraticPalette.Colour\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/IDemocraticPalette.sol\":\"IDemocraticPalette\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/IDemocraticPalette.sol\":{\"keccak256\":\"0xfd2dd08e070c42300f1686478437d33c1a7be95c55f5d2368927ae52dcb222d8\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://ed9580bd24480fe56bb392e17d66479cc0708fc3952f7ea263f6ecc828b5b154\",\"dweb:/ipfs/QmYkY8grzcj2TNWocjanFYrXZvqeDfdoNHBGjaovUV1g3T\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"palette\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"red\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"green\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"blue\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"votes\",\"type\":\"uint256\"}],\"internalType\":\"struct IDemocraticPalette.Colour\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/IDemocraticPalette.sol\":\"IDemocraticPalette\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/IDemocraticPalette.sol\":{\"keccak256\":\"0x9962e51a26080b578099b07cac024b4c219b3096f26186431b3c83a0a92fe77a\",\"license\":\"GPL-3.0-or-later\",\"urls\":[\"bzz-raw://1b6a0e4607922ff743cf4ef9fbd35edfd844cc3eace7fb7119c260a7d2b82ed7\",\"dweb:/ipfs/QmUEjtHFohoWop2A1SRxVpVMLPQ3sA4zoKvJzRY4AZ8pk8\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -51,21 +51,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: GPL-3.0-or-later\n\npragma solidity ^0.8.17;\n\ninterface IDemocraticPalette {\n\n    struct Colour {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n        uint votes;\n    }\n\n    // Store the most voted-for colours as the palette\n     function palette (uint256 index) external returns (Colour memory);\n\n}\n",
+  "source": "// SPDX-License-Identifier: GPL-3.0-or-later\n\npragma solidity ^0.8.17;\n\ninterface IDemocraticPalette {\n\n    struct Colour {\n        uint8 red;\n        uint8 green;\n        uint8 blue;\n        uint votes;\n    }\n\n    // Store the most voted-for colours as the palette\n    function palette (uint256 index) external returns (Colour memory);\n\n}\n",
   "sourcePath": "/Users/rhea/projects/is-art-editions/contracts/IDemocraticPalette.sol",
   "ast": {
     "absolutePath": "project:/contracts/IDemocraticPalette.sol",
     "exportedSymbols": {
       "IDemocraticPalette": [
-        3287
+        3159
       ]
     },
-    "id": 3288,
+    "id": 3160,
     "license": "GPL-3.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3269,
+        "id": 3141,
         "literals": [
           "solidity",
           "^",
@@ -73,7 +73,7 @@
           ".17"
         ],
         "nodeType": "PragmaDirective",
-        "src": "46:24:16"
+        "src": "46:24:14"
       },
       {
         "abstract": false,
@@ -82,27 +82,27 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 3287,
+        "id": 3159,
         "linearizedBaseContracts": [
-          3287
+          3159
         ],
         "name": "IDemocraticPalette",
-        "nameLocation": "82:18:16",
+        "nameLocation": "82:18:14",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "IDemocraticPalette.Colour",
-            "id": 3278,
+            "id": 3150,
             "members": [
               {
                 "constant": false,
-                "id": 3271,
+                "id": 3143,
                 "mutability": "mutable",
                 "name": "red",
-                "nameLocation": "138:3:16",
+                "nameLocation": "138:3:14",
                 "nodeType": "VariableDeclaration",
-                "scope": 3278,
-                "src": "132:9:16",
+                "scope": 3150,
+                "src": "132:9:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -110,10 +110,10 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 3270,
+                  "id": 3142,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
-                  "src": "132:5:16",
+                  "src": "132:5:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint8",
                     "typeString": "uint8"
@@ -123,13 +123,13 @@
               },
               {
                 "constant": false,
-                "id": 3273,
+                "id": 3145,
                 "mutability": "mutable",
                 "name": "green",
-                "nameLocation": "157:5:16",
+                "nameLocation": "157:5:14",
                 "nodeType": "VariableDeclaration",
-                "scope": 3278,
-                "src": "151:11:16",
+                "scope": 3150,
+                "src": "151:11:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -137,10 +137,10 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 3272,
+                  "id": 3144,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
-                  "src": "151:5:16",
+                  "src": "151:5:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint8",
                     "typeString": "uint8"
@@ -150,13 +150,13 @@
               },
               {
                 "constant": false,
-                "id": 3275,
+                "id": 3147,
                 "mutability": "mutable",
                 "name": "blue",
-                "nameLocation": "178:4:16",
+                "nameLocation": "178:4:14",
                 "nodeType": "VariableDeclaration",
-                "scope": 3278,
-                "src": "172:10:16",
+                "scope": 3150,
+                "src": "172:10:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -164,10 +164,10 @@
                   "typeString": "uint8"
                 },
                 "typeName": {
-                  "id": 3274,
+                  "id": 3146,
                   "name": "uint8",
                   "nodeType": "ElementaryTypeName",
-                  "src": "172:5:16",
+                  "src": "172:5:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint8",
                     "typeString": "uint8"
@@ -177,13 +177,13 @@
               },
               {
                 "constant": false,
-                "id": 3277,
+                "id": 3149,
                 "mutability": "mutable",
                 "name": "votes",
-                "nameLocation": "197:5:16",
+                "nameLocation": "197:5:14",
                 "nodeType": "VariableDeclaration",
-                "scope": 3278,
-                "src": "192:10:16",
+                "scope": 3150,
+                "src": "192:10:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -191,10 +191,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 3276,
+                  "id": 3148,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
-                  "src": "192:4:16",
+                  "src": "192:4:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -204,34 +204,34 @@
               }
             ],
             "name": "Colour",
-            "nameLocation": "115:6:16",
+            "nameLocation": "115:6:14",
             "nodeType": "StructDefinition",
-            "scope": 3287,
-            "src": "108:101:16",
+            "scope": 3159,
+            "src": "108:101:14",
             "visibility": "public"
           },
           {
             "functionSelector": "9cb71ef8",
-            "id": 3286,
+            "id": 3158,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "palette",
-            "nameLocation": "280:7:16",
+            "nameLocation": "279:7:14",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3281,
+              "id": 3153,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3280,
+                  "id": 3152,
                   "mutability": "mutable",
                   "name": "index",
-                  "nameLocation": "297:5:16",
+                  "nameLocation": "296:5:14",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3286,
-                  "src": "289:13:16",
+                  "scope": 3158,
+                  "src": "288:13:14",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -239,10 +239,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 3279,
+                    "id": 3151,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "289:7:16",
+                    "src": "288:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -251,65 +251,65 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "288:15:16"
+              "src": "287:15:14"
             },
             "returnParameters": {
-              "id": 3285,
+              "id": 3157,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3284,
+                  "id": 3156,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3286,
-                  "src": "322:13:16",
+                  "scope": 3158,
+                  "src": "321:13:14",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Colour_$3278_memory_ptr",
+                    "typeIdentifier": "t_struct$_Colour_$3150_memory_ptr",
                     "typeString": "struct IDemocraticPalette.Colour"
                   },
                   "typeName": {
-                    "id": 3283,
+                    "id": 3155,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 3282,
+                      "id": 3154,
                       "name": "Colour",
                       "nameLocations": [
-                        "322:6:16"
+                        "321:6:14"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 3278,
-                      "src": "322:6:16"
+                      "referencedDeclaration": 3150,
+                      "src": "321:6:14"
                     },
-                    "referencedDeclaration": 3278,
-                    "src": "322:6:16",
+                    "referencedDeclaration": 3150,
+                    "src": "321:6:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Colour_$3278_storage_ptr",
+                      "typeIdentifier": "t_struct$_Colour_$3150_storage_ptr",
                       "typeString": "struct IDemocraticPalette.Colour"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "321:15:16"
+              "src": "320:15:14"
             },
-            "scope": 3287,
-            "src": "271:66:16",
+            "scope": 3159,
+            "src": "270:66:14",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 3288,
-        "src": "72:268:16",
+        "scope": 3160,
+        "src": "72:267:14",
         "usedErrors": []
       }
     ],
-    "src": "46:295:16"
+    "src": "46:294:14"
   },
   "compiler": {
     "name": "solc",
@@ -317,7 +317,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2023-11-14T02:42:16.381Z",
+  "updatedAt": "2023-11-15T00:25:56.332Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -1,14 +1,14 @@
-/* global expect web3 */
+/* global expect require web3 */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
+
+const IsArtTokenGriefing = artifacts.require("IsArtTokenGriefing");
 
 const NUM_TOKENS = 16;
 const IS_BYTES6 = "0x697300000000";
 const IS_NOT_BYTES6 = "0x6973206e6f74";
-const IsArtTokenGriefing = artifacts.require("IsArtTokenGriefing");
 
 contract("IsArtTokenGriefing", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {
@@ -82,7 +82,6 @@ contract("IsArtTokenGriefing", (accounts) => {
 
   it("Should not allow non-owner to toggle state", async function () {
     const isArtTokenGriefing = await IsArtTokenGriefing.deployed();
-    const num_tokens = await isArtTokenGriefing.NUM_TOKENS();
 
     try {
       await isArtTokenGriefing.toggle(1, { from: other });

@@ -32,8 +32,8 @@ contract IsArtTokenProofOfWork is ERC721, ERC721Enumerable, Pausable, Ownable {
         pure
         returns (bool)
     {
-        return (bytes3(status) == bytes3("is\x00"))
-            && (sha256(abi.encodePacked(tokenId, nonce)) == status);
+        return (bytes3(status) == bytes3("is\x00")) &&
+            (sha256(abi.encodePacked(tokenId, nonce)) == status);
     }
 
     function setIsArt (uint256 tokenId, uint256 nonce, bytes32 status) public {

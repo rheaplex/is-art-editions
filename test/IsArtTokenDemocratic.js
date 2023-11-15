@@ -1,6 +1,6 @@
-/* global expect web3 */
+/* global expect require */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 
 const NUM_TOKENS = 16;
 const THRESHOLD = 8;
@@ -8,7 +8,6 @@ const PERCENTAGE = 6.25;
 const IsArtTokenDemocratic = artifacts.require("IsArtTokenDemocratic");
 
 contract("IsArtTokenDemocratic", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {

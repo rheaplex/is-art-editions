@@ -1,10 +1,9 @@
-/* global expect web3 */
+/* global expect require web3 */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 
 const NUM_TOKENS = 16;
 const IS_BYTES6 = "0x697300000000";
-const IS_NOT_BYTES6 = "0x6973206e6f74";
 const IsArtTokenBurn = artifacts.require("IsArtTokenBurn");
 
 contract("IsArtTokenBurn", (accounts) => {

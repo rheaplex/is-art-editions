@@ -5,7 +5,7 @@
     },
     "scripts": {
         "test": "echo \"Use 'test' in 'npm run develop'.\"",
-        "eslint": "npx eslint app/js/*.js migrations/* test/*",
+        "eslint": "npx eslint app/js/*.js lib/* migrations/* test/*",
         "solium": "solium -d contracts",
         "solhint": "solhint contracts/*.sol",
         "mythx": "mythx analyze --solc-path /usr/local/bin/solc contracts/*.sol",

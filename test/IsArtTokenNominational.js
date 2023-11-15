@@ -1,14 +1,13 @@
-/* global expect web3 */
+/* global expect require */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 
-const NUM_TOKENS = 16;
-const IS_BYTES6 = "0x697300000000";
-const IS_NOT_BYTES6 = "0x6973206e6f74";
-const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
 const IsArtTokenNominational = artifacts.require("IsArtTokenNominational");
 
 const DummyERC721 = artifacts.require("DummyERC721");
+
+const NUM_TOKENS = 16;
+const NULL_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 contract("IsArtTokenNominational", async (accounts) => {
   const owner = accounts[0];

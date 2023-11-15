@@ -1,17 +1,16 @@
-/* global expect web3 */
+/* global expect require web3 */
 
-const testErc721 = require('../lib/testErc721.js');
-const ProofOfWork = require('../lib/proofOfWork.js');
+const testErc721 = require("../lib/testErc721.js");
+const ProofOfWork = require("../lib/proofOfWork.js");
 
 const IsArtTokenProofOfWork = artifacts.require("IsArtTokenProofOfWork");
 
 const NUM_TOKENS = 16;
 
 const KNOWN_NONCE = 24485091;
-const KNOWN_HASH = '0x6973009d08c1b64003ab14f3beb09d693e60881165ce6a5bf60db68604c66e1e';
+const KNOWN_HASH = "0x6973009d08c1b64003ab14f3beb09d693e60881165ce6a5bf60db68604c66e1e";
 
 contract("IsArtTokenProofOfWork", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {

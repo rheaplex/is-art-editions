@@ -2,14 +2,14 @@ const IsArtTokenDemocraticPalette = artifacts.require("IsArtTokenDemocraticPalet
 
 module.exports = async function(_deployer, network) {
   let democraticPaletteAddress;
-  if (network == 'test' || network == 'develop') {
+  if (network == "test" || network == "develop") {
     const DemocraticPalette = artifacts.require("DemocraticPalette");
     await _deployer.deploy(DemocraticPalette);
     const democraticPalette = await DemocraticPalette.deployed();
     democraticPaletteAddress = democraticPalette.address;
   } else {
     // Mainnet address
-    democraticPaletteAddress = '0x7226861714811c02f403d1851fa6ddd53fa9802e';
+    democraticPaletteAddress = "0x7226861714811c02f403d1851fa6ddd53fa9802e";
   }
   return _deployer.deploy(
     IsArtTokenDemocraticPalette,

@@ -1,6 +1,6 @@
-/* global artifacts before contract expect it web3 */
+/* global before expect require */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 
 const DemocraticPalette = artifacts.require("DemocraticPalette");
 const IsArtTokenDemocraticPalette = artifacts.require(
@@ -20,14 +20,13 @@ const COLOURS = [
   [255, 255, 255],
 ];
 
-const cssColour = colour => `${colour.red.toString(16).padStart(2, '0').toUpperCase()}${colour.green.toString(16).padStart(2, '0').toUpperCase()}${colour.blue.toString(16).padStart(2, '0').toUpperCase()}`;
+const cssColour = colour => `${colour.red.toString(16).padStart(2, "0").toUpperCase()}${colour.green.toString(16).padStart(2, "0").toUpperCase()}${colour.blue.toString(16).padStart(2, "0").toUpperCase()}`;
 
 const renderStatus = async (democraticPalette, tokenId, is) => {
-  return `<div style="color: #${cssColour(await democraticPalette.palette(0))};"><span style="color: #${cssColour(await democraticPalette.palette(1))};">this contract</span> <span style="color: #${cssColour(await democraticPalette.palette(2))};">${is}</span> <span style="color: #${cssColour(await democraticPalette.palette(3))};"/>art</span>`
+  return `<div style="color: #${cssColour(await democraticPalette.palette(0))};"><span style="color: #${cssColour(await democraticPalette.palette(1))};">this contract</span> <span style="color: #${cssColour(await democraticPalette.palette(2))};">${is}</span> <span style="color: #${cssColour(await democraticPalette.palette(3))};"/>art</span>`;
 };
 
 contract("IsArtTokenDemocraticPalette", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   before(async function () {
@@ -65,7 +64,7 @@ contract("IsArtTokenDemocraticPalette", (accounts) => {
           = await IsArtTokenDemocraticPalette.deployed();
     const democraticPalette = await DemocraticPalette.deployed();
     
-    const rendered = await renderStatus(democraticPalette, 1, 'is not');
+    const rendered = await renderStatus(democraticPalette, 1, "is not");
     const status = await isArtTokenDemocraticPalette.tokenIsArt.call(1);
     
     expect(status).to.equal(rendered);
@@ -77,12 +76,12 @@ contract("IsArtTokenDemocraticPalette", (accounts) => {
     const democraticPalette = await DemocraticPalette.deployed();
 
     await isArtTokenDemocraticPalette.toggle(2);
-    let rendered = await renderStatus(democraticPalette, 2, 'is');
+    let rendered = await renderStatus(democraticPalette, 2, "is");
     let status = await isArtTokenDemocraticPalette.tokenIsArt.call(2);
     expect(status).to.equal(rendered);
 
     await isArtTokenDemocraticPalette.toggle(2);
-    rendered = await renderStatus(democraticPalette, 2, 'is not');
+    rendered = await renderStatus(democraticPalette, 2, "is not");
     status = await isArtTokenDemocraticPalette.tokenIsArt.call(2);
     expect(status).to.equal(rendered);
   });

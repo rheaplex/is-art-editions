@@ -44,18 +44,18 @@ contract DemocraticPalette {
     function colourID (uint8 red, uint8 green, uint8 blue)
         internal pure returns (uint24 result) {
         // No bit shifting yet
-        result = uint24(red)
-            + (uint24(green) * 256)
-            + (uint24(blue) * 35565);
+        result = uint24(red) +
+            (uint24(green) * 256) +
+            (uint24(blue) * 35565);
     }
 
     // Check colour equality by comparing its components and ignoring votes
 
     function colourEq (Colour storage colour, uint8 red, uint8 green, uint8 blue)
         internal view returns (bool equal) {
-        equal = colour.red == red
-            && colour.green == green
-            && colour.blue == blue;
+        equal = colour.red == red &&
+            colour.green == green &&
+            colour.blue == blue;
     }
 
     // If the colour has enough votes to get into the palette, insert it
@@ -106,11 +106,10 @@ contract DemocraticPalette {
     }
 
     // Start with all the colours in the palette black with zero votes,
-    // and the minimum vote at zero so that a single vote gets a colour into
+    // and the minimum vote at zero so that a single vote gets a colour int
     // the palette.
 
-    constructor () {
-    }
+    // constructor () {}
 
     // The function users use to vote for a colour
     // This may not get the colour into the palette, but every vote is counted

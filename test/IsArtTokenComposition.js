@@ -1,12 +1,12 @@
-/* global artifacts expect web3 */
+/* global expect require web3 */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 const IsArtTokenComposition = artifacts.require("IsArtTokenComposition");
-const composition = require('../lib/composition.js');
+const composition = require("../lib/composition.js");
 
 const tokenText = id => web3.utils.hexToAscii(
   `0x${id.substring(20)}`
-).replace(/^\0+/, '');
+).replace(/^\0+/, "");
 
 contract("IsArtTokenComposition", (accounts) => {
   const owner = accounts[0];
@@ -49,7 +49,7 @@ contract("IsArtTokenComposition", (accounts) => {
         const kids = await isArtTokenComposition
               .childrenOf(composition.TOKEN_IDS[i]);
         // Make sure we have all the initial kids set.
-        kids.map(a => a.toString(16) != '0');
+        kids.map(a => a.toString(16) != "0");
 
       } else {
         // Child tokens.
@@ -80,7 +80,7 @@ contract("IsArtTokenComposition", (accounts) => {
         expect(await isArtTokenComposition.tokenIsArt(id))
           .to.equal(
             tokenText(id)
-              + ' '
+              + " "
               + kids.map(a => tokenText(a.toString(16))).join(" ")
           );
       } else {
@@ -146,7 +146,9 @@ contract("IsArtTokenComposition", (accounts) => {
     try {
       await isArtTokenComposition.detachChild(parent, 0, { from: other });
       assert.fail(`Non-owner (both) removed child token.`);
-    } catch (e) {}
+    } catch (e) {
+      // Empty
+    }
 
     await isArtTokenComposition.detachChild(parent, 1);
 
@@ -156,8 +158,10 @@ contract("IsArtTokenComposition", (accounts) => {
         children[1],
         { from: other }
       );
-      assert.fail('Non-owner (both) attached child token.');
-    } catch (e) {}
+      assert.fail("Non-owner (both) attached child token.");
+    } catch (e) {
+      // Empty
+    }
 
     await isArtTokenComposition.transferFrom(owner, other, children[1]);
 
@@ -168,8 +172,10 @@ contract("IsArtTokenComposition", (accounts) => {
         1,
         { from: other }
       );
-      assert.fail('Non-owner (parent) attached child token.');
-    } catch (e) {}
+      assert.fail("Non-owner (parent) attached child token.");
+    } catch (e) {
+      // Empty
+    }
 
     try {
       await isArtTokenComposition.attachChild(
@@ -177,8 +183,10 @@ contract("IsArtTokenComposition", (accounts) => {
         children[1],
         1
       );
-      assert.fail('Non-owner (child) attached child token.');
-    } catch (e) {}
+      assert.fail("Non-owner (child) attached child token.");
+    } catch (e) {
+      // Empty
+    }
   });
 
   it("Should not allow owner to overwrite sub-tokens", async () => {
@@ -194,8 +202,10 @@ contract("IsArtTokenComposition", (accounts) => {
         children[0],
         1
       );
-      assert.fail('Overwrote child token.');
-    } catch (e) {}
+      assert.fail("Overwrote child token.");
+    } catch (e) {
+      // Empty
+    }
 
     await isArtTokenComposition.transferFrom(owner, other, children[1]);
   });
@@ -224,7 +234,9 @@ contract("IsArtTokenComposition", (accounts) => {
 
     try {
       await isArtTokenComposition.transferFrom(other, owner, parent);
-    } catch (e) {};
+    } catch (e) {
+      // Empty
+    }
     const children = await isArtTokenComposition.childrenOf(parent);
 
     for (let i = 0; i < composition.NUM_CHILD_SLOTS; i++) {

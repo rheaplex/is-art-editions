@@ -1,9 +1,10 @@
-/* global expect web3 */
+/* global expect require */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
+
+const IsArtTokenIsX = artifacts.require("IsArtTokenIsX");
 
 const NUM_TOKENS = 16;
-const IsArtTokenIsX = artifacts.require("IsArtTokenIsX");
 
 contract("IsArtTokenIsX", (accounts) => {
   const owner = accounts[0];
@@ -24,11 +25,11 @@ contract("IsArtTokenIsX", (accounts) => {
       .to.equal("this token is art because it is not engaging with specificity");
     expect(await isArtTokenIsX.getDefinitionData(1))
       .to.deep.equal([
-        '0x0000000000000000000000000000000000000000',
-        '0',
-        '0',
-        '0',
-        '0'
+        "0x0000000000000000000000000000000000000000",
+        "0",
+        "0",
+        "0",
+        "0"
       ]);
   });
 

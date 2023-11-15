@@ -1,6 +1,6 @@
-/* global expect web3 */
+/* global expect require */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
 
 const NUM_TOKENS = 16;
 const IS_BYTES6 = "0x697300000000";
@@ -8,8 +8,6 @@ const IS_NOT_BYTES6 = "0x6973206e6f74";
 const IsArtTokenBlockHeight = artifacts.require("IsArtTokenBlockHeight");
 
 contract("IsArtTokenBlockHeight", (accounts) => {
-  const owner = accounts[0];
-  const other = accounts[1];
 
   it("Should initialize contract state correctly", async () =>
     testErc721.setup(

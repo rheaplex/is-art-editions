@@ -96,7 +96,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
             for (uint256 i = 0; i < NUM_CHILD_SLOTS; i++) {
                 uint256 child = children[index][i];
                 if(child != 0) {
-                    is_art = string.concat(is_art, ' ', textOf(child));
+                    is_art = string.concat(is_art, " ", textOf(child));
                 }
             }
         }

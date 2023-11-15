@@ -61,20 +61,22 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
         _requireMinted(tokenId);
         uint256 index = tokenId - 1;
         IDemocraticPalette palette = IDemocraticPalette(paletteContract);
-        return string(abi.encodePacked(
-            bytes20("<div style=\"color: #"),
-            cssColour(palette.palette(0)),            
-            bytes24(";\"><span style=\"color: #"),
-            cssColour(palette.palette(1)),
-            bytes24(";\">this contract</span> "),
-            bytes21("<span style=\"color: #"),
-            cssColour(palette.palette(2)),
-            bytes3(";\">"),
-            is_art[index] == bytes6("is") ? "is" : "is not",
-            bytes29("</span> <span style=\"color: #"),
-            cssColour(palette.palette(3)),
-            bytes14(";\"/>art</span>")
-        ));
+        return string(
+            abi.encodePacked(
+                bytes20("<div style=\"color: #"),
+                cssColour(palette.palette(0)),
+                bytes24(";\"><span style=\"color: #"),
+                cssColour(palette.palette(1)),
+                bytes24(";\">this contract</span> "),
+                bytes21("<span style=\"color: #"),
+                cssColour(palette.palette(2)),
+                bytes3(";\">"),
+                is_art[index] == bytes6("is") ? "is" : "is not",
+                bytes29("</span> <span style=\"color: #"),
+                cssColour(palette.palette(3)),
+                bytes14(";\"/>art</span>")
+            )
+        );
     }
 
     function cssColour (IDemocraticPalette.Colour memory col)
@@ -83,11 +85,13 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
     returns (
         bytes6 css
     ) {
-        return bytes6(abi.encodePacked(
-            uint8ToHex(col.red),
-            uint8ToHex(col.green),
-            uint8ToHex(col.blue)
-        ));
+        return bytes6(
+            abi.encodePacked(
+                uint8ToHex(col.red),
+                uint8ToHex(col.green),
+                uint8ToHex(col.blue)
+            )
+        );
     }
 
     function uint8ToHex (uint8 n) private pure returns (bytes2) {
@@ -98,8 +102,8 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
             65, 66, 67, 68, 69, 70
         ];
         return bytes2(
-            (uint16(lookup[n / 16]) << 8)
-            + uint16(lookup[n % 16])
+            (uint16(lookup[n / 16]) << 8) +
+            uint16(lookup[n % 16])
         );
     }
 

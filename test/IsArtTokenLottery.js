@@ -1,11 +1,10 @@
-/* global expect web3 */
+/* global expect require web3 */
 
-const testErc721 = require('../lib/testErc721.js');
+const testErc721 = require("../lib/testErc721.js");
+
+const IsArtTokenLottery = artifacts.require("IsArtTokenLottery");
 
 const NUM_TOKENS = 16;
-const THRESHOLD = 8;
-const PERCENTAGE = 6.25;
-const IsArtTokenLottery = artifacts.require("IsArtTokenLottery");
 
 const toStr = (hex) => web3.utils.hexToAscii(hex).split("\0")[0];
 
@@ -14,8 +13,8 @@ const shouldBe = async (blockNumber) => {
   // mixHash???
   const rnd = parseInt(
     web3.utils.keccak256(web3.utils.encodePacked(
-      {value: block.timestamp, type: 'uint'},
-      {value: block.mixHash, type: 'uint'}
+      {value: block.timestamp, type: "uint"},
+      {value: block.mixHash, type: "uint"}
     )).slice(-1),
     16) % 2;
     if (rnd == 1) {
@@ -26,7 +25,6 @@ const shouldBe = async (blockNumber) => {
 };
 
 contract("IsArtTokenLottery", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {

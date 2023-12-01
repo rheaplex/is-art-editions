@@ -52,7 +52,7 @@ export const initNetwork = async (contractName) => {
   provider.on("chainChanged", () => { window.location.reload(); });
   //const chainName = await provider.getNetwork().name;
   //const contractPath = `./js/IsArtToken.sol/${contractName}.${chainName}.json`;
-  const contractPath = `./js/${contractName}.json`;
+  const contractPath = `./contracts/${contractName}.json`;
   const response = await fetch(contractPath);
   const json = await response.json();
   /* const contract = new ethers.Contract(

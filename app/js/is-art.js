@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { ethers } from "./ethers.js";
+import { ethers } from "./ethers-5.1.esm.min.js";
 
 export const hideModal = (id) => {
   document.getElementById(id).classList.remove("is-active");

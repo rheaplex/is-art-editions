@@ -40,6 +40,8 @@ contract IsArtTokenBurn is ERC721, ERC721Enumerable, Pausable, Ownable {
     }
 
     function tokenIsArt (uint256 tokenId) external view returns (bytes6) {
+        // Note that we do not check ownership or existence.
+        // Art status is independent of existence here.
         require(
             tokenId > 0 && tokenId <= NUM_TOKENS,
             "No such token"

@@ -16,8 +16,9 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  disableElement, enableElement, ensureTokenId,
+  hideElement, hideModal, initNetwork,
+  showElement, showModal, toText
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -31,7 +32,7 @@ const toggleBlockchainState = async () => {
   const signer = provider.getSigner();
   // Make a read/write copy of our read-only contract object
   const contractWritable = contract.connect(signer);
-  contractWritable.toggle(tokenId)
+  contractWritable.burn(tokenId)
     .then(tx => provider.waitForTransaction(tx.hash),
           // Metamask will log this, so we don't need to.
           () => null)
@@ -40,7 +41,18 @@ const toggleBlockchainState = async () => {
 
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
-  await provider.send("eth_requestAccounts", []);
+  const addresses = await provider.send("eth_requestAccounts", []);
+  const tokenOwner = await contract.ownerOf(tokenId);
+  document.getElementById("token-id").textContent = toText(tokenId);
+  if (addresses.includes(tokenOwner)) {
+    enableElement("toggle-button");
+    hideElement("other-warning");
+    showElement("owner-warning");
+  } else {
+    showElement("owner-warning");
+    showElement("other-warning");
+    disableElement("toggle-button");
+  }
   showModal("gui");
 };
 
@@ -75,7 +87,7 @@ const main = async (/*event*/) => {
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

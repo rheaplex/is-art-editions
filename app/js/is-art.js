@@ -25,6 +25,14 @@ export const showModal = (id) => {
   document.getElementById(id).classList.add("is-active");
 };
 
+export const hideElement = (id) => {
+  document.getElementById(id).classList.remove("is-hidden");
+};
+
+export const showElement = (id) => {
+  document.getElementById(id).classList.add("is-hidden");
+};
+
 export const enableElement = (id) => {
   document.getElementById(id).disabled = false;
 };

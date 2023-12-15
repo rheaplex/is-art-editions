@@ -32,13 +32,16 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <h1 class="title">Toggle</h1>
-          <h2 class="subtitle">Select the "Toggle" button below to update the
-            token's state.</h2>
+          <h1 class="title">Burn Token #<span id="token-id">?</span></h1>
+          <h2 class="subtitle" id="owner-warning">Select the "Toggle" button below to burn the token.<br>
+            THIS DESTROYS THE TOKEN AND CANNOT BE UNDONE.</h2>
+          <h2 class="subtitle" id="other-warning">The owner of this token can burn it<br>
+            THIS DESTROYS THE TOKEN AND CANNOT BE UNDONE.</h2>
           <div class="field is-grouped">
             <div class="control">
               <button type="button" class="button is-success"
-                      id="toggle-button">Toggle</button>
+                      id="toggle-button"
+                      disabled>Burn</button>
             </div>
             <div class="control">
               <button type="button" class="button is-info"

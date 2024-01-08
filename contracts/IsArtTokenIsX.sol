@@ -160,7 +160,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         require(tokenId > 0 && tokenId <= NUM_TOKENS, "no such token");
         Definition storage def = definitions[tokenId - 1];
         return string.concat(
-            "this token is art because ",
+            "This token is art because ",
             string(extents[def.extent]),
             " ",
             connections[def.connection],

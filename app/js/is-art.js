@@ -46,10 +46,12 @@ export const toText = (text) => {
 };
 
 export const ensureTokenId = (numEditions, defaultTokenId) => {
-  const id = window.location.hash.substr(1);
-  if (id < 1 || id > numEditions) {
-    // Reload the page with a working token id
-    window.location.replace(window.location.pathname + `#${defaultTokenId}`);
+  let id = window.location.hash.substr(1);
+  if (id === "" || id < 1 || id > numEditions) {
+    // Set the page hash to a working token id
+    history.pushState(null, null, `#${defaultTokenId}`);
+    // Use the working id
+    id = defaultTokenId;
   }
   return ethers.BigNumber.from(id);
 };
@@ -63,13 +65,10 @@ export const initNetwork = async (contractName) => {
   const contractPath = `./contracts/${contractName}.json`;
   const response = await fetch(contractPath);
   const json = await response.json();
-  /* const contract = new ethers.Contract(
-    json.address,
-    json.abi,
-    provider
-  );*/
+  // Truffle network id may not be chain id.
+  const networkId = await provider.send("net_version");
   const contract = new ethers.Contract(
-    json.networks[(await provider.getNetwork()).chainId].address,
+    json.networks[networkId].address,
     json.abi,
     provider
   );

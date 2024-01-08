@@ -1,5 +1,5 @@
 /*  IsArtEdition - Ethereum tokens that are or are not something..
-    Copyright (C) 2023 Rhea Myers <rhea@myers.studio>
+    Copyright (C) 2024 Myers Studio Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -88,15 +88,15 @@ const setDefinition = async () => {
 };
 
 const main = async (/*event*/) => {
-  [ provider, contract ] = await initNetwork("IsArtTokenIsX");
-
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
+
+  [ provider, contract ] = await initNetwork("IsArtTokenIsX");
 
   await setDefinition();
 
   const descriptionChanged = contract.filters.DefinitionChanged(
-    tokenId,
-    null
+    null,
+    tokenId
   );
 
   contract.on(descriptionChanged, setDefinition);

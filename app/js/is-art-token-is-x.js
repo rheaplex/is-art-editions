@@ -52,8 +52,8 @@ const setBlockchainDefinition = async () => {
   contractWritable.setDefinition(
     tokenId,
     getOption("extent"),
-    getOption("connection"),
     getOption("relation"),
+    getOption("connection"),
     getOption("subject")
   ).then(tx => provider.waitForTransaction(tx.hash),
          // Metamask will log this, so we don't need to.
@@ -65,10 +65,10 @@ const onClickShowGui = async () => {
   // Ask for the user's signing account
   await provider.send("eth_requestAccounts", []);
   const description = await contract.getDefinitionData(tokenId);
-  setOption("extent", description.extent.toNumber());
-  setOption("connection", description.connection.toNumber());
-  setOption("relation", description.relation.toNumber());
-  setOption("subject", description.subjectCD.toNumber());
+  setOption("extent", description.extent);
+  setOption("relation", description.relation);
+  setOption("connection", description.connection);
+  setOption("subject", description.subject);
   showModal("gui");
 };
 

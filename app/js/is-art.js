@@ -56,10 +56,7 @@ export const ensureTokenId = (numEditions, defaultTokenId) => {
   return ethers.BigNumber.from(id);
 };
 
-export const initNetwork = async (contractName) => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  // Just reload the window if the network changes
-  provider.on("chainChanged", () => { window.location.reload(); });
+export const fetchContract = async (contractName, provider) => {
   //const chainName = await provider.getNetwork().name;
   //const contractPath = `./js/IsArtToken.sol/${contractName}.${chainName}.json`;
   const contractPath = `./contracts/${contractName}.json`;
@@ -67,10 +64,17 @@ export const initNetwork = async (contractName) => {
   const json = await response.json();
   // Truffle network id may not be chain id.
   const networkId = await provider.send("net_version");
-  const contract = new ethers.Contract(
+  return new ethers.Contract(
     json.networks[networkId].address,
     json.abi,
     provider
   );
+};
+
+export const initNetwork = async (contractName) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // Just reload the window if the network changes
+  provider.on("chainChanged", () => { window.location.reload(); });
+  const contract = await fetchContract(contractName, provider);
   return [ provider, contract ];
 };

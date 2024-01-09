@@ -32,12 +32,22 @@ contract("IsArtTokenProxy", async (accounts) => {
       IsArtTokenProxy
     ));
 
-  it("Should allow owner to toggle state", async function () {
+  it("Should allow anyone to toggle original state", async function () {
+    const isArt = await IsArt.deployed();
+
+    await isArt.toggle({ from: accounts[7] });
+    expect(await isArt.is_art()).to.equal(IS_BYTES6);
+
+    await isArt.toggle({ from: accounts[8] });
+    expect(await isArt.is_art()).to.equal(IS_NOT_BYTES6);
+  });
+
+  it("Should allow token owner to toggle state", async function () {
     const isArtTokenProxy = await IsArtTokenProxy.deployed();
 
     await isArtTokenProxy.toggle(1);
-      expect(web3.utils.hexToUtf8(await isArtTokenProxy.tokenIsArt(1)))
-        .to.equal("is");
+    expect(web3.utils.hexToUtf8(await isArtTokenProxy.tokenIsArt(1)))
+      .to.equal("is");
 
       await isArtTokenProxy.toggle(1);
       expect(web3.utils.hexToUtf8(await isArtTokenProxy.tokenIsArt(1)))
@@ -63,6 +73,8 @@ contract("IsArtTokenProxy", async (accounts) => {
     expect(result.logs[0].args.is_art).to.equal(IS_NOT_BYTES6);
     // Make sure the actual state matches
     expect(await isArt.is_art()).to.equal(IS_NOT_BYTES6);
+    expect(web3.utils.hexToUtf8(await isArt.is_art()))
+      .to.equal("is not");
   });
 
   it("Should not allow non-owner to toggle state", async function () {
@@ -75,6 +87,23 @@ contract("IsArtTokenProxy", async (accounts) => {
       expect(error.data.reason)
         .to.equal("Only token holder can toggle state");
     }
+  });
+
+  it("Toggling original state should update all tokens", async function () {
+    const isArt = await IsArt.deployed();
+    const isArtTokenProxy = await IsArtTokenProxy.deployed();
+
+    await isArt.toggle({ from: accounts[7] });
+    expect(web3.utils.hexToUtf8(await isArt.is_art()))
+      .to.equal("is");
+    expect(web3.utils.hexToUtf8(await isArtTokenProxy.tokenIsArt(1)))
+        .to.equal("is");
+
+    await isArt.toggle({ from: accounts[8] });
+    expect(web3.utils.hexToUtf8(await isArt.is_art()))
+      .to.equal("is not");
+    expect(web3.utils.hexToUtf8(await isArtTokenProxy.tokenIsArt(8)))
+      .to.equal("is not");
   });
 
 });

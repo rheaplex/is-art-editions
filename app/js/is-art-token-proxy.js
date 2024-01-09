@@ -1,5 +1,5 @@
 /*  IsArtEdition - Ethereum tokens that are art if the original contract is.
-    Copyright (C) 2023 Myers Studio, Ltd.
+    Copyright (C) 2023-4 Myers Studio, Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, fetchContract, hideModal, initNetwork,
   showModal, toText
 } from "./is-art.js";
 
@@ -55,27 +55,43 @@ const onClickCancel = () => {
 };
 
 const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+  const text = toText(state);
+  const stateElement = document.getElementById("is-art-status");
+  // Make sure we don't set the text if it's already the same,
+  // e.g. for Status events following StatusProxy events.
+  if (stateElement.textContent != text) {
+    stateElement.textContent = text;
+  }
 };
 
 const main = async (/*event*/) => {
   [ provider, contract ] = await initNetwork("IsArtTokenProxy");
+  const isArtOriginal = await fetchContract("IsArt", provider);
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
   setDisplayState(await contract.tokenIsArt(tokenId));
 
-  const status = contract.filters.Status(
+  const proxyStatus = contract.filters.ProxyStatus(
     tokenId,
     null
   );
 
-  contract.on(status, (id, is_art) => {
+  contract.on(proxyStatus, (id, is_art) => {
+    setDisplayState(is_art);
+  });
+
+  // This will catch our own updates, but these will be filtered out by
+  // setDisplayStatus.
+
+  const originalStatus = isArtOriginal.filters.Status();
+
+  isArtOriginal.on(originalStatus, (is_art) => {
     setDisplayState(is_art);
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

@@ -22,7 +22,7 @@ contract("IsArtTokenIsX", (accounts) => {
     const isArtTokenIsX = await IsArtTokenIsX.deployed();
 
     expect(await isArtTokenIsX.getDefinitionText(1))
-      .to.equal("this token is art because it is not engaging with specificity");
+      .to.equal("This token is art because it powerfully engages with negative specificity");
     expect(await isArtTokenIsX.getDefinitionData(1))
       .to.deep.equal([
         "0x0000000000000000000000000000000000000000",
@@ -50,7 +50,7 @@ contract("IsArtTokenIsX", (accounts) => {
     const tokenId = 3;
     await isArtTokenIsX.setDefinition(tokenId, 1, 2, 3, 4);
     expect(await isArtTokenIsX.getDefinitionText(tokenId))
-      .to.equal("this token is art because it competently critiques ontologically determined by materiality");
+      .to.equal("This token is art because it critically interrogates ontological materiality");
   });
 
   it("Should emit set definition events", async function () {
@@ -62,12 +62,12 @@ contract("IsArtTokenIsX", (accounts) => {
     expect(result.logs[0].args.theorist).to.equal(owner);
     expect(result.logs[0].args.tokenid.toNumber()).to.equal(tokenId);
     expect(result.logs[0].args.extent.toNumber()).to.equal(2);
-    expect(result.logs[0].args.connection.toNumber()).to.equal(4);
-    expect(result.logs[0].args.relation.toNumber()).to.equal(6);
+    expect(result.logs[0].args.relation.toNumber()).to.equal(4);
+    expect(result.logs[0].args.connection.toNumber()).to.equal(6);
     expect(result.logs[0].args.subject.toNumber()).to.equal(8);
     // Make sure the state matches
     expect(await isArtTokenIsX.getDefinitionText(tokenId))
-      .to.equal("this token is art because it expresses logically reacting to aesthetics");
+      .to.equal("This token is art because it unprecedentedly reacts to historical aesthetics");
   });
 
   it("Should not allow non-owner to set definition", async function () {

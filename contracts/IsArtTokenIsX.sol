@@ -21,8 +21,8 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         address indexed theorist,
         uint256 indexed tokenid,
         uint8 extent,
-        uint8 connection,
         uint8 relation,
+        uint8 connection,
         uint8 subject
     );
 
@@ -33,8 +33,8 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     struct Definition {
         address theorist;
         uint8 extent;
-        uint8 connection;
         uint8 relation;
+        uint8 connection;
         uint8 subject;
     }
 
@@ -49,60 +49,60 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint constant DEF_MAX = 0x0F;
 
     string[DEF_MAX + 1] private extents = [
-        "it is",
-        "it competently critiques",
-        "it expresses",
-        "it interrogates",
-        "it ironises",
-        "it is zanily",
-        "it is interestingly",
-        "it is cutely",
-        "it is paradoxically",
-        "it concerns",
-        "it represents",
-        "its aesthetic value lies in",
-        "it skilfully alludes to",
-        "it passionately evokes",
-        "it deftly realises",
-        "no other artwork is as"
-    ];
-
-    string[DEF_MAX + 1] private connections = [
-        "not",
-        "universally",
-        "ontologically",
-        "epistemologically",
-        "logically",
-        "psychologically",
-        "childishly",
-        "sophisticatedly",
-        "conservatively",
-        "liberally",
+        "powerfully",
+        "critically",
+        "unprecedentedly",
+        "shockingly",
         "ironically",
-        "creepily",
-        "radically",
-        "queerly",
-        "problematically",
-        "neoliberally"
+        "zanily",
+        "interestingly",
+        "cutely",
+        "paradoxically",
+        "evocatively",
+        "skilfully",
+        "cunningly",
+        "allusively",
+        "passionately",
+        "deftly",
+        "basedly"
     ];
 
     string[DEF_MAX + 1] private relations = [
-        "engaging with",
-        "reliant on",
-        "derivative of",
-        "determined by",
-        "defined by",
-        "embracing of",
-        "reacting to",
-        "commenting on",
-        "embracing",
-        "resolving",
-        "transcending",
-        "valenced by",
-        "critiquing",
-        "attacking",
-        "destroying",
-        "obviating"
+        "engages with",
+        "extends",
+        "explores the weltanschauung of",
+        "interrogates",
+        "draws its forms from",
+        "embraces",
+        "reacts to",
+        "comments on",
+        "indexes",
+        "symbolically resolves the contradictions of",
+        "embodies",
+        "plays with",
+        "sutures its content to",
+        "expresses",
+        "depicts",
+        "diagrams"
+    ];
+
+    string[DEF_MAX + 1] private connections = [
+        "negative",
+        "universal",
+        "ontological",
+        "epistemological",
+        "historical",
+        "psychological",
+        "simplistic",
+        "sophisticated",
+        "conservative",
+        "liberal",
+        "ironic",
+        "creepy",
+        "radical",
+        "queer",
+        "racialised",
+        "trans"
     ];
 
     string[DEF_MAX + 1] private subjects = [
@@ -112,11 +112,11 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         "politics",
         "materiality",
         "identity",
-        "emotion",
-        "critique",
+        "affect",
+        "understanding",
         "aesthetics",
-        "god",
-        "satan",
+        "theology",
+        "demonology",
         "beauty",
         "horror",
         "desire",
@@ -160,12 +160,12 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         require(tokenId > 0 && tokenId <= NUM_TOKENS, "no such token");
         Definition storage def = definitions[tokenId - 1];
         return string.concat(
-            "This token is art because ",
+            "This token is art because it ",
             string(extents[def.extent]),
             " ",
-            connections[def.connection],
+            relations[def.connection],
             " ",
-            relations[def.relation],
+            connections[def.relation],
             " ",
             subjects[def.subject]
         );
@@ -183,8 +183,8 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     function setDefinition(
         uint256 tokenId,
         uint8 extent,
-        uint8 connection,
         uint8 relation,
+        uint8 connection,
         uint8 subject
     )
         public
@@ -201,15 +201,15 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         address theorist = msg.sender;
         definitions[index].theorist = theorist;
         definitions[index].extent = extent;
-        definitions[index].connection = connection;
         definitions[index].relation = relation;
+        definitions[index].connection = connection;
         definitions[index].subject = subject;
         emit DefinitionChanged(
             theorist,
             tokenId,
             extent,
-            connection,
             relation,
+            connection,
             subject
         );
     }
@@ -220,8 +220,8 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     function isDefValid (
         uint8 extent,
-        uint8 connection,
         uint8 relation,
+        uint8 connection,
         uint8 subject
     )
         public
@@ -229,8 +229,8 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
         returns (bool result)
     {
         result = isDefValueInRange(extent) &&
-            isDefValueInRange(connection) &&
             isDefValueInRange(relation) &&
+            isDefValueInRange(connection) &&
             isDefValueInRange(subject);
     }
 

@@ -65,12 +65,9 @@ const main = async (/*event*/) => {
 
   setDisplayState(await contract.tokenIsArt(tokenId));
 
-  const status = contract.filters.Status(
-    tokenId,
-    null
-  );
+  const status = contract.filters.Status();
 
-  contract.on(status, (id, is_art) => {
+  contract.on(status, (is_art) => {
     setDisplayState(is_art);
   });
 

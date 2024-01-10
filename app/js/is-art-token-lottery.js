@@ -1,5 +1,5 @@
 /*  IsArtTokenLottery - Ethereum tokens that are art if you're lucky.
-    Copyright (C) 2023 Myers Studio, Ltd.
+    Copyright (C) 2023-24 Myers Studio, Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ const main = async (/*event*/) => {
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

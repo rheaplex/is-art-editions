@@ -12,10 +12,19 @@
   <body>
 
     <div id="representation" class="columns is-vcentered">
-      <div id="is-art" class="column">
+      <div class="column">
+        <div id="is-art">
         This<br>
         token<br>
-        <span id="is-art-status">may be</span> art</div>
+        <span id="is-art-status">may be</span> art<br>
+        by <span id="majority">N</span> to <span id="minority">M</span><br>
+        votes<br>
+        </div>
+        <p style="font-family: 'Open Sans', sans-serif; text-align: center">
+          Token ID #<span id="token-id">x</span>
+          votes that it
+          <span style="color: #550000" id="token-status">may be</span> art.</p>
+      </div>
     </div>
 
     <div class="modal" id="updating">
@@ -34,7 +43,7 @@
         <div class="box">
           <h1 class="title">Toggle</h1>
           <h2 class="subtitle">Select the "Toggle" button below to update the
-            token's state.</h2>
+            token ID's vote.</h2>
           <div class="field is-grouped">
             <div class="control">
               <button type="button" class="button is-success"

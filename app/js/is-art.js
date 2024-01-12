@@ -26,11 +26,11 @@ export const showModal = (id) => {
 };
 
 export const hideElement = (id) => {
-  document.getElementById(id).classList.remove("is-hidden");
+  document.getElementById(id).classList.add("is-hidden");
 };
 
 export const showElement = (id) => {
-  document.getElementById(id).classList.add("is-hidden");
+  document.getElementById(id).classList.remove("is-hidden");
 };
 
 export const enableElement = (id) => {
@@ -42,7 +42,7 @@ export const disableElement = (id) => {
 };
 
 export const toText = (text) => {
-  return ethers.utils.toUtf8String(text);//.replace(/\0+$/, "");
+  return ethers.utils.toUtf8String(text).replaceAll("\0", "");
 };
 
 export const ensureTokenId = (numEditions, defaultTokenId) => {

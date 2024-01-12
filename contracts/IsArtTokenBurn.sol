@@ -13,7 +13,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtTokenBurn is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 indexed tokenId, bytes6 is_art);
+    event Status(uint256 indexed tokenId, bytes6 is_art, address owner);
 
     // Initial metadata URI.
     string private baseUri = "ipfs://qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
@@ -35,7 +35,7 @@ contract IsArtTokenBurn is ERC721, ERC721Enumerable, Pausable, Ownable {
         );
         uint256 index = tokenId - 1;
         is_art[index] = "is";
-        emit Status(tokenId, is_art[index]);
+        emit Status(tokenId, is_art[index], msg.sender);
         _burn(tokenId);
     }
 

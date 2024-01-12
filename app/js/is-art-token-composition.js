@@ -20,6 +20,8 @@ import {
   showModal, toText
 } from "./is-art.js";
 
+const PARENT_IDS = ["0x70000000000000000100000000000074686973","0x70000000000000000200000000000074686973","0x70000000000000000300000000000074686973","0x70000000000000000400000000000074686973","0x70000000000000000500000000000074686973","0x70000000000000000600000000000074686973","0x70000000000000000700000000000074686973","0x70000000000000000800000000000074686973","0x70000000000000000900000000000074686973","0x70000000000000000a00000000000074686973","0x70000000000000000b00000000000074686973","0x70000000000000000c00000000000074686973","0x70000000000000000d00000000000074686973","0x70000000000000000e00000000000074686973","0x70000000000000000f00000000000074686973","0x70000000000000001000000000000074686973"];
+
 let NUM_EDITIONS = 16;
 let DEFAULT_TOKEN_ID = 1;
 
@@ -54,14 +56,30 @@ const onClickCancel = () => {
   hideModal("gui");
 };
 
+const onSelectToken = (event) => {
+  hideModal("gui");
+  window.location.hash = event.target.value;
+  location.reload();
+};
+
 const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+  document.getElementById("is-art").textContent = state;
+};
+
+const populateTokenSelect = () => {
+  const select = document.getElementById("tokens");
+  for (let i = 0; i < PARENT_IDS.length; i++) {
+    const opt = document.createElement("option");
+    opt.value = i + 1;
+    opt.text = PARENT_IDS[i];
+    select.add(opt, null);
+  }
 };
 
 const main = async (/*event*/) => {
   [ provider, contract ] = await initNetwork("IsArtTokenComposition");
 
-  tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
+  tokenId = PARENT_IDS[ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID) - 1];
 
   setDisplayState(await contract.tokenIsArt(tokenId));
 
@@ -74,8 +92,10 @@ const main = async (/*event*/) => {
     setDisplayState(is_art);
   });
 
+  populateTokenSelect();
+
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("tokens").addEventListener("change", onSelectToken);
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

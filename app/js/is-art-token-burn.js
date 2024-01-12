@@ -40,18 +40,30 @@ const toggleBlockchainState = async () => {
 };
 
 const onClickShowGui = async () => {
-  // Ask Metamask for the user's signing account
-  const addresses = await provider.send("eth_requestAccounts", []);
-  const tokenOwner = await contract.ownerOf(tokenId);
-  document.getElementById("token-id").textContent = toText(tokenId);
-  if (addresses.includes(tokenOwner)) {
-    enableElement("toggle-button");
-    hideElement("other-warning");
-    showElement("owner-warning");
-  } else {
-    showElement("owner-warning");
-    showElement("other-warning");
+  document.getElementById("token-id").textContent = tokenId.toString();
+  const tokenIsArt = await contract.tokenIsArt(tokenId);
+  if (toText(tokenIsArt) == "is") {
+    const logs = await contract.queryFilter(contract.filters.Status(tokenId));
+    document.getElementById("last-owner").textContent = logs[0].args.owner;
     disableElement("toggle-button");
+    hideElement("other-warning");
+    hideElement("owner-warning");
+    showElement("burned-warning");
+  } else {
+    // Ask Metamask for the user's signing account
+    const addresses = await provider.send("eth_requestAccounts", []);
+    const tokenOwner = await contract.ownerOf(tokenId);
+    if (addresses.includes(tokenOwner.toLowerCase())) {
+      enableElement("toggle-button");
+      hideElement("other-warning");
+      showElement("owner-warning");
+      hideElement("burned-warning");
+    } else {
+      disableElement("toggle-button");
+      showElement("other-warning");
+      hideElement("owner-warning");
+      hideElement("burned-warning");
+    }
   }
   showModal("gui");
 };

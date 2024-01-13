@@ -54,28 +54,34 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
     }
 
     function tokenIsArt (uint256 tokenId)
-    external
-    returns (
-        string memory
-    ) {
+        external
+        returns (string memory)
+    {
         _requireMinted(tokenId);
-        uint256 index = tokenId - 1;
         IDemocraticPalette palette = IDemocraticPalette(paletteContract);
-        return string(
-            abi.encodePacked(
-                bytes20("<div style=\"color: #"),
-                cssColour(palette.palette(0)),
-                bytes24(";\"><span style=\"color: #"),
-                cssColour(palette.palette(1)),
-                bytes24(";\">this contract</span> "),
-                bytes21("<span style=\"color: #"),
-                cssColour(palette.palette(2)),
-                bytes3(";\">"),
-                is_art[index] == bytes6("is") ? "is" : "is not",
-                bytes29("</span> <span style=\"color: #"),
-                cssColour(palette.palette(3)),
-                bytes14(";\"/>art</span>")
-            )
+        return string.concat(
+            "<div style=\"background-color: #",
+            cssColour(palette.palette(tokenId - 1)),
+            ";\">",
+            colouredText(tokenId, "this"),
+            colouredText(tokenId + 1, "token"),
+            colouredText(tokenId + 2, is_art[tokenId - 1] == bytes6("is") ? "is" : "is not"),
+            colouredText(tokenId + 3, "art"),
+            "</div>"
+        );
+    }
+
+    function colouredText(uint256 colourIndex, string memory toColour)
+        private
+        returns (string memory)
+    {
+        IDemocraticPalette palette = IDemocraticPalette(paletteContract);
+        return string.concat(
+            "<span style=\"color: #",
+            cssColour(palette.palette(colourIndex)),
+            ";\">",
+            toColour,
+            "</span><br>"
         );
     }
 
@@ -83,9 +89,9 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
     private
     pure
     returns (
-        bytes6 css
+        string memory css
     ) {
-        return bytes6(
+        return string(
             abi.encodePacked(
                 uint8ToHex(col.red),
                 uint8ToHex(col.green),

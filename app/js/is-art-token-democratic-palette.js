@@ -55,7 +55,11 @@ const onClickCancel = () => {
 };
 
 const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+  document.getElementById("is-art").innerHTML = state;
+  // Copy the representation background colour to be the page background colour.
+  const bg = document.getElementById("is-art")
+        .children[0].style["background-color"];
+  document.body.style["background-color"] = bg;
 };
 
 const main = async (/*event*/) => {
@@ -63,19 +67,19 @@ const main = async (/*event*/) => {
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
-  setDisplayState(await contract.tokenIsArt(tokenId));
+  setDisplayState(await contract.callStatic.tokenIsArt(tokenId));
 
   const status = contract.filters.Status(
     tokenId,
     null
   );
 
-  contract.on(status, (id, is_art) => {
-    setDisplayState(is_art);
+  contract.on(status, async (id, is_art) => {
+    setDisplayState(await contract.callStatic.tokenIsArt(tokenId));
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

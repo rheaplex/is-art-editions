@@ -8,6 +8,7 @@ const IsArtTokenSecret = artifacts.require("IsArtTokenSecret");
 const NUM_TOKENS = 16;
 
 contract("IsArtTokenSecret", (accounts) => {
+  const self = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async () =>
@@ -33,39 +34,73 @@ contract("IsArtTokenSecret", (accounts) => {
 
   it("Should allow owner to toggle state", async function () {
     const isArtTokenSecret = await IsArtTokenSecret.deployed();
-    let cipherhexes = await secret.encrypt("is");
-    await isArtTokenSecret.toggle(1, cipherhexes);
-    expect(await secret.decrypt(await isArtTokenSecret.tokenIsArt(1)))
-      .to.equal("is");
-    cipherhexes = await secret.encrypt("is not");
-    await isArtTokenSecret.toggle(1, cipherhexes);
-    expect(await secret.decrypt(await isArtTokenSecret.tokenIsArt(1)))
-      .to.equal("is not");
+    let ciphertext = secret.encrypt(self, 1, 1, "is");
+    await isArtTokenSecret.toggle(1, web3.utils.bytesToHex(ciphertext));
+    expect(secret.decrypt(
+      self,
+      1,
+      1,
+      web3.utils.hexToBytes(await isArtTokenSecret.tokenIsArt(1))
+    )).to.equal("is");
+    ciphertext = secret.encrypt(self, 1, 2, "is not");
+    await isArtTokenSecret.toggle(1, web3.utils.bytesToHex(ciphertext));
+    expect(secret.decrypt(
+      self,
+      1,
+      2,
+      web3.utils.hexToBytes(await isArtTokenSecret.tokenIsArt(1))
+    )).to.equal("is not");
   });
 
   it("Should emit toggle status events", async function () {
     const isArtTokenSecret = await IsArtTokenSecret.deployed();
 
-    let cipherhexes = await secret.encrypt("is");
-    let result = await isArtTokenSecret.toggle(1, cipherhexes);
+    let ciphertext = secret.encrypt(
+      self,
+      1,
+      await web3.eth.getTransactionCount(self, 'pending'),
+      "is"
+    );
+    let result = await isArtTokenSecret.toggle(
+      1,
+      web3.utils.bytesToHex(ciphertext)
+    );
     expect(result.logs.length).to.equal(1);
     expect(result.logs[0].event).to.equal("Status");
-    expect(await secret.decrypt(result.logs[0].args.is_art))
-      .to.equal("is");
-
-    cipherhexes = await secret.encrypt("is not");
-    result = await isArtTokenSecret.toggle(1, cipherhexes);
+    expect(secret.decrypt(
+      self,
+      1,
+      (await web3.eth.getTransaction(result.receipt.transactionHash)).nonce,
+      web3.utils.hexToBytes(result.logs[0].args.is_art)
+    )).to.equal("is");
+    ciphertext = secret.encrypt(
+      self,
+      1,
+      await web3.eth.getTransactionCount(self, 'pending'),
+      "is not"
+    );
+    result = await isArtTokenSecret.toggle(
+      1,
+      web3.utils.bytesToHex(ciphertext)
+    );
     expect(result.logs.length).to.equal(1);
     expect(result.logs[0].event).to.equal("Status");
-    expect(await secret.decrypt(result.logs[0].args.is_art))
-      .to.equal("is not");
+    expect(secret.decrypt(
+      self,
+      1,
+      (await web3.eth.getTransaction(result.receipt.transactionHash)).nonce,
+      web3.utils.hexToBytes(result.logs[0].args.is_art)
+    )).to.equal("is not");
   });
 
   it("Should not allow non-owner to toggle state", async function () {
     const isArtTokenSecret = await IsArtTokenSecret.deployed();
     try {
-      let cipherhexes = await secret.encrypt("is");
-      await isArtTokenSecret.toggle(1, cipherhexes, { from: other });
+      await isArtTokenSecret.toggle(
+        1,
+        web3.utils.asciiToHex("-----"),
+        { from: other }
+      );
       expect.fail("Non-token-holder toggled state!");
     } catch (error) {
       expect(error.data.reason)

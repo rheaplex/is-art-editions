@@ -1,5 +1,5 @@
 /*  IsArtTokenSecret - Ethereum tokens that are art or not in secret.
-    Copyright (C) 2023 Myers Studio, Ltd.
+    Copyright (C) 2023-4 Myers Studio, Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import { ethers } from "./ethers-5.1.esm.min.js";
+
 import {
   ensureTokenId, hideModal, initNetwork,
   showModal, toText
@@ -27,11 +29,64 @@ let provider;
 let contract;
 let tokenId;
 
+// Copy and paste antipattern.
+
+// Yes, I know. This isn't remotely serious cryptography.
+// DO NOT USE ANY PART OF THIS ELSEWHERE!!!!!
+
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+function encrypt(address, tokenId, nonce, status) {
+  address = address.toUpperCase().split("").reverse().join("");
+  status = status.padEnd(32, "\0");
+  let result = [];
+  for (let i = 0; i < status.length; i++) {
+    result.push(
+      mod(
+        status.charCodeAt(i)
+          + tokenId.toNumber()
+          + nonce
+          + address.charCodeAt(mod(i, address.length)),
+        256)
+    );
+  }
+  return result;
+}
+
+function decrypt(address, tokenId, nonce, ciphertext) {
+  address = address.toUpperCase().split("").reverse().join("");
+  let result = [];
+  for (let i = 0; i < ciphertext.length; i++) {
+    result.push(
+      String.fromCharCode(
+        mod(
+          ciphertext[i]
+            - tokenId.toNumber()
+            - nonce
+            - address.charCodeAt(mod(i, address.length)),
+          256)
+      )
+    );
+  }
+  return result.join('').replace(/\0+$/, "");
+}
+
 const toggleBlockchainState = async () => {
   const signer = provider.getSigner();
+  const address = await signer.getAddress();
+  const status = document.getElementById("is-art-status").textContent
+        == "is" ? "is not" : "is";
+  const ciphertext = encrypt(
+    address,
+    tokenId,
+    await provider.getTransactionCount(address),
+    status
+  );
   // Make a read/write copy of our read-only contract object
   const contractWritable = contract.connect(signer);
-  contractWritable.toggle(tokenId)
+  contractWritable.toggle(tokenId, ciphertext)
     .then(tx => provider.waitForTransaction(tx.hash),
           // Metamask will log this, so we don't need to.
           () => null)
@@ -39,9 +94,11 @@ const toggleBlockchainState = async () => {
 };
 
 const onClickShowGui = async () => {
-  // Ask Metamask for the user's signing account
-  await provider.send("eth_requestAccounts", []);
-  showModal("gui");
+  const signer = provider.getSigner();
+  const address = await signer.getAddress();
+  if (address == await contract.ownerOf(tokenId)) {
+    showModal("gui");
+  }
 };
 
 const onClickToggle = async () => {
@@ -54,8 +111,17 @@ const onClickCancel = () => {
   hideModal("gui");
 };
 
-const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+const setDisplayState = async (id, is_art, event) => {
+  const signer = provider.getSigner();
+  const address = await signer.getAddress();
+  const tx = await provider.getTransaction(event.transactionHash);
+  document.getElementById("is-art-status").textContent =
+    decrypt(
+      address,
+      tokenId,
+      tx.nonce,
+      ethers.utils.arrayify(is_art)
+    );
 };
 
 const main = async (/*event*/) => {
@@ -63,19 +129,25 @@ const main = async (/*event*/) => {
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
-  setDisplayState(await contract.tokenIsArt(tokenId));
-
   const status = contract.filters.Status(
     tokenId,
     null
   );
 
-  contract.on(status, (id, is_art) => {
-    setDisplayState(is_art);
+  const recents = await contract.queryFilter(status, null, "latest");
+  const latest = recents[recents.length - 1];
+  setDisplayState(
+    latest.args.id,
+    latest.args.is_art,
+    latest
+  );
+
+  contract.on(status, (id, is_art, event) => {
+    setDisplayState(id, is_art, event);
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

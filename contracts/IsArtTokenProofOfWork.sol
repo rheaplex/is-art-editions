@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Author:                  Rhea Myers <rhea@myers.studio>
-// Copyright:               2023 Myers Studio, Ltd.
+// Copyright:               2023-4 Myers Studio, Ltd.
 pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -13,42 +13,66 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract IsArtTokenProofOfWork is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    event Status(uint256 indexed tokenId, bytes32 is_art, uint256 nonce);
+    event Status(
+        uint256 indexed tokenId,
+        bytes32 is_art,
+        uint256 sequence,
+        uint256 nonce
+    );
 
     // Initial metadata URI.
     string private baseUri = "ipfs://";
 
     bytes32[NUM_TOKENS] private statuses;
-    uint256[NUM_TOKENS] private nonces;
+    uint256[NUM_TOKENS] private sequences;
 
-    constructor() ERC721("Is Art (Token, Proof of Work)", "ISATPOW") {
-        for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            _mint(msg.sender, i);
+    constructor () ERC721("Is Art (Token, Proof of Work)", "ISATPOW") {
+        for (uint256 i = 0; i < NUM_TOKENS; i++) {
+            statuses[i] = bytes32(
+                "is\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            );
+            sequences[i] = 1;
+            _mint(msg.sender, i + 1);
         }
     }
 
-    function checkIsArt(uint256 tokenId, uint256 nonce, bytes32 status)
+    function checkIsArt (
+        uint256 tokenId,
+        uint256 sequence,
+        uint256 nonce,
+        bytes32 status
+    )
         public
         pure
         returns (bool)
     {
-        return (bytes3(status) == bytes3("is\x00")) &&
-            (sha256(abi.encodePacked(tokenId, nonce)) == status);
+        bytes3 target = (sequence % 2 == 0) ? bytes3("not") : bytes3("is\x00");
+        return (bytes3(status) == target) &&
+            (keccak256(abi.encodePacked(tokenId, sequence, nonce)) == status);
     }
 
-    function setIsArt (uint256 tokenId, uint256 nonce, bytes32 status) public {
+    function setIsArt (
+        uint256 tokenId,
+        uint256 sequence,
+        uint256 nonce,
+        bytes32 status
+    ) public {
         require(
             ownerOf(tokenId) == msg.sender,
             "Only token holder can set state"
         );
+        uint256 index = tokenId - 1;
         require(
-            checkIsArt(tokenId, nonce, status),
+            sequence == sequences[index] + 1,
+            "Incorrect sequence number"
+        );
+        require(
+            checkIsArt(tokenId, sequence, nonce, status),
             "Incorrect parameters"
         );
-        uint256 index = tokenId - 1;
         statuses[index] = status;
-        nonces[index] = nonce;
-        emit Status(tokenId, status, nonce);
+        sequences[index] = sequence;
+        emit Status(tokenId, status, sequence, nonce);
     }
 
     function getIsArt (uint256 tokenId)
@@ -60,13 +84,13 @@ contract IsArtTokenProofOfWork is ERC721, ERC721Enumerable, Pausable, Ownable {
         return statuses[tokenId - 1];
     }
 
-    function getNonce (uint256 tokenId)
+    function getSequence (uint256 tokenId)
         external
         view
         returns (uint256)
     {
         _requireMinted(tokenId);
-        return nonces[tokenId - 1];
+        return sequences[tokenId - 1];
     }
 
     function pause() public onlyOwner {

@@ -15,13 +15,13 @@ contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     event Status(
         uint256 indexed tokenId,
-        bytes32[2] is_art
+        bytes32 is_art
     );
 
     // Initial metadata URI.
     string private baseUri = "ipfs://Qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
 
-    bytes32[2][NUM_TOKENS] private is_art;
+    bytes32[NUM_TOKENS] private is_art;
 
     constructor() ERC721("Is Art (Token, Secret)", "ISATS") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
@@ -29,7 +29,7 @@ contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
         }
     }
 
-    function toggle (uint256 tokenId, bytes32[2] calldata is_value) public {
+    function toggle (uint256 tokenId, bytes32 is_value) public {
         require(
             ownerOf(tokenId) == msg.sender,
             "Only token holder can toggle state"
@@ -42,7 +42,7 @@ contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
     function tokenIsArt (uint256 tokenId)
         external
         view
-        returns (bytes32[2] memory)
+        returns (bytes32)
     {
         _requireMinted(tokenId);
         return is_art[tokenId - 1];

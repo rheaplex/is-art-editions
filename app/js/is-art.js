@@ -1,5 +1,6 @@
 /*  IsArt - Base code for Ethereum contracts that are or are not art.
     Copyright (C) 2015, 2016, 2017, 2019, 2022 Rhea Myers <rhea@myers.studio>
+    Copyright (C) 2024 Myers Studio Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

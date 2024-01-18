@@ -18,7 +18,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
 {
     uint256 public constant NUM_TOKENS = 16;
 
-    address paletteContract;
+    address private paletteContract;
 
     event Status(uint256 indexed tokenId, bytes6 is_art);
 

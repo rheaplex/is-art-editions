@@ -85,7 +85,8 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
         public
     {
         require(
-            ownerOf(tokenId) == msg.sender,
+            _exists(tokenId) &&
+            (_ownerOf(tokenId) == msg.sender),
             "You don't own that tokenId"
         );
         ERC721 erc721 = ERC721(contractAddressToNominate);

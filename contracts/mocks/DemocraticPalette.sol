@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.17;
+pragma solidity 0.8.17;
 
 /*  DemocraticPalette - A colour palette everyone can vote on.
-    Copyright (C) 2016  Rhea Myers <rob@Rhea Myers.org>
+    Copyright (C) 2016  Rhea Myers <rhea@myers.studio>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,14 +28,14 @@ contract DemocraticPalette {
     }
 
     // Store vote counts for every colour (packed as an int)
-    mapping (uint24 => uint) votes;
+    mapping (uint24 => uint) internal votes;
 
     // Store the most voted-for colours as the palette
     Colour[12] public palette;
 
     // And store the lowest vote that is in the palette
     // (more than one item may have this number of votes)
-    uint palette_lowest_vote;
+    uint internal palette_lowest_vote;
 
     event PaletteChanged(uint index);
 

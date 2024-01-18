@@ -19,7 +19,7 @@ import { ethers } from "./ethers-5.1.esm.min.js";
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -70,7 +70,7 @@ function decrypt(address, tokenId, nonce, ciphertext) {
       )
     );
   }
-  return result.join('').replace(/\0+$/, "");
+  return result.join("").replace(/\0+$/, "");
 }
 
 const toggleBlockchainState = async () => {

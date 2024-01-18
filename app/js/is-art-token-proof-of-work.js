@@ -63,7 +63,7 @@ class ProofOfWork {
     return result;
   }
 
-};
+}
 
 let provider;
 let contract;
@@ -96,7 +96,7 @@ function findPow() {
       .then(async () => hideModal("updating"));
     pow = undefined;
   }
-};
+}
 
 const toggleBlockchainState = async () => {
   await initPow();

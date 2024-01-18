@@ -75,7 +75,7 @@ const main = async (/*event*/) => {
   });
 
   document.getElementById("representation").onclick = onClickShowGui;
-  //document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickToggle;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

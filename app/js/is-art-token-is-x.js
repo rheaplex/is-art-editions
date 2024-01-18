@@ -17,13 +17,11 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
 let DEFAULT_TOKEN_ID = 1;
-let FIELD_MIN = 0;
-let FIELD_MAX = 15;
 
 let provider;
 let contract;

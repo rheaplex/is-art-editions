@@ -15,14 +15,16 @@ import "./IIsArt.sol";
 contract IsArtTokenProxy is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
-    address originalContract;
+    address private originalContract;
 
     event ProxyStatus(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
     string private baseUri = "ipfs://";
 
-    constructor(address original) ERC721("Is Art (Token, Proxy)", "ISATP") {
+    constructor(address original)
+        ERC721("Is Art (Token, Proxy)", "ISATP")
+    {
         originalContract = original;
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
             _mint(msg.sender, i);

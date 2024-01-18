@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.8.17;
+pragma solidity 0.8.17;
 
 /*  IsArt - Ethereum contract that is or isn't art.
-    Copyright (C) 2015  Rhea Myers <rob@Rhea Myers.org>
+    Copyright (C) 2015  Rhea Myers <rhea@myers.studio>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

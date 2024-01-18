@@ -1,4 +1,4 @@
-/* global expect require */
+/* global expect require web3 */
 
 const secret = require("../lib/secret.js");
 const testErc721 = require("../lib/testErc721.js");
@@ -58,7 +58,7 @@ contract("IsArtTokenSecret", (accounts) => {
     let ciphertext = secret.encrypt(
       self,
       1,
-      await web3.eth.getTransactionCount(self, 'pending'),
+      await web3.eth.getTransactionCount(self, "pending"),
       "is"
     );
     let result = await isArtTokenSecret.toggle(
@@ -76,7 +76,7 @@ contract("IsArtTokenSecret", (accounts) => {
     ciphertext = secret.encrypt(
       self,
       1,
-      await web3.eth.getTransactionCount(self, 'pending'),
+      await web3.eth.getTransactionCount(self, "pending"),
       "is not"
     );
     result = await isArtTokenSecret.toggle(

@@ -83,7 +83,7 @@ contract("IsArtTokenProofOfWork", (accounts) => {
 
   it("Should emit status events", async function () {
     const isArtTokenProofOfWork = await IsArtTokenProofOfWork.deployed();
-    
+
     let result = await isArtTokenProofOfWork.setIsArt(
       KNOWN[2][0],
       KNOWN[2][1],
@@ -97,10 +97,9 @@ contract("IsArtTokenProofOfWork", (accounts) => {
     expect(result.logs[0].args.nonce.toNumber()).to.equal(KNOWN[2][2]);
     expect(result.logs[0].args.is_art).to.equal(KNOWN[2][3]);
   });
-  
+
   it("Should not allow non-owner to set status", async () => {
     const isArtTokenProofOfWork = await IsArtTokenProofOfWork.deployed();
-    const tokenId = 1;
 
     try {
       await isArtTokenProofOfWork.setIsArt(

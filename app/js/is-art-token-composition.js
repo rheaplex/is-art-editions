@@ -17,7 +17,7 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 const PARENT_IDS = ["0x70000000000000000100000000000074686973","0x70000000000000000200000000000074686973","0x70000000000000000300000000000074686973","0x70000000000000000400000000000074686973","0x70000000000000000500000000000074686973","0x70000000000000000600000000000074686973","0x70000000000000000700000000000074686973","0x70000000000000000800000000000074686973","0x70000000000000000900000000000074686973","0x70000000000000000a00000000000074686973","0x70000000000000000b00000000000074686973","0x70000000000000000c00000000000074686973","0x70000000000000000d00000000000074686973","0x70000000000000000e00000000000074686973","0x70000000000000000f00000000000074686973","0x70000000000000001000000000000074686973"];
@@ -29,27 +29,10 @@ let provider;
 let contract;
 let tokenId;
 
-const toggleBlockchainState = async () => {
-  const signer = provider.getSigner();
-  // Make a read/write copy of our read-only contract object
-  const contractWritable = contract.connect(signer);
-  contractWritable.toggle(tokenId)
-    .then(tx => provider.waitForTransaction(tx.hash),
-          // Metamask will log this, so we don't need to.
-          () => null)
-    .then(async () => hideModal("updating"));
-};
-
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
   await provider.send("eth_requestAccounts", []);
   showModal("gui");
-};
-
-const onClickToggle = async () => {
-  hideModal("gui");
-  showModal("updating");
-  toggleBlockchainState();
 };
 
 const onClickCancel = () => {

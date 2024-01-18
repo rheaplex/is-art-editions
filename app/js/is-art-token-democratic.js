@@ -17,7 +17,7 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;

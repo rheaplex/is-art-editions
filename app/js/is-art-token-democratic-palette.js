@@ -17,7 +17,7 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -74,7 +74,7 @@ const main = async (/*event*/) => {
     null
   );
 
-  contract.on(status, async (id, is_art) => {
+  contract.on(status, async () => {
     setDisplayState(await contract.callStatic.tokenIsArt(tokenId));
   });
 

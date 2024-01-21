@@ -1,5 +1,5 @@
 /*  IsArtTokenNominational - Other Ethereum tokens that are art.
-    Copyright (C) 2023 Myers Studio, Ltd.
+    Copyright (C) 2023-4 Myers Studio, Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,8 +54,23 @@ const onClickCancel = () => {
   hideModal("gui");
 };
 
-const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+const setDisplayState = async() => {
+  const metadataUri = await contract.nominatedTokenURI(tokenId);
+  console.log(metadataUri);
+  if (metadataUri !== "") {
+    const metadata = await (await fetch(
+      metadataUri,
+      { mode: 'cors',
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })).json();
+    console.log(metadata);
+    const tokenImageUri = metadata["image"];
+    console.log(tokenImageUri);
+    document.body.style.backgroundImage = `url(${tokenImageUri})`;
+  }
 };
 
 const main = async (/*event*/) => {
@@ -63,16 +78,12 @@ const main = async (/*event*/) => {
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
-  setDisplayState(await contract.tokenIsArt(tokenId));
+  setDisplayState();
 
-  const status = contract.filters.Status(
-    tokenId,
-    null
-  );
-
-  contract.on(status, (id, is_art) => {
-    setDisplayState(is_art);
-  });
+  let status = contract.filters.Nominated(tokenId);
+  contract.on(status, () => setDisplayState() );
+  status = contract.filters.DeNominated(tokenId);
+  contract.on(status, () => setDisplayState() );
 
   document.getElementById("representation").onclick = onClickShowGui;
   document.getElementById("toggle-button").onclick = onClickToggle;

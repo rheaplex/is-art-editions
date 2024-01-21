@@ -4,6 +4,7 @@
 pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -16,17 +17,17 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
 
     event Nominated(
-        uint256 tokenId,
+        uint256 indexed tokenId,
         address nominatedTokenContract,
         uint256 nominatedTokenId,
-        address by
+        address indexed by
     );
 
     event DeNominated(
-        uint256 tokenId,
+        uint256 indexed tokenId,
         address nominatedTokenContract,
         uint256 nominatedTokenId,
-        address by
+        address indexed by
     );
 
     ////////////////////////////////////////////////////////////////
@@ -134,6 +135,27 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
             nominatedTokenId,
             msg.sender
         );
+    }
+
+    /*
+      Utility to get the metadata URI, if any, of the nominated token
+      for the tokenId in *this* contract that nominated it.
+      This will revert if the token doesn't suppport ERC721Metadata!
+    */
+
+    function nominatedTokenURI (uint256 tokenId)
+        external
+        view
+        returns (string memory uri)
+    {
+        require(_exists(tokenId), "No such tokenId");
+        Nomination storage nomination = nominations[tokenId - 1];
+        if (nomination.tokenContract != address(0x0)) {
+            IERC721Metadata erc721m = IERC721Metadata(nomination.tokenContract);
+            uri = erc721m.tokenURI(nomination.tokenId);
+        } else {
+            uri = "";
+        }
     }
 
     ////////////////////////////////////////////////////////////////

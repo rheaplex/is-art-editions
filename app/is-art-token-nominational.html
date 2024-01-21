@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="./css/bulma.css">
     <link rel="stylesheet" href="./css/is-art.css">
   </head>
-  <body>
+  <body class="image-background">
 
     <div id="representation" class="columns is-vcentered">
       <div id="is-art" class="column">
-        This<br>
-        token<br>
-        <span id="is-art-status">may be</span> art</div>
+        <img src="images/is-art-nominational.svg"
+             alt="This token is art">
+      </div>
     </div>
 
     <div class="modal" id="updating">
@@ -32,15 +32,20 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <h1 class="title">Toggle</h1>
-          <h2 class="subtitle">Select the "Toggle" button below to update the
-            token's state.</h2>
+          <h1 class="title">Display</h1>
+          <div class="field is-grouped">
+            <div class="control">
+              <label for="tokens">Token:</label>
+              <select name="tokens" id="tokens">
+              </select>
+            </div>
+          </div>
           <div class="field is-grouped">
             <div class="control">
               <button type="button" class="button is-success"
                       id="toggle-button">Toggle</button>
-            </div>
-            <div class="control">
+              <button type="button" class="button is-success"
+                      id="toggle-button">Toggle</button>
               <button type="button" class="button is-info"
                       id="cancel-button">Cancel</button>
             </div>

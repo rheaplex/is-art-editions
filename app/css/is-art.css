@@ -1,10 +1,12 @@
 body {
     margin: 0;
     font-family: sans-serif;
+    height: 100%;
 }
 
 html {
-  overflow: hidden;
+    overflow: hidden;
+    height: 100%;
 }
 
 #background {
@@ -47,4 +49,10 @@ html {
 
 #is-art-status {
     color: #550000;
+}
+
+.image-background {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }

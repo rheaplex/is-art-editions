@@ -114,9 +114,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     }
 
     function deNominate (
-        uint256 tokenId,
-        address nominatedContractAddress,
-        uint256 nominatedTokenId
+        uint256 tokenId
     )
         public
     {
@@ -128,13 +126,14 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
             nominations[tokenId - 1].tokenContract != address(0),
             "That external token isn't nominated"
         );
-        delete nominations[tokenId - 1];
+        // Do this first so we don't have to cache the nomination.
         emit DeNominated(
             tokenId,
-            nominatedContractAddress,
-            nominatedTokenId,
+            nominations[tokenId - 1].tokenContract,
+            nominations[tokenId - 1].tokenId,
             msg.sender
         );
+        delete nominations[tokenId - 1];
     }
 
     /*

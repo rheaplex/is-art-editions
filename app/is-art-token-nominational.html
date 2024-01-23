@@ -33,19 +33,26 @@
       <div class="modal-content">
         <div class="box">
           <h1 class="title">Display</h1>
-          <div class="field is-grouped">
+          <div class="field">
+            <label for="contract">Contract Address:</label>
             <div class="control">
-              <label for="tokens">Token:</label>
-              <select name="tokens" id="tokens">
-              </select>
+              <input class="input" type="text" name="contract" id="contract"
+                     placeholder="0x123AbC&hellip;">
+            </div>
+          </div>
+          <div class="field">
+            <label for="token">Token ID:</label>
+            <div class="control">
+              <input class="input" type="text" name="token" id="token"
+                     placeholder="12345">
             </div>
           </div>
           <div class="field is-grouped">
             <div class="control">
+              <button type="button" class="button is-danger"
+                      id="denominate-button">De-Nominate</button>
               <button type="button" class="button is-success"
-                      id="toggle-button">Toggle</button>
-              <button type="button" class="button is-success"
-                      id="toggle-button">Toggle</button>
+                      id="nominate-button">Nominate</button>
               <button type="button" class="button is-info"
                       id="cancel-button">Cancel</button>
             </div>

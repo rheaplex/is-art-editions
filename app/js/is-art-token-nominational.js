@@ -27,11 +27,25 @@ let provider;
 let contract;
 let tokenId;
 
-const toggleBlockchainState = async () => {
+const nominateBlockchainState = async () => {
   const signer = provider.getSigner();
   // Make a read/write copy of our read-only contract object
   const contractWritable = contract.connect(signer);
-  contractWritable.toggle(tokenId)
+  contractWritable.nominate(
+    tokenId,
+    document.getElementById("contract").value,
+    document.getElementById("token").value
+  ).then(tx => provider.waitForTransaction(tx.hash),
+          // Metamask will log this, so we don't need to.
+          () => null)
+    .then(async () => hideModal("updating"));
+};
+
+const deNominateBlockchainState = async () => {
+  const signer = provider.getSigner();
+  // Make a read/write copy of our read-only contract object
+  const contractWritable = contract.connect(signer);
+  contractWritable.deNominate(tokenId)
     .then(tx => provider.waitForTransaction(tx.hash),
           // Metamask will log this, so we don't need to.
           () => null)
@@ -41,13 +55,23 @@ const toggleBlockchainState = async () => {
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
   await provider.send("eth_requestAccounts", []);
+  const currentNomination = await contract.nominationForTokenId(tokenId);
+  document.getElementById("contract").value = currentNomination.tokenContract;
+  document.getElementById("token").value
+    = currentNomination.tokenId.toString() || "0";
   showModal("gui");
 };
 
-const onClickToggle = async () => {
+const onClickNominate = async () => {
   hideModal("gui");
   showModal("updating");
-  toggleBlockchainState();
+  nominateBlockchainState();
+};
+
+const onClickDeNominate = async () => {
+  hideModal("gui");
+  showModal("updating");
+  deNominateBlockchainState();
 };
 
 const onClickCancel = () => {
@@ -56,7 +80,6 @@ const onClickCancel = () => {
 
 const setDisplayState = async() => {
   const metadataUri = await contract.nominatedTokenURI(tokenId);
-  console.log(metadataUri);
   if (metadataUri !== "") {
     const metadata = await (await fetch(
       metadataUri,
@@ -66,10 +89,10 @@ const setDisplayState = async() => {
           'Accept': 'application/json',
         }
       })).json();
-    console.log(metadata);
     const tokenImageUri = metadata["image"];
-    console.log(tokenImageUri);
     document.body.style.backgroundImage = `url(${tokenImageUri})`;
+  } else {
+    document.body.style.backgroundImage = 'none';
   }
 };
 
@@ -86,7 +109,8 @@ const main = async (/*event*/) => {
   contract.on(status, () => setDisplayState() );
 
   document.getElementById("representation").onclick = onClickShowGui;
-  document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("denominate-button").onclick = onClickDeNominate;
+  document.getElementById("nominate-button").onclick = onClickNominate;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

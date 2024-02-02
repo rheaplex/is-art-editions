@@ -1,6 +1,5 @@
 /*  IsArtEdition - Ethereum tokens that are or are not something..
-    Copyright (C) 2022 Rhea Myers <rhea@myers.studio>
-    Copyright (C) 2024 Myers Studio, Ltd.
+    Copyright (C) 2024 Myers Studio Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +17,7 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -28,66 +27,80 @@ let provider;
 let contract;
 let tokenId;
 
-const setBlockchainState = async (newIs) => {
-  const signer = provider.getSigner();
-  // Make a read/write copy of our read-only contract object
-  const contractWritable = contract.connect(signer);
-  contractWritable.setIs(tokenId, newIs)
-    .then(tx => provider.waitForTransaction(tx.hash),
-          // Metamask will log this, so we don't need to.
-          () => null)
-    .then(async () => hideModal("updating"));
-};
-
-const onClickShowGui = async () => {
-  // Ask Metamask for the user's signing account
-  await provider.send("eth_requestAccounts", []);
-  const currentIs = await contract.tokenIs(tokenId);
-  const select = document.getElementById("new-is");
+const setOption = (id, value) => {
+  const select = document.getElementById(id);
   for (let i = 0; i < select.options.length; i++) {
-    if (select.options[i].value == currentIs) {
+    if (select.options[i].value == value) {
       select.options[i].selected = true;
     } else {
       select.options[i].selected = false;
     }
   }
+};
+
+const getOption = (id) => {
+  const select = document.getElementById(id);
+  return parseInt(select.options[select.selectedIndex].value, 10);
+};
+
+const setBlockchainDefinition = async () => {
+  const signer = provider.getSigner();
+  // Make a read/write copy of our read-only contract object
+  const contractWritable = contract.connect(signer);
+  contractWritable.setDefinition(
+    tokenId,
+    getOption("extent"),
+    getOption("relation"),
+    getOption("connection"),
+    getOption("subject")
+  ).then(tx => provider.waitForTransaction(tx.hash),
+         // Metamask will log this, so we don't need to.
+         () => null)
+    .then(async () => hideModal("updating"));
+};
+
+const onClickShowGui = async () => {
+  // Ask for the user's signing account
+  await provider.send("eth_requestAccounts", []);
+  const description = await contract.getDefinitionData(tokenId);
+  setOption("extent", description.extent);
+  setOption("relation", description.relation);
+  setOption("connection", description.connection);
+  setOption("subject", description.subject);
   showModal("gui");
 };
 
-const onClickToggle = async () => {
+const onClickUpdate = async () => {
   hideModal("gui");
   showModal("updating");
-  const select = document.getElementById("new-is");
-  const newIs = parseInt(select.options[select.selectedIndex].value, 10);
-  setBlockchainState(newIs);
+  setBlockchainDefinition();
 };
 
 const onClickCancel = () => {
   hideModal("gui");
 };
 
-const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+const setDefinition = async () => {
+  document.getElementById("is-art-definition").textContent =
+    await contract.getDefinitionText(tokenId);
 };
 
 const main = async (/*event*/) => {
-  [ provider, contract ] = await initNetwork("IsArtTokenIsX");
-
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
-  setDisplayState(await contract.tokenIsArt(tokenId));
+  [ provider, contract ] = await initNetwork("IsArtTokenIsX");
 
-  const status = contract.filters.Is(
-    tokenId,
-    null
+  await setDefinition();
+
+  const descriptionChanged = contract.filters.DefinitionChanged(
+    null,
+    tokenId
   );
 
-  contract.on(status, (id, token_is) => {
-    setDisplayState(token_is);
-  });
+  contract.on(descriptionChanged, setDefinition);
 
   document.getElementById("representation").onclick = onClickShowGui;
-  document.getElementById("toggle-button").onclick = onClickToggle;
+  document.getElementById("toggle-button").onclick = onClickUpdate;
   document.getElementById("cancel-button").onclick = onClickCancel;
 };
 

@@ -23,7 +23,7 @@ const COLOURS = [
 const cssColour = colour => `${colour.red.toString(16).padStart(2, "0").toUpperCase()}${colour.green.toString(16).padStart(2, "0").toUpperCase()}${colour.blue.toString(16).padStart(2, "0").toUpperCase()}`;
 
 const renderStatus = async (democraticPalette, tokenId, is) => {
-  return `<div style="color: #${cssColour(await democraticPalette.palette(0))};"><span style="color: #${cssColour(await democraticPalette.palette(1))};">this contract</span> <span style="color: #${cssColour(await democraticPalette.palette(2))};">${is}</span> <span style="color: #${cssColour(await democraticPalette.palette(3))};"/>art</span>`;
+  return `<div style="background-color: #${cssColour(await democraticPalette.palette(tokenId - 1))};"><span style="color: #${cssColour(await democraticPalette.palette(tokenId))};">this</span><br><span style="color: #${cssColour(await democraticPalette.palette(tokenId + 1))};">token</span><br><span style="color: #${cssColour(await democraticPalette.palette(tokenId + 2))};">${is}</span><br><span style="color: #${cssColour(await democraticPalette.palette(tokenId + 3))};">art</span><br></div>`;
 };
 
 contract("IsArtTokenDemocraticPalette", (accounts) => {
@@ -63,10 +63,10 @@ contract("IsArtTokenDemocraticPalette", (accounts) => {
     const isArtTokenDemocraticPalette
           = await IsArtTokenDemocraticPalette.deployed();
     const democraticPalette = await DemocraticPalette.deployed();
-    
+
     const rendered = await renderStatus(democraticPalette, 1, "is not");
     const status = await isArtTokenDemocraticPalette.tokenIsArt.call(1);
-    
+
     expect(status).to.equal(rendered);
   });
 

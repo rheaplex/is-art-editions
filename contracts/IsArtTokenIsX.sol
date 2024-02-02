@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Author:                  Rhea Myers <rhea@myers.studio>
-// Copyright:               2017  Rhea Myers
-// Copyright:               2023 Myers Studio, Ltd.
+// Copyright:               2017   Rhea Myers
+// Copyright:               2023-4 Myers Studio, Ltd.
 pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// A contract where each token is set to be/not be art because X
+// A contract where each token is set to be/not be art because ...
 // using the 'Art Is' controlled grammar by the token owner.
 
 contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
@@ -17,26 +17,10 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Events
     ////////////////////////////////////////////////////////////////
 
-    event DefinitionChanged(
-        address indexed theorist,
+    event Is(
         uint256 indexed tokenid,
-        uint8 extent,
-        uint8 relation,
-        uint8 connection,
-        uint8 subject
+        string token_is
     );
-
-    ////////////////////////////////////////////////////////////////
-    // Structs
-    ////////////////////////////////////////////////////////////////
-
-    struct Definition {
-        address theorist;
-        uint8 extent;
-        uint8 relation;
-        uint8 connection;
-        uint8 subject;
-    }
 
     ////////////////////////////////////////////////////////////////
     // Constants
@@ -46,82 +30,47 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     // Allow empty definition values, catch invalid definitions in code
     uint constant DEF_MIN = 0x00;
-    uint constant DEF_MAX = 0x0F;
+    uint constant DEF_MAX = 0x21;
 
-    string[DEF_MAX + 1] private extents = [
-        "powerfully",
-        "critically",
-        "unprecedentedly",
-        "shockingly",
-        "ironically",
-        "zanily",
-        "interestingly",
-        "cutely",
-        "paradoxically",
-        "evocatively",
-        "skilfully",
-        "cunningly",
-        "allusively",
-        "passionately",
-        "deftly",
-        "basedly"
-    ];
+    string[DEF_MAX + 1] private ises = [
+        "art",
+        "non-art",
+        "painting",
+        "sculpture",
+        "conceptual art",
+        "architecture",
+        "installation art",
+        "body art",
+        "performance art",
 
-    string[DEF_MAX + 1] private relations = [
-        "engages with",
-        "extends",
-        "explores the weltanschauung of",
-        "interrogates",
-        "draws its forms from",
-        "embraces",
-        "reacts to",
-        "comments on",
-        "indexes",
-        "symbolically resolves the contradictions of",
-        "embodies",
-        "plays with",
-        "sutures its content to",
-        "expresses",
-        "depicts",
-        "diagrams"
-    ];
+        "performance",
+        "theatre",
+        "music",
+        "dance",
+        "cinema",
+        "opera",
+        "television",
 
-    string[DEF_MAX + 1] private connections = [
-        "negative",
-        "universal",
-        "ontological",
-        "epistemological",
-        "historical",
-        "psychological",
-        "simplistic",
-        "sophisticated",
-        "conservative",
-        "liberal",
-        "ironic",
-        "creepy",
-        "radical",
-        "queer",
-        "racialised",
-        "trans"
-    ];
+        "drama",
+        "literature",
+        "poetry",
+        "prose",
+        "fiction",
 
-    string[DEF_MAX + 1] private subjects = [
-        "specificity",
+        "video art",
+        "new media art",
+        "a video game",
+        "generative art",
+        "net art",
+        "digital art",
+        "photography",
+
         "techne",
-        "society",
-        "politics",
-        "materiality",
-        "identity",
-        "affect",
-        "understanding",
-        "aesthetics",
-        "theology",
-        "demonology",
-        "beauty",
-        "horror",
-        "desire",
+        "aesthetic",
+        "gesamtkunstwerk",
         "critique",
-        "universality"
+
+        "nft art"
     ];
 
     ////////////////////////////////////////////////////////////////
@@ -131,20 +80,19 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Initial metadata URI.
     string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
 
-    Definition[NUM_TOKENS] private definitions;
+    string[NUM_TOKENS] private is_ises;
 
     ////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////
 
-    constructor() ERC721("Is Art (Token Is X)", "ISATIX") {
+    constructor() ERC721("Is Art (Token, Is X)", "ISATISX") {
         for (uint256 i = 0; i < NUM_TOKENS; i++) {
             uint256 tokenId = i + 1;
-            uint8 i8 = uint8(i);
-            definitions[i] = Definition(address(0x0), i8, i8, i8, i8);
+            is_ises[i] = ises[i];
             // Set internal state before interacting with other contracts
             _mint(msg.sender, tokenId);
-            emit DefinitionChanged(address(0x0), tokenId, i8, i8, i8, i8);
+            emit Is(tokenId, is_ises[i]);
         }
     }
 
@@ -152,40 +100,18 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     // Public API
     ////////////////////////////////////////////////////////////////
 
-    function getDefinitionText(uint256 tokenId)
+    function tokenIs(uint256 tokenId)
         external
         view
         returns (string memory)
     {
         require(tokenId > 0 && tokenId <= NUM_TOKENS, "no such token");
-        Definition storage def = definitions[tokenId - 1];
-        return string.concat(
-            "This token is art because it ",
-            string(extents[def.extent]),
-            " ",
-            relations[def.connection],
-            " ",
-            connections[def.relation],
-            " ",
-            subjects[def.subject]
-        );
+        return is_ises[tokenId - 1];
     }
 
-    function getDefinitionData(uint256 tokenId)
-        external
-        view
-        returns (Definition memory)
-    {
-        require(tokenId > 0 && tokenId <= NUM_TOKENS, "no such token");
-        return definitions[tokenId - 1];
-    }
-
-    function setDefinition(
+    function setIs(
         uint256 tokenId,
-        uint8 extent,
-        uint8 relation,
-        uint8 connection,
-        uint8 subject
+        uint8 newIs
     )
         public
     {
@@ -193,54 +119,15 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
             ownerOf(tokenId) == msg.sender,
             "Only token holder can set definition"
         );
-        uint256 index = tokenId - 1;
         require(
-            isDefValid(extent, connection, relation, subject),
-            "Invalid definition property"
+            (newIs >= DEF_MIN) && (newIs <= DEF_MAX),
+            "Invalid is value"
         );
-        address theorist = msg.sender;
-        definitions[index].theorist = theorist;
-        definitions[index].extent = extent;
-        definitions[index].relation = relation;
-        definitions[index].connection = connection;
-        definitions[index].subject = subject;
-        emit DefinitionChanged(
-            theorist,
+        is_ises[tokenId - 1] = ises[newIs];
+        emit Is(
             tokenId,
-            extent,
-            relation,
-            connection,
-            subject
+            is_ises[tokenId - 1]
         );
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // Internal functions
-    ////////////////////////////////////////////////////////////////
-
-    function isDefValid (
-        uint8 extent,
-        uint8 relation,
-        uint8 connection,
-        uint8 subject
-    )
-        public
-        pure
-        returns (bool result)
-    {
-        result = isDefValueInRange(extent) &&
-            isDefValueInRange(relation) &&
-            isDefValueInRange(connection) &&
-            isDefValueInRange(subject);
-    }
-
-    function isDefValueInRange (uint8 defValue)
-        public
-        pure
-        returns (bool result)
-    {
-        result = (defValue >= DEF_MIN) &&
-            (defValue <= DEF_MAX);
     }
 
     ////////////////////////////////////////////////////////////////

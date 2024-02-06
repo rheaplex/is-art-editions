@@ -1,6 +1,8 @@
 {
     "devDependencies": {
         "eslint": "^8.32.0",
+        "pdfkit": "^0.14.0",
+        "textbox-for-pdfkit": "^0.2.1",
         "truffle-plugin-stdjsonin": "github:mhrsalehi/truffle-plugin-stdjsonin"
     },
     "scripts": {

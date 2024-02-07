@@ -15,8 +15,14 @@ const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 1.5)) - 70;
 
 const colours = require('../data/palette-colours.json');
 
-function colourIndexWrap(n) {
-  return n < 12 ? n : 22 - n;
+function colourIndexWrap(tokenId, index) {
+  let nn;
+  if (tokenId < 8) {
+    nn = (tokenId - 1) + index;
+  } else {
+    nn = (19 - tokenId) - index;
+  }
+  return nn;
 }
 
 if (! fs.existsSync(OUTPUT_DIR)) {
@@ -30,17 +36,19 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     font: 'resources/OpenSans-Bold.ttf'
   });
 
+  const id = i + 1;
+
   doc.rect(0,0, WIDTH, HEIGHT)
-    .fill( colours[colourIndexWrap(i)]);
+    .fill( colours[colourIndexWrap(id, 0)]);
 
   // Not that we go by index not token id here.
   const text = [
-    { text: "This", color: colours[colourIndexWrap(i + 1)] },
-    { text: "token", color: colours[colourIndexWrap(i + 2)],
+    { text: "This", color: colours[colourIndexWrap(id, 1)] },
+    { text: "token", color: colours[colourIndexWrap(id, 2)],
       newLine: true },
-    { text: "is ", color: colours[colourIndexWrap(i + 3)],
+    { text: "is ", color: colours[colourIndexWrap(id, 3)],
       newLine: true },
-    { text: "art ", color: colours[colourIndexWrap(i + 4)] },
+    { text: "art ", color: colours[colourIndexWrap(id, 4)] },
   ];
 
   addTextbox(text, doc, 0, TOP, WIDTH, {
@@ -51,6 +59,6 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     align: 'center',
   });
 
-  doc.pipe(fs.createWriteStream(`${OUTPUT_DIR}/${i + 1}.pdf`));
+  doc.pipe(fs.createWriteStream(`${OUTPUT_DIR}/${id}.pdf`));
   doc.end();
 }

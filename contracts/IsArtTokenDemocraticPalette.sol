@@ -61,24 +61,32 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
         IDemocraticPalette palette = IDemocraticPalette(paletteContract);
         return string.concat(
             "<div style=\"background-color: #",
-            cssColour(palette.palette(tokenId - 1)),
+            cssColour(palette.palette(colourIndexWrap(tokenId, 0))),
             ";\">",
-            colouredText(tokenId, "this"),
-            colouredText(tokenId + 1, "token"),
-            colouredText(tokenId + 2, is_art[tokenId - 1] == bytes6("is") ? "is" : "is not"),
-            colouredText(tokenId + 3, "art"),
+            colouredText(tokenId, 1, "this"),
+            colouredText(tokenId, 2, "token"),
+            colouredText(
+                tokenId,
+                3,
+                is_art[tokenId - 1] == bytes6("is") ? "is" : "is not"
+            ),
+            colouredText(tokenId, 4, "art"),
             "</div>"
         );
     }
 
-    function colouredText(uint256 colourIndex, string memory toColour)
+    function colouredText(
+        uint256 tokenId,
+        uint256 colourIndex,
+        string memory toColour
+    )
         private
         returns (string memory)
     {
         IDemocraticPalette palette = IDemocraticPalette(paletteContract);
         return string.concat(
             "<span style=\"color: #",
-            cssColour(palette.palette(colourIndexWrap(colourIndex))),
+            cssColour(palette.palette(colourIndexWrap(tokenId, colourIndex))),
             ";\">",
             toColour,
             "</span><br>"
@@ -113,10 +121,20 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
         );
     }
 
-    // We can only access the first 12 (0..11) colours, and we need 20.
+    // We can only access the first 12 (0..11) colours, and we need more.
 
-    function colourIndexWrap(uint8 n) internal pure returns (uint8) {
-        return n < 12 ? n : 22 - n;
+    function colourIndexWrap(uint256 tokenId, uint256 index)
+        internal
+        pure
+        returns (uint8)
+    {
+        uint256 nn;
+        if (tokenId < 8) {
+            nn = (tokenId - 1) + index;
+        } else {
+            nn = (19 - tokenId) - index;
+        }
+        return uint8(nn);
     }
 
     function pause() public onlyOwner {

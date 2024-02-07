@@ -78,7 +78,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
         IDemocraticPalette palette = IDemocraticPalette(paletteContract);
         return string.concat(
             "<span style=\"color: #",
-            cssColour(palette.palette(colourIndex)),
+            cssColour(palette.palette(colourIndexWrap(colourIndex))),
             ";\">",
             toColour,
             "</span><br>"
@@ -111,6 +111,12 @@ is ERC721, ERC721Enumerable, Pausable, Ownable
             (uint16(lookup[n / 16]) << 8) +
             uint16(lookup[n % 16])
         );
+    }
+
+    // We can only access the first 12 (0..11) colours, and we need 20.
+
+    function colourIndexWrap(uint8 n) internal pure returns (uint8) {
+        return n < 12 ? n : 22 - n;
     }
 
     function pause() public onlyOwner {

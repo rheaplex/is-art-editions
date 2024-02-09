@@ -3,7 +3,6 @@
 IN_DIR="./pdfs"
 OUT_DIR="./images"
 SIZE="3840x2160"
-OTHERS=(burn griefing lottery proof-of-work proxy token)
 
 echo "STARTING"
 
@@ -23,13 +22,6 @@ for path in "$IN_DIR/"*; do
                 "$OUT_DIR/$dir/$name.png"
     done
     echo ''
-done
-
-for other in "${OTHERS[@]}"; do
-    echo -n $other
-    mkdir -p "$OUT_DIR/$other"
-    cp ./images/image/is.png "$OUT_DIR/$other"
-    echo ' .'
 done
 
 echo "DONE"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NUM_TOKENS=16
-OUT_DIR="./images/is-art-token-block-height/"
+OUT_DIR="./images/block-height/"
 BLOCK_TIME=12
 TICKS_PER_SECOND=100
 

@@ -71,7 +71,7 @@ for (let i = 0; i < NUM_TOKENS; i++) {
   // Not that we go by index not token id here.
   const text = [
     { text: "This", color: GREY },
-    { text: "token is", color: GREY, newLine: true },
+    { text: "token is ", color: GREY, newLine: true },
     { text: ISES[i], color: RED },
   ];
 

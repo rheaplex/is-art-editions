@@ -108,8 +108,6 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     font: 'resources/OpenSans-Bold.ttf'
   });
 
-  console.log(definitionText(i));
-
   // Not that we go by index not token id here.
   const text = [
     { text: definitionText(i), color: GREY },

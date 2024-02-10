@@ -5,9 +5,9 @@ const addTextbox = require('textbox-for-pdfkit');
 const OUTPUT_DIR = 'pdfs/because';
 
 const NUM_TOKENS = 16;
-const FONT_SIZE = 166;
+const FONT_SIZE = 96;
 const WIDTH = 1920;
-const HEIGHT = 1200;
+const HEIGHT = 1080;
 // Center the text vertically in the box
 // The -X at the end is so the text doesn't look too low.
 // It's to match the css in appearance.
@@ -125,7 +125,7 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     .fillColor(GREY)
     .fontSize(FONT_SIZE)
     .text(definitionText(i), {
-      width: 1200,
+      width: 1080,
       // To match the css.
       lineHeight: 0.975,
       align: 'center'

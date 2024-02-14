@@ -68,7 +68,9 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     font: 'resources/OpenSans-Bold.ttf'
   });
 
-  doc.image('app/fth.png', 0, 0, {
+  // I own this NFT at the time of minting.
+  // See: https://licenseterms.cryptopunks.app/
+  doc.image('../../Downloads/punk6939.png', 0, 0, {
     fit: [WIDTH, HEIGHT], align: 'center', valign:
     'center'
   });

@@ -11,9 +11,9 @@ const HEIGHT = 1080;
 // Center the text vertically in the box
 // The -X at the end is so the text doesn't look too low.
 // It's to match the css in appearance.
-const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 3.0)) - 70;
+const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 3.0)) - 65;
 const TEXT_WIDTH = (FONT_SIZE * 16.0);
-const MARGIN = WIDTH * 0.2;
+const MARGIN = WIDTH * 0.275;
 
 const GREY = '#4A4A4A';
 const RED = '#550000';
@@ -120,20 +120,8 @@ for (let i = 0; i < NUM_TOKENS; i++) {
   addTextbox(text, doc, MARGIN, TOP, WIDTH - (MARGIN * 2.0), {
     font: 'resources/OpenSans-Bold.ttf',
     fontSize: FONT_SIZE,
-    // To match the css.
-    lineHeight: 0.975,
     align: 'center',
   });
-
-  /*doc
-    .fillColor(GREY)
-    .fontSize(FONT_SIZE)
-    .text(definitionText(i), {
-      width: 1080,
-      // To match the css.
-      lineHeight: 0.975,
-      align: 'center'
-    });*/
 
   doc.pipe(fs.createWriteStream(`${OUTPUT_DIR}/${i + 1}.pdf`));
   doc.end();

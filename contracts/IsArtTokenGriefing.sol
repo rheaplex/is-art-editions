@@ -24,7 +24,7 @@ contract IsArtTokenGriefing is ERC721, ERC721Enumerable, Pausable, Ownable {
     uint256 public constant NUM_TOKENS = 16;
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenGriefing/";
 
     bytes6 private is_art;
 

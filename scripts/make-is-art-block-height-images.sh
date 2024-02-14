@@ -7,8 +7,10 @@ TICKS_PER_SECOND=100
 
 mkdir -p "${OUT_DIR}"
 
+echo -n "block height "
+
 for ((i=1; i<=NUM_TOKENS; i++)); do
-    echo -n "$i "
+    echo -n ". "
     duration_seconds=$(($i * $BLOCK_TIME))
     duration_ticks=$(($duration_seconds * $TICKS_PER_SECOND))
     convert -delay ${duration_ticks} \

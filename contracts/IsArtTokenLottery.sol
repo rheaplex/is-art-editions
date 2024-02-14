@@ -24,7 +24,7 @@ contract IsArtTokenLottery is ERC721, ERC721Enumerable, Pausable, Ownable {
     );
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://qqqqqqqqqqqqqqqqq/";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenLottery/";
 
     bytes6[NUM_TOKENS] private is_art;
 

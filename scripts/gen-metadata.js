@@ -3,7 +3,7 @@ const fs = require('fs');
 const NUM_TOKENS = 16;
 const TOKEN_BASE = 1;
 
-const IMAGES_ROOT_DIR_HASH = "Q..........";
+const IMAGES_ROOT_DIR_HASH = "bafybeigrmuo7dotjufdzudoqruqww3xfrd6sfv4bgygoa6lynfccbuye5m";
 const SHOW_URL_BASE = "https://show.rhea.art/is-art-editions/";
 
 const TOKENS = [

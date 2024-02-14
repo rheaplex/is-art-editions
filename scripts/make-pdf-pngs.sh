@@ -4,8 +4,6 @@ IN_DIR="./pdfs"
 OUT_DIR="./images"
 SIZE="3840x2160"
 
-echo "STARTING"
-
 mkdir -p "${OUT_DIR}"
 
 for path in "$IN_DIR/"*; do
@@ -23,5 +21,3 @@ for path in "$IN_DIR/"*; do
     done
     echo ''
 done
-
-echo "DONE"

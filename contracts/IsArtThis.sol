@@ -16,7 +16,7 @@ contract IsArtThis is ERC721, ERC721Enumerable, Pausable, Ownable {
     event Status(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtThis/";
 
     bytes6[NUM_TOKENS] private is_art;
 

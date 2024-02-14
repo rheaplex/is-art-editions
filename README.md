@@ -36,3 +36,16 @@ npm run ethnode
 npm run develop
 npm run serve
 ```
+
+Text
+----
+
+1920x1080
+
+Open Sans Bold
+Centred
+Font Size: 72
+Line Height: 1.0
+
+Text Grey: 4a4a4a
+Text Red: 550000

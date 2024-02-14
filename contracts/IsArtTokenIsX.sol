@@ -78,7 +78,7 @@ contract IsArtTokenIsX is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://QQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenIsX";
 
     string[NUM_TOKENS] private is_ises;
 

@@ -12,7 +12,7 @@ const HEIGHT = 1080;
 // Center the text vertically in the box
 // The -X at the end is so the text doesn't look too low.
 // It's to match the css in appearance.
-const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 3)) - 70;
+const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 3)) - 65;
 
 const GREY = '#4A4A4A';
 const RED = '#550000';
@@ -46,8 +46,6 @@ for (let i = 0; i < NUM_TOKENS; i++) {
   addTextbox(text, doc, 0, TOP, WIDTH, {
     font: 'resources/OpenSans-Bold.ttf',
     fontSize: FONT_SIZE,
-    // To match the css.
-    lineHeight: 0.975,
     align: 'center',
   });
 

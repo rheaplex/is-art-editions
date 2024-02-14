@@ -19,7 +19,7 @@ contract IsArtTokenSecret is ERC721, ERC721Enumerable, Pausable, Ownable {
     );
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://Qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenSecret/";
 
     bytes32[NUM_TOKENS] private is_art;
 

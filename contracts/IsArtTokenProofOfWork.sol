@@ -21,7 +21,7 @@ contract IsArtTokenProofOfWork is ERC721, ERC721Enumerable, Pausable, Ownable {
     );
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://";
+    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenProofOfWork/";
 
     bytes32[NUM_TOKENS] private statuses;
     uint256[NUM_TOKENS] private sequences;

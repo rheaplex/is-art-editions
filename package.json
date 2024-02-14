@@ -17,7 +17,11 @@
         "build-local": "truffle migrate --network develop && cp ./build/contracts/IsArtToken.json ./build/contracts/IsArtTokenBlockHeight.json ./app/js/",
         "dashboard-mainnet": "truffle dashboard",
         "deploy-mainnet": "truffle deploy --network dashboard",
-        "flatten": "truffle run stdjsonin IsArtToken IsArtTokenBlockHeight && mv ./IsArt*-input.json ./flattened"
+        "flatten": "truffle run stdjsonin IsArtToken IsArtTokenBlockHeight && mv ./IsArt*-input.json ./flattened",
+        "pdfs": "node scripts/gen-because-pdfs.js && node scripts/gen-composition-pdfs.js && node scripts/gen-democratic-pdfs.js && node scripts/gen-democratic-palette-pdfs.js && node scripts/gen-is-x-pdfs.js && node scripts/gen-metadata-pdfs.js && node scripts/gen-nominational-pdfs.js && node scripts/gen-secret-pdfs.js && bash scripts/make-is-art-block-height-images.js",
+        "pngs": "bash scripts/make-pdf-pngs.sh",
+        "metadata": "node scripts/gen-metadata.js",
+        "assets": "npm run pdfs && npm run pngs && npm run metadata"
     },
     "keywords": [
         "art",

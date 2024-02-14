@@ -48,7 +48,7 @@ for (let i = 0; i < NUM_TOKENS; i++) {
       newLine: true },
     { text: "is ", color: colours[colourIndexWrap(id, 3)],
       newLine: true },
-    { text: "art ", color: colours[colourIndexWrap(id, 4)] },
+    { text: "art", color: colours[colourIndexWrap(id, 4)] },
   ];
 
   addTextbox(text, doc, 0, TOP, WIDTH, {

@@ -17,7 +17,7 @@
 
 import {
   ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -83,16 +83,16 @@ const setDisplayState = async() => {
   if (metadataUri !== "") {
     const metadata = await (await fetch(
       metadataUri,
-      { mode: 'cors',
-        method: 'GET',
+      { mode: "cors",
+        method: "GET",
         headers: {
-          'Accept': 'application/json',
+          "Accept": "application/json",
         }
       })).json();
     const tokenImageUri = metadata["image"];
     document.body.style.backgroundImage = `url(${tokenImageUri})`;
   } else {
-    document.body.style.backgroundImage = 'none';
+    document.body.style.backgroundImage = "none";
   }
 };
 

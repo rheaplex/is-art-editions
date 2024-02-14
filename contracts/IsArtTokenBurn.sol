@@ -22,7 +22,7 @@ contract IsArtTokenBurn is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     constructor() ERC721("Is Art (Token, Burn)", "ISATB") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
-            // Set internal state before interacting with other conacts
+            // Set internal state before interacting with other contracts
             is_art[i - 1] = "is not";
             _mint(msg.sender, i);
         }

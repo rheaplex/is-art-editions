@@ -9,6 +9,7 @@ module.exports = async function(_deployer) {
   await _deployer.deploy(IsArtTokenComposition);
   const isArtTokenComposition = await IsArtTokenComposition.deployed();
   for(let i = 0; i < composition.TOKEN_IDS.length; i += stride) {
+    console.log(`   Composing ${i}..${i + stride}`);
     await isArtTokenComposition.mintTokens(
       composition.TOKEN_IDS.slice(i, i + stride)
         .map(web3.utils.toBN),

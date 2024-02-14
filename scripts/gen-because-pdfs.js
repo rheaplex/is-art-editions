@@ -13,6 +13,7 @@ const HEIGHT = 1080;
 // It's to match the css in appearance.
 const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 3.0)) - 70;
 const TEXT_WIDTH = (FONT_SIZE * 16.0);
+const MARGIN = WIDTH * 0.2;
 
 const GREY = '#4A4A4A';
 const RED = '#550000';
@@ -104,7 +105,8 @@ if(! fs.existsSync(OUTPUT_DIR)) {
 for (let i = 0; i < NUM_TOKENS; i++) {
   const doc = new PDFDocument({
     size: [WIDTH, HEIGHT],
-    margin: 0,
+    margin:
+    0,
     font: 'resources/OpenSans-Bold.ttf'
   });
 
@@ -113,7 +115,9 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     { text: definitionText(i), color: GREY },
   ];
 
-  addTextbox(text, doc, 0, TOP, WIDTH, {
+  // Have more padding than other gen-*-pdfs because we need to use
+  // addTexbox()'s line-breaking.
+  addTextbox(text, doc, MARGIN, TOP, WIDTH - (MARGIN * 2.0), {
     font: 'resources/OpenSans-Bold.ttf',
     fontSize: FONT_SIZE,
     // To match the css.

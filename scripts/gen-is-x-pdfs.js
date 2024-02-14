@@ -71,8 +71,9 @@ for (let i = 0; i < NUM_TOKENS; i++) {
   // Not that we go by index not token id here.
   const text = [
     { text: "This", color: GREY },
-    { text: "token is ", color: GREY, newLine: true },
-    { text: ISES[i], color: RED },
+    { text: "token ", color: GREY, newLine: true },
+    { text: "is ", color: RED, newLine: true },
+    { text: ISES[i], color: GREY },
   ];
 
   addTextbox(text, doc, 0, TOP, WIDTH, {

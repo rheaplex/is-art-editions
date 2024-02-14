@@ -3,7 +3,7 @@
 const testErc721 = require("../lib/testErc721.js");
 
 const NUM_TOKENS = 16;
-const THRESHOLD = 8;
+const THRESHOLD = 9;
 const PERCENTAGE = 6.25;
 const IsArtTokenDemocratic = artifacts.require("IsArtTokenDemocratic");
 

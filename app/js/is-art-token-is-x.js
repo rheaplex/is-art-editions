@@ -67,15 +67,15 @@ const onClickCancel = () => {
 };
 
 const setDisplayState = (state) => {
-  document.getElementById("is-art-status").textContent = toText(state);
+  document.getElementById("is-art-status").textContent = state;
 };
 
 const main = async (/*event*/) => {
   [ provider, contract ] = await initNetwork("IsArtTokenIsX");
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
-
-  setDisplayState(await contract.tokenIsArt(tokenId));
+  
+  setDisplayState(await contract.tokenIs(tokenId));
 
   const status = contract.filters.Is(
     tokenId,

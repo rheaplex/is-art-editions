@@ -26,7 +26,8 @@ contract IsArtTokenDemocratic is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
 
     uint256 private constant NUM_TOKENS = 16;
-    uint8 private constant THRESHOLD = 8;
+    // Simple majority
+    uint8 private constant THRESHOLD = 9;
     uint256 private constant PERCENTAGE = 10000 / NUM_TOKENS;
 
     ////////////////////////////////////////////////////////////////

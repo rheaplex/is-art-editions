@@ -6,10 +6,6 @@ const testMnemonic = 'test test test test test test test test test test test jun
 
 
 module.exports = {
-  networks: {
-    dashboard: {
-    },
-  },
   mocha: {
     // timeout: 100000
   },

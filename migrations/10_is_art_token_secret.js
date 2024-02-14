@@ -12,6 +12,7 @@ module.exports = async function(_deployer, network, accounts) {
   // based on our event-reliant decoding scheme.
   const isArtTokenSecret = await IsArtTokenSecret.deployed();
   for(let i = 0; i < NUM_TOKENS; i++) {
+    console.log(`   Setting secret ${i}`);
     let ciphertext = secret.encrypt(
       accounts[0],
       i + 1,

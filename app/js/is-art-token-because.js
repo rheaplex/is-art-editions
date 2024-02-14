@@ -88,7 +88,7 @@ const setDefinition = async () => {
 const main = async (/*event*/) => {
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
 
-  [ provider, contract ] = await initNetwork("IsArtTokenIsX");
+  [ provider, contract ] = await initNetwork("IsArtTokenBecause");
 
   await setDefinition();
 

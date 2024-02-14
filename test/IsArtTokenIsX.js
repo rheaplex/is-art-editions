@@ -7,7 +7,6 @@ const IsArtTokenIsX = artifacts.require("IsArtTokenIsX");
 const NUM_TOKENS = 16;
 
 contract("IsArtTokenIsX", (accounts) => {
-  const owner = accounts[0];
   const other = accounts[1];
 
   it("Should initialize contract state correctly", async function () {

@@ -8,8 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-
-import "./IERC4906.sol";
+import "@openzeppelin/contracts/interfaces/IERC4906.sol";
 
 // A contract where each token's metadata is/is not art based on the vote
 // of its owner.

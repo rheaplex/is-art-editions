@@ -78,7 +78,7 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     { text: "This", color: GREY },
     { text: "token", color: GREY, newLine: true },
     { text: "is", color: RED, newLine: true },
-    { text: "art", color: GREY },
+    { text: " art", color: GREY },
   ];
 
   addTextbox(text, doc, 0, TOP, WIDTH, {

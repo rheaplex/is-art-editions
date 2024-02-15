@@ -36,15 +36,15 @@
     "absolutePath": "project:/contracts/IIsArt.sol",
     "exportedSymbols": {
       "IIsArt": [
-        3405
+        3635
       ]
     },
-    "id": 3406,
+    "id": 3636,
     "license": "GPL-3.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3396,
+        "id": 3626,
         "literals": [
           "solidity",
           "^",
@@ -52,7 +52,7 @@
           ".17"
         ],
         "nodeType": "PragmaDirective",
-        "src": "46:24:20"
+        "src": "46:24:22"
       },
       {
         "abstract": false,
@@ -61,42 +61,42 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 3405,
+        "id": 3635,
         "linearizedBaseContracts": [
-          3405
+          3635
         ],
         "name": "IIsArt",
-        "nameLocation": "82:6:20",
+        "nameLocation": "82:6:22",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "functionSelector": "16f5066a",
-            "id": 3401,
+            "id": 3631,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "is_art",
-            "nameLocation": "105:6:20",
+            "nameLocation": "105:6:22",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3397,
+              "id": 3627,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "112:2:20"
+              "src": "112:2:22"
             },
             "returnParameters": {
-              "id": 3400,
+              "id": 3630,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3399,
+                  "id": 3629,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3401,
-                  "src": "138:6:20",
+                  "scope": 3631,
+                  "src": "138:6:22",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -104,10 +104,10 @@
                     "typeString": "bytes6"
                   },
                   "typeName": {
-                    "id": 3398,
+                    "id": 3628,
                     "name": "bytes6",
                     "nodeType": "ElementaryTypeName",
-                    "src": "138:6:20",
+                    "src": "138:6:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bytes6",
                       "typeString": "bytes6"
@@ -116,48 +116,48 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "137:8:20"
+              "src": "137:8:22"
             },
-            "scope": 3405,
-            "src": "96:50:20",
+            "scope": 3635,
+            "src": "96:50:22",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           },
           {
             "functionSelector": "40a3d246",
-            "id": 3404,
+            "id": 3634,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "toggle",
-            "nameLocation": "161:6:20",
+            "nameLocation": "161:6:22",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3402,
+              "id": 3632,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "168:2:20"
+              "src": "168:2:22"
             },
             "returnParameters": {
-              "id": 3403,
+              "id": 3633,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "179:0:20"
+              "src": "179:0:22"
             },
-            "scope": 3405,
-            "src": "152:28:20",
+            "scope": 3635,
+            "src": "152:28:22",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 3406,
-        "src": "72:111:20",
+        "scope": 3636,
+        "src": "72:111:22",
         "usedErrors": []
       }
     ],
-    "src": "46:138:20"
+    "src": "46:138:22"
   },
   "compiler": {
     "name": "solc",
@@ -165,7 +165,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2024-02-15T01:41:26.739Z",
+  "updatedAt": "2024-02-14T00:10:47.376Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

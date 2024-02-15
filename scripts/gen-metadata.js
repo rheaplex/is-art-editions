@@ -47,7 +47,7 @@ const TOKENS = [
     "A token that can be nominated as art (or not) by a simple majority of its owners.",
     "IsArtTokenDemocratic",
     "is-art-token-democratic.html",
-    `ipfs://${IMAGES_ROOT_DIR_HASH}/image/democratic.png`
+    `ipfs://${IMAGES_ROOT_DIR_HASH}/democratic/$ID.png`
   ],
   [
     "Is Art (Token, Democratic Palette)",
@@ -105,12 +105,21 @@ const TOKENS = [
     "is-art-token-secret.html",
     `ipfs://${IMAGES_ROOT_DIR_HASH}/secret/$ID.png`
   ],
+  // There are two of these because we point to one or the other based on state.
   [
     "Is Art (Token Metadata)",
     "A token with metadata that can be nominated as art (or not) by its owner.",
-    "IsArtTokenMetadata",
+    "IsArtTokenMetadata/is",
     "is-art-token-metadata.html",
-    `ipfs://${IMAGES_ROOT_DIR_HASH}/image/metadata-is.png`
+    `ipfs://${IMAGES_ROOT_DIR_HASH}/image/is.png`
+  ],
+  // This is the second one.
+  [
+    "Is Art (Token Metadata)",
+    "A token with metadata that can be nominated as art (or not) by its owner.",
+    "IsArtTokenMetadata/is-not",
+    "is-art-token-metadata.html",
+    `ipfs://${IMAGES_ROOT_DIR_HASH}/image/is-not.png`
   ],
   [
     "Is Art (This)",

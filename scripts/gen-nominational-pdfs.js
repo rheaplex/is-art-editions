@@ -16,47 +16,6 @@ const TOP = ((HEIGHT / 2.0) - (FONT_SIZE * 1.5)) - 65;
 const GREY = '#4A4A4A';
 const RED = '#550000';
 
-const ISES =  [
-        "art",
-        "non-art",
-        "painting",
-        "sculpture",
-        "conceptual art",
-        "architecture",
-        "installation art",
-        "body art",
-        "performance art",
-
-        "performance",
-        "theatre",
-        "music",
-        "dance",
-        "cinema",
-        "opera",
-        "television",
-
-        "drama",
-        "literature",
-        "poetry",
-        "prose",
-        "fiction",
-
-        "video art",
-        "new media art",
-        "a video game",
-        "generative art",
-        "net art",
-        "digital art",
-        "photography",
-
-        "techne",
-        "aesthetic",
-        "gesamtkunstwerk",
-        "critique",
-
-        "nft art"
-    ];
-
 if(! fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
@@ -68,14 +27,12 @@ for (let i = 0; i < NUM_TOKENS; i++) {
     font: 'resources/OpenSans-Bold.ttf'
   });
 
-  // I own this NFT at the time of minting.
-  // See: https://licenseterms.cryptopunks.app/
-  doc.image('../../Downloads/punk6939.png', 0, 0, {
+  // These are CC0.
+  doc.image(`/tmp/mfers/${i}.png`, 0, 0, {
     fit: [WIDTH, HEIGHT], align: 'center', valign:
     'center'
   });
 
-  // Not that we go by index not token id here.
   const text = [
     { text: "This", color: GREY },
     { text: "token", color: GREY, newLine: true },

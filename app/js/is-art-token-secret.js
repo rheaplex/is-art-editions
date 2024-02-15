@@ -18,7 +18,7 @@
 import { ethers } from "./ethers-5.1.esm.min.js";
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
   showModal
 } from "./is-art.js";
 
@@ -97,7 +97,8 @@ const onClickShowGui = async () => {
   const signer = provider.getSigner();
   const address = await signer.getAddress();
   if (address == await contract.ownerOf(tokenId)) {
-    showModal("gui");
+    enableElementForOwner("toggle-button", provider, contract, tokenId);
+  showModal("gui");
   }
 };
 

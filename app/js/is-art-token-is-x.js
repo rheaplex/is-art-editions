@@ -17,8 +17,8 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
-  showModal, toText
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
+  showModal
 } from "./is-art.js";
 
 let NUM_EDITIONS = 16;
@@ -51,6 +51,7 @@ const onClickShowGui = async () => {
       select.options[i].selected = false;
     }
   }
+  enableElementForOwner("toggle-button", provider, contract, tokenId);
   showModal("gui");
 };
 
@@ -74,7 +75,7 @@ const main = async (/*event*/) => {
   [ provider, contract ] = await initNetwork("IsArtTokenIsX");
 
   tokenId = ensureTokenId(NUM_EDITIONS, DEFAULT_TOKEN_ID);
-  
+
   setDisplayState(await contract.tokenIs(tokenId));
 
   const status = contract.filters.Is(

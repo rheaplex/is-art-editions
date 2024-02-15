@@ -21,7 +21,7 @@ is ERC721, ERC721Enumerable, IERC4906, Pausable, Ownable
     uint256 public constant NUM_TOKENS = 16;
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenMetadata/";
+    string private baseUri = "ipfs://bafybeiguj5bmzs4zd4w7s5pwqmbmuxgkhv77t3d3xw4xwwe4hys5c5aot4/IsArtTokenMetadata/";
 
     bytes6[NUM_TOKENS] private is_art;
     constructor() ERC721("Is Art (Token Metadata)", "ISATM") {

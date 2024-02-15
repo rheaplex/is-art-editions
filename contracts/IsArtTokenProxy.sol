@@ -20,7 +20,7 @@ contract IsArtTokenProxy is ERC721, ERC721Enumerable, Pausable, Ownable {
     event ProxyStatus(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenProxy/";
+    string private baseUri = "ipfs://bafybeiguj5bmzs4zd4w7s5pwqmbmuxgkhv77t3d3xw4xwwe4hys5c5aot4/IsArtTokenProxy/";
 
     constructor(address original)
         ERC721("Is Art (Token, Proxy)", "ISATP")

@@ -50,7 +50,7 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
     ////////////////////////////////////////////////////////////////
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenNominational/";
+    string private baseUri = "ipfs://bafybeiguj5bmzs4zd4w7s5pwqmbmuxgkhv77t3d3xw4xwwe4hys5c5aot4/IsArtTokenNominational/";
 
     // A mapping of our NFT ids to nomination records
     mapping(uint256 => Nomination) private nominations;
@@ -61,6 +61,11 @@ contract IsArtTokenNominational is ERC721, ERC721Enumerable, Pausable, Ownable {
 
     constructor() ERC721("Is Art (Token, Nominational)", "ISATN") {
         for (uint256 i = 1; i <= NUM_TOKENS; i++) {
+            // mfers, which I don't own but are CC0.
+            nominations[i - 1] = Nomination(
+                address(0x79FCDEF22feeD20eDDacbB2587640e45491b757f),
+                i - 1
+            );
             _mint(msg.sender, i);
         }
     }

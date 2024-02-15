@@ -1,5 +1,5 @@
 /*  IsArtEdition - Ethereum tokens that are only art if you burn them.
-    Copyright (C) 2023 Myers Studio Ltd.
+    Copyright (C) 2023-4 Myers Studio Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 */
 
 import {
-  disableElement, enableElement, ensureTokenId,
+  disableElement, enableElement, enableElementForOwner, ensureTokenId,
   hideElement, hideModal, initNetwork,
   showElement, showModal, toText
 } from "./is-art.js";
@@ -65,6 +65,7 @@ const onClickShowGui = async () => {
       hideElement("burned-warning");
     }
   }
+  enableElementForOwner("toggle-button", provider, contract, tokenId);
   showModal("gui");
 };
 

@@ -27,7 +27,7 @@ is ERC721, ERC721Enumerable, Pausable, Ownable, ReentrancyGuard
     event Status(uint256 indexed tokenId, bytes6 is_art);
 
     // Initial metadata URI.
-    string private baseUri = "ipfs://bafybeiglmvres2ac2nyxvsxcxl57ohaxrlkgyils3c2rz2ljtwtmv3xc6m/IsArtTokenComposition/";
+    string private baseUri = "ipfs://bafybeiguj5bmzs4zd4w7s5pwqmbmuxgkhv77t3d3xw4xwwe4hys5c5aot4/IsArtTokenComposition/";
 
     uint256[NUM_CHILD_TOKENS] private parent;
     uint256[NUM_CHILD_SLOTS][NUM_PARENT_TOKENS] private children;

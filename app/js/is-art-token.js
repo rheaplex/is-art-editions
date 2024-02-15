@@ -1,5 +1,6 @@
 /*  IsArtEdition - Ethereum tokens that are or are not something..
     Copyright (C) 2022 Rhea Myers <rhea@myers.studio>
+    Copyright (C) 2024 Myers Studio Ltd.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,7 +17,7 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
   showModal, toText
 } from "./is-art.js";
 
@@ -41,6 +42,7 @@ const toggleBlockchainState = async () => {
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
   await provider.send("eth_requestAccounts", []);
+  enableElementForOwner("toggle-button", provider, contract, tokenId);
   showModal("gui");
 };
 

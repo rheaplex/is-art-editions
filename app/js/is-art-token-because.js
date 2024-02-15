@@ -16,7 +16,7 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
   showModal
 } from "./is-art.js";
 
@@ -67,6 +67,7 @@ const onClickShowGui = async () => {
   setOption("relation", description.relation);
   setOption("connection", description.connection);
   setOption("subject", description.subject);
+  enableElementForOwner("toggle-button", provider, contract, tokenId);
   showModal("gui");
 };
 

@@ -16,7 +16,7 @@
 */
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
   showModal
 } from "./is-art.js";
 
@@ -59,6 +59,8 @@ const onClickShowGui = async () => {
   document.getElementById("contract").value = currentNomination.tokenContract;
   document.getElementById("token").value
     = currentNomination.tokenId.toString() || "0";
+  enableElementForOwner("nominate-button", provider, contract, tokenId);
+  enableElementForOwner("denominate-button", provider, contract, tokenId);
   showModal("gui");
 };
 

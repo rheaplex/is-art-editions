@@ -42,6 +42,13 @@ export const disableElement = (id) => {
   document.getElementById(id).disabled = true;
 };
 
+export const enableElementForOwner = async (id, provider, contract, tokenId) =>
+{
+  const signer = provider.getSigner();
+  document.getElementById(id).disabled =
+  ((await signer.getAddress()) == (await contract.ownerOf(tokenId)));
+};
+
 export const toText = (text) => {
   return ethers.utils.toUtf8String(text).replaceAll("\0", "");
 };

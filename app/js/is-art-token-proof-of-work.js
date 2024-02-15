@@ -19,7 +19,7 @@
 import { ethers } from "./ethers-5.1.esm.min.js";
 
 import {
-  ensureTokenId, hideModal, initNetwork,
+  ensureTokenId, enableElementForOwner, hideModal, initNetwork,
   showModal, toText
 } from "./is-art.js";
 
@@ -106,6 +106,7 @@ const toggleBlockchainState = async () => {
 const onClickShowGui = async () => {
   // Ask Metamask for the user's signing account
   await provider.send("eth_requestAccounts", []);
+  enableElementForOwner("toggle-button", provider, contract, tokenId);
   showModal("gui");
 };
 
